@@ -13,10 +13,19 @@ export const initUserSuccess = createAction(INIT_USER_SUCCESS);
 export const initUserFailure = createAction(INIT_USER_FAILURE);
 export const goToMain = createAction(GO_TO_MAIN);
 
-export function* initUserSaga () {
+export function* initUserSaga ({ payload }) {
+  const hasToken = payload.token;
+
   try {
+    if (hasToken) {
+      const { user } = yield api.get('/user/login/token');
+      yield put(initUserSuccess(user));
+      yield put(goToMain());
+      return;
+    }
+
     const { email, displayName, photoURL } = yield firebase.loginGoogle();
-    const { token, user } = yield api.post('/login', {
+    const { token, user } = yield api.post('/user/login/google', {
       email,
       username: displayName,
       imageSrc: photoURL,
@@ -25,8 +34,8 @@ export function* initUserSaga () {
     localStorage.setItem('token', token);
     yield put(initUserSuccess(user));
     yield put(goToMain());
-  } catch (e) {
-    yield put(initUserFailure(e));
+  } catch (error) {
+    yield put(initUserFailure(error));
   }
 }
 

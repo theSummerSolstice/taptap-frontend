@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import IntroPage from '../components/IntroPage';
 import MainPage from '../components/MainPage';
@@ -11,8 +11,15 @@ const AppContainer = () => {
   const dispatch = useDispatch();
 
   const handleLogin = async () => {
-    dispatch(initUserStart());
+    dispatch(initUserStart({ token: null }));
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+    dispatch(initUserStart({ token }));
+  }, []);
 
   return (
     <Header onLogin={handleLogin}>
