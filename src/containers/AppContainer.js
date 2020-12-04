@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { initUserStart } from '../redux/user/user.reducer';
 
 const AppContainer = () => {
-  const userInfo = useSelector((state) => state.user);
+  const user = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
 
   const handleLogin = async () => {
@@ -22,7 +22,7 @@ const AppContainer = () => {
   }, []);
 
   return (
-    <Header onLogin={handleLogin}>
+    <Header user={user} onLogin={handleLogin}>
       <Switch>
         <Route exact path='/'>
           <IntroPage onLogin={handleLogin} />
