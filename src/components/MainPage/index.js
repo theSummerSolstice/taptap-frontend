@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import Section from '../Section';
+import styles from './MainPage.module.scss';
 
-const MainPage = () => {
-  useEffect(() => {
-    console.log(3);
-  }, []);
+const MainPage = ({ user }) => {
   return (
-    <div>
-      여기는 메인 페이지
+    <div className={styles.container}>
+      <Section title='My taptap' list={user.myBoards} />
+      <Section title='Invited taptap' list={user.authorizedBoards} />
     </div>
   );
 };

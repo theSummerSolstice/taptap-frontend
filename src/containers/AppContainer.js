@@ -28,7 +28,7 @@ const AppContainer = () => {
           <IntroPage onLogin={handleLogin} />
         </Route>
         <Route path='/boards'>
-          <MainPage />
+          <MainPage user={user} />
         </Route>
       </Switch>
     </Header>
