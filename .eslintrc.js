@@ -44,7 +44,10 @@ module.exports = {
     ],
     'func-style': [
       'warn',
-      'expression',
+      'declaration',
+      {
+        'allowArrowFunctions': true,
+      },
     ],
     'no-unsafe-finally': 'off',
     'react/prop-types': 'off',

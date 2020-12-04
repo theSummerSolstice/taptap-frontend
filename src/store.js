@@ -1,7 +1,22 @@
 import { createStore, applyMiddleware } from 'redux';
-import logger from 'redux-logger';
-import reducer from './reducer';
+import { createLogger } from 'redux-logger';
+import rootReducer, { rootSaga } from './redux';
+import createSagaMiddleware from 'redux-saga';
+import { createBrowserHistory } from 'history';
 
-const middleware = [logger];
+export const customHistory = createBrowserHistory();
+const sagaMiddleware = createSagaMiddleware({
+  context: {
+    history: customHistory,
+  },
+});
+const middlewares = [sagaMiddleware];
 
-export default createStore(reducer, applyMiddleware(...middleware));
+if (process.env.NODE_ENV === 'development') {
+  middlewares.push(createLogger());
+}
+
+const store = createStore(rootReducer, applyMiddleware(...middlewares));
+sagaMiddleware.run(rootSaga);
+
+export default store;
