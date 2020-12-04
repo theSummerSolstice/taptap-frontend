@@ -1,19 +1,16 @@
 import React from 'react';
 import styles from './Header.module.scss';
-import { useHistory } from 'react-router-dom';
 
-const Header = ({ user, onLogin, children }) => {
-  const history = useHistory();
-
+const Header = ({ user, onLogin, routePage, children }) => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.logo} onClick={() => history.push('/main')}>taptap</div>
+        <div className={styles.logo} onClick={() => routePage('/boards')}>taptap</div>
         {
           !user
             ? <button onClick={onLogin}>Login</button>
             : <div className={styles.buttonContainer}>
-                <button>New taptap</button>
+                <button onClick={() => routePage('/board/new')}>New taptap</button>
                 <img src={user.imageSrc} alt='user profile' />
               </div>
         }

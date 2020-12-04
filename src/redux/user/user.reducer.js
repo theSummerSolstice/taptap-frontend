@@ -41,7 +41,7 @@ export function* initUserSaga ({ payload }) {
 
 function* goToMainSaga () {
   const history = yield getContext('history');
-  history.push('/main');
+  history.push('/boards');
 }
 
 function* watchInitUserStart () {
