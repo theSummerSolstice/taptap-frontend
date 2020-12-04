@@ -1,0 +1,15 @@
+@import '../../styles/theme.module.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $black;
+
+  .itemList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, max-content));
+    grid-gap: 16px;
+    justify-content: center;
+    padding: initial;
+  }
+}
