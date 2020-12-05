@@ -1,6 +1,8 @@
 const { REACT_APP_SERVER_URI } = process.env;
 
-const get = async (path) => {
+const api = {};
+
+api.get = async (path) => {
   const token = localStorage.getItem('token');
   const headers = {
     'content-type': 'application/json',
@@ -16,7 +18,7 @@ const get = async (path) => {
   return response.data;
 };
 
-const post = async (path, body) => {
+api.post = async (path, body) => {
   const token = localStorage.getItem('token');
   const headers = {
     'content-type': 'application/json',
@@ -33,7 +35,21 @@ const post = async (path, body) => {
   return response.data;
 };
 
-export default {
-  get,
-  post,
+api.delete = async (path, body) => {
+  const token = localStorage.getItem('token');
+  const headers = {
+    'content-type': 'application/json',
+    authorization: token,
+  };
+
+  const response = await fetch(`${REACT_APP_SERVER_URI}${path}`, {
+    method: 'DELETE',
+    headers,
+    body: JSON.stringify(body),
+    credentials: 'include',
+  }).then((result) => result.json());
+
+  return response;
 };
+
+export default api;
