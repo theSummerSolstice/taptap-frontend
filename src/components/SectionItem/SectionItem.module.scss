@@ -1,11 +1,17 @@
 @import '../../styles/theme.module.scss';
 
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
   padding: 1vw;
   border: 1px solid $black;
+
+  .deleteButton {
+    position: absolute;
+    right: 10px;
+  }
 
   img {
     width: 20vw;

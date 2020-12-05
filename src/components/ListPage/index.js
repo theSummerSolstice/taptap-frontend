@@ -2,7 +2,7 @@ import React from 'react';
 import SectionItem from '../SectionItem';
 import styles from './ListPage.module.scss';
 
-const ListPage = ({ title, list, routePage }) => {
+const ListPage = ({ userId, title, list, routePage, deleteBoard }) => {
   return (
     <div className={styles.container}>
       <h3>{title}</h3>
@@ -16,6 +16,9 @@ const ListPage = ({ title, list, routePage }) => {
               name={item.name}
               lastUpdate={item.updatedAt}
               routePage={routePage}
+              canDelete={title === 'My taptap'}
+              deleteBoard={deleteBoard}
+              userId={userId}
             />
           ))
         }
