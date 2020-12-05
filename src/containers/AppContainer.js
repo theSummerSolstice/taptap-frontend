@@ -5,37 +5,62 @@ import MainPage from '../components/MainPage';
 import ListPage from '../components/ListPage';
 import Header from '../components/Header';
 import { useSelector, useDispatch } from 'react-redux';
-import { initUserStart } from '../redux/user/user.reducer';
+import { initUserStart } from '../redux/user.reducer';
+import NewBoardForm from '../components/NewBoardForm';
+import { useHistory } from 'react-router-dom';
+import { createBoardStart } from '../redux/board.reducer';
 
 const AppContainer = () => {
   const user = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const routePage = (route) => {
+    history.push(route);
+  };
 
   const handleLogin = async () => {
     dispatch(initUserStart({ token: null }));
+  };
+
+  // TODO: 여기서부터
+  const createBoard = async (boardInfo) => {
+    dispatch(createBoardStart(boardInfo));
   };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     if (!token) return;
-    dispatch(initUserStart({ token }));
+    dispatch(initUserStart());
   }, []);
 
   return (
-    <Header user={user} onLogin={handleLogin}>
+    <Header
+      user={user}
+      onLogin={handleLogin}
+      routePage={routePage}
+    >
       <Switch>
         <Route exact path='/'>
-          <IntroPage onLogin={handleLogin} />
-        </Route>
-        <Route path='/main'>
-          <MainPage user={user} />
+          {
+            !user
+              ? <IntroPage onLogin={handleLogin} />
+              : <MainPage user={user} />
+          }
         </Route>
         <Route path='/my-taptap'>
           <ListPage title='My taptap' list={user?.myBoards} />
         </Route>
         <Route path='/invited-taptap'>
           <ListPage title='Invited taptap' list={user?.authorizedBoards} />
+        </Route>
+        <Route path='/board/new'>
+          <NewBoardForm
+            user={user}
+            routePage={routePage}
+            createBoard={createBoard}
+          />
         </Route>
       </Switch>
     </Header>
