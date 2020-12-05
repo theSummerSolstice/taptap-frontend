@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import styles from './NewBoardForm.module.scss';
 
-const NewBoardForm = ({ user, routePage }) => {
+const NewBoardForm = ({ user, routePage, createBoard }) => {
   const [email, setEmail] = useState('');
-  const [projectInfo, setProjectInfo] = useState({
+  const [boardInfo, setBoardInfo] = useState({
+    owner: user._id,
     name: '',
     isPublic: true,
     authorizedUsers: [],
   });
-  const { authorizedUsers } = projectInfo;
+  const { authorizedUsers } = boardInfo;
 
   const handleInputsChange = ({ target }) => {
     const { name, value } = target;
 
-    setProjectInfo({
-      ...projectInfo,
+    setBoardInfo({
+      ...boardInfo,
       [name]: value,
     });
   };
@@ -28,12 +29,9 @@ const NewBoardForm = ({ user, routePage }) => {
 
     if (authorizedUsers.length > 2) return;
 
-    setProjectInfo({
-      ...projectInfo,
-      authorizedUsers: [
-        ...authorizedUsers,
-        email,
-      ],
+    setBoardInfo({
+      ...boardInfo,
+      authorizedUsers: [ ...authorizedUsers, email ],
     });
   };
 
@@ -41,22 +39,22 @@ const NewBoardForm = ({ user, routePage }) => {
     event.preventDefault();
 
     const id = Number(event.target.id);
-    setProjectInfo({
-      ...projectInfo,
+    setBoardInfo({
+      ...boardInfo,
       authorizedUsers: authorizedUsers.filter((item, index) => {
         return index !== id;
-      })
+      }),
     });
   };
 
   const handleConfirmButton = (event) => {
     event.preventDefault();
-    console.log('confirm');
+    createBoard(boardInfo);
   };
 
   const handleCancelButton = (event) => {
     event.preventDefault();
-    routePage('/boards');
+    routePage('/');
   };
 
   return (
@@ -68,7 +66,7 @@ const NewBoardForm = ({ user, routePage }) => {
           id='name'
           name='name'
           placeholder='Write project name'
-          value={projectInfo.name}
+          value={boardInfo.name}
           onChange={handleInputsChange}
         />
       </label>

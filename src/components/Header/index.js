@@ -5,7 +5,7 @@ const Header = ({ user, onLogin, routePage, children }) => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.logo} onClick={() => routePage('/boards')}>taptap</div>
+        <div className={styles.logo} onClick={() => routePage('/')}>taptap</div>
         {
           !user
             ? <button onClick={onLogin}>Login</button>

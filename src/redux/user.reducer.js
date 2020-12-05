@@ -1,31 +1,33 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { takeLatest, put, all, call, getContext } from 'redux-saga/effects';
-import firebase from '../../utils/firebase';
-import api from '../../utils/api';
+import firebase from '../utils/firebase';
+import api from '../utils/api';
 
-export const INIT_USER_START = 'userReducer/INIT_USER_START';
-export const INIT_USER_SUCCESS = 'userReducer/INIT_USER_SUCCESS';
-export const INIT_USER_FAILURE = 'userReducer/INIT_USER_FAILURE';
-export const GO_TO_MAIN = 'userReducer/GO_TO_MAIN';
+const INIT_USER_START = 'userReducer/INIT_USER_START';
+const INIT_USER_SUCCESS = 'userReducer/INIT_USER_SUCCESS';
+const INIT_USER_FAILURE = 'userReducer/INIT_USER_FAILURE';
+const GO_TO_MAIN = 'userReducer/GO_TO_MAIN';
+const UPDATE_MYBOARDS = 'userReducer/UPDATE_MYBOARDS';
 
 export const initUserStart = createAction(INIT_USER_START);
 export const initUserSuccess = createAction(INIT_USER_SUCCESS);
 export const initUserFailure = createAction(INIT_USER_FAILURE);
 export const goToMain = createAction(GO_TO_MAIN);
+export const updateMyBoards = createAction(UPDATE_MYBOARDS);
 
-export function* initUserSaga ({ payload }) {
-  const hasToken = payload.token;
+export function* initUserSaga () {
+  const hasToken = localStorage.getItem('token');
 
   try {
     if (hasToken) {
-      const { user } = yield api.get('/user/login/token');
+      const { user } = yield call(api.get, '/user/login/token');
       yield put(initUserSuccess(user));
       yield put(goToMain());
       return;
     }
 
     const { email, displayName, photoURL } = yield firebase.loginGoogle();
-    const { token, user } = yield api.post('/user/login/google', {
+    const { token, user } = yield call(api.post, '/user/login/google', {
       email,
       username: displayName,
       imageSrc: photoURL,
@@ -41,7 +43,7 @@ export function* initUserSaga ({ payload }) {
 
 function* goToMainSaga () {
   const history = yield getContext('history');
-  history.push('/boards');
+  history.push('/');
 }
 
 function* watchInitUserStart () {
@@ -74,7 +76,10 @@ export default createReducer(initialState, {
     state.loading = false;
   },
   [INIT_USER_FAILURE]: (state, action) => {
-    state.loading = false;
     state.error = action.payload;
+    state.loading = false;
+  },
+  [UPDATE_MYBOARDS]: (state, action) => {
+    state.user.myBoards.push(action.payload);
   },
 });

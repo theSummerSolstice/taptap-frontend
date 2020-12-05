@@ -5,9 +5,10 @@ import MainPage from '../components/MainPage';
 import ListPage from '../components/ListPage';
 import Header from '../components/Header';
 import { useSelector, useDispatch } from 'react-redux';
-import { initUserStart } from '../redux/user/user.reducer';
+import { initUserStart } from '../redux/user.reducer';
 import NewBoardForm from '../components/NewBoardForm';
 import { useHistory } from 'react-router-dom';
+import { createBoardStart } from '../redux/board.reducer';
 
 const AppContainer = () => {
   const user = useSelector((state) => state.userReducer.user);
@@ -22,15 +23,16 @@ const AppContainer = () => {
     dispatch(initUserStart({ token: null }));
   };
 
-  const createNewBoard = async () => {
-
+  // TODO: 여기서부터
+  const createBoard = async (boardInfo) => {
+    dispatch(createBoardStart(boardInfo));
   };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     if (!token) return;
-    dispatch(initUserStart({ token }));
+    dispatch(initUserStart());
   }, []);
 
   return (
@@ -41,10 +43,11 @@ const AppContainer = () => {
     >
       <Switch>
         <Route exact path='/'>
-          <IntroPage onLogin={handleLogin} />
-        </Route>
-        <Route path='/boards'>
-          <MainPage user={user} />
+          {
+            !user
+              ? <IntroPage onLogin={handleLogin} />
+              : <MainPage user={user} />
+          }
         </Route>
         <Route path='/my-taptap'>
           <ListPage title='My taptap' list={user?.myBoards} />
@@ -56,7 +59,7 @@ const AppContainer = () => {
           <NewBoardForm
             user={user}
             routePage={routePage}
-            createNewBoard={createNewBoard}
+            createBoard={createBoard}
           />
         </Route>
       </Switch>
