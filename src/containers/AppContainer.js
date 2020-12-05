@@ -9,6 +9,7 @@ import { initUserStart } from '../redux/user.reducer';
 import NewBoardForm from '../components/NewBoardForm';
 import { useHistory } from 'react-router-dom';
 import { createBoardStart } from '../redux/board.reducer';
+import BoardContainer from './BoardContainer';
 
 const AppContainer = () => {
   const user = useSelector((state) => state.userReducer.user);
@@ -23,7 +24,6 @@ const AppContainer = () => {
     dispatch(initUserStart({ token: null }));
   };
 
-  // TODO: 여기서부터
   const createBoard = async (boardInfo) => {
     dispatch(createBoardStart(boardInfo));
   };
@@ -46,7 +46,7 @@ const AppContainer = () => {
           {
             !user
               ? <IntroPage onLogin={handleLogin} />
-              : <MainPage user={user} />
+              : <MainPage user={user} routePage={routePage} />
           }
         </Route>
         <Route path='/my-taptap'>
@@ -61,6 +61,9 @@ const AppContainer = () => {
             routePage={routePage}
             createBoard={createBoard}
           />
+        </Route>
+        <Route path='/board/:board_id'>
+          <BoardContainer />
         </Route>
       </Switch>
     </Header>
