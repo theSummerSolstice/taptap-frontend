@@ -50,10 +50,10 @@ const AppContainer = () => {
           }
         </Route>
         <Route path='/my-taptap'>
-          <ListPage title='My taptap' list={user?.myBoards} />
+          <ListPage title='My taptap' list={user?.myBoards} routePage={routePage} />
         </Route>
         <Route path='/invited-taptap'>
-          <ListPage title='Invited taptap' list={user?.authorizedBoards} />
+          <ListPage title='Invited taptap' list={user?.authorizedBoards} routePage={routePage} />
         </Route>
         <Route path='/board/new'>
           <NewBoardForm

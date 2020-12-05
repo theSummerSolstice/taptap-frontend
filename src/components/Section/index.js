@@ -21,7 +21,7 @@ const Section = ({ title, list, routePage }) => {
             ? <div>No taptap</div>
             : <div className={styles.itemList}>
                 {
-                  list.map((item, index) => (
+                  list.map((item) => (
                     <SectionItem
                       id={item._id}
                       key={item._id}
