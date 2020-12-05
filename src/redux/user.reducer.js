@@ -69,15 +69,19 @@ const initialState = {
 
 export default createReducer(initialState, {
   [INIT_USER_START]: (state, action) => {
+    state.user = null;
     state.loading = true;
+    state.error = null;
   },
   [INIT_USER_SUCCESS]: (state, action) => {
     state.user = action.payload;
     state.loading = false;
+    state.error = null;
   },
   [INIT_USER_FAILURE]: (state, action) => {
-    state.error = action.payload;
+    state.user = null;
     state.loading = false;
+    state.error = action.payload;
   },
   [UPDATE_MYBOARDS]: (state, action) => {
     state.user.myBoards.push(action.payload);

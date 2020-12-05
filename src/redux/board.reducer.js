@@ -56,14 +56,18 @@ const initialState = {
 
 export default createReducer(initialState, {
   [CREATE_BOARD_START]: (state, action) => {
+    state.board = null;
     state.loading = true;
+    state.error = null;
   },
   [CREATE_BOARD_SUCCESS]: (state, action) => {
     state.board = action.payload;
     state.loading = false;
-  } ,
+    state.error = null;
+  },
   [CREATE_BOARD_FAILURE]: (state, action) => {
-    state.error = action.payload;
+    state.board = null;
     state.loading = false;
+    state.error = action.payload;
   },
 });
