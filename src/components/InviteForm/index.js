@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
 import styles from './InviteForm.module.scss';
 import { useParams } from 'react-router-dom';
+import { validateEmail } from '../../utils/validation';
 
 const InviteForm = ({ user, updateAuthorizedUsers, routePage, sendInviteMail }) => {
   const { board_id } = useParams();
   const [email, setEmail] = useState('');
   const [emailList, setEmailList] = useState([]);
+  const [validationMessage, setValidationMessage] = useState(null);
 
   const handleEmailChange = ({ target }) => {
+    setValidationMessage(null);
     setEmail(target.value);
   };
 
-  const handleSendInviteButton = (event) => {
-    event.preventDefault();
+  const handleSendInviteButton = () => {
+    const { result, message } = validateEmail(emailList, email);
 
-    if (emailList.length > 2) return;
+    if (!result) {
+      setValidationMessage(message);
+      return;
+    }
 
     sendInviteMail(email, board_id);
     setEmailList([
       ...emailList,
       email,
     ]);
+    setEmail('');
   };
 
-  const handleDeleteButton = (event) => {
-    event.preventDefault();
-
+  const handleDeleteButton = () => {
     const id = Number(event.target.id);
     setEmailList(emailList.filter((item, index) => {
       return index !== id;
@@ -57,6 +62,7 @@ const InviteForm = ({ user, updateAuthorizedUsers, routePage, sendInviteMail }) 
         />
         <button onClick={handleSendInviteButton}>Send invite</button>
       </div>
+      <p>{validationMessage}</p>
       <div className={styles.email}>
         <span>{user.email}</span>
         <span>admin</span>

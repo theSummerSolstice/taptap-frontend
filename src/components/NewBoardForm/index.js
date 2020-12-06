@@ -7,8 +7,10 @@ const NewBoardForm = ({ user, routePage, createNewBoard }) => {
     name: '',
     isPublic: true,
   });
+  const [validationMessage, setValidationMessage] = useState(null);
 
   const handleInputsChange = ({ target }) => {
+    setValidationMessage(null);
     const { name, value } = target;
 
     setBoardInfo({
@@ -19,6 +21,11 @@ const NewBoardForm = ({ user, routePage, createNewBoard }) => {
 
   const handleConfirmButton = (event) => {
     event.preventDefault();
+
+    if (!boardInfo.name) {
+      setValidationMessage('should enter a board name');
+      return;
+    }
     createNewBoard(boardInfo);
   };
 
@@ -39,11 +46,11 @@ const NewBoardForm = ({ user, routePage, createNewBoard }) => {
           value={boardInfo.name}
           onChange={handleInputsChange}
         />
+        <p>{validationMessage}</p>
       </label>
       <label htmlFor='isPublic'>
         Project authorization
         <select name='isPublic' id='isPublic' onChange={handleInputsChange}>
-          <option>--Select--</option>
           <option value={true}>Public</option>
           <option value={false}>Private</option>
         </select>
