@@ -35,6 +35,23 @@ api.post = async (path, body) => {
   return response.data;
 };
 
+api.put = async (path, body) => {
+  const token = localStorage.getItem('token');
+  const headers = {
+    'content-type': 'application/json',
+    authorization: token,
+  };
+
+  const response = await fetch(`${REACT_APP_SERVER_URI}${path}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(body),
+    credentials: 'include',
+  }).then((result) => result.json());
+
+  return response.data;
+};
+
 api.delete = async (path, body) => {
   const token = localStorage.getItem('token');
   const headers = {

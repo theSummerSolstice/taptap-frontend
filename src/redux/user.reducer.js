@@ -87,6 +87,8 @@ export default createReducer(initialState, {
   },
   [UPDATE_MYBOARDS]: (state, action) => {
     state.user.myBoards.push(action.payload);
+    state.loading = false;
+    state.error = null;
   },
   [DELETE_MYBOARDS]: (state, action) => {
     return {
