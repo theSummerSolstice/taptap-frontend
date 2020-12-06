@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userAction, userSelector } from '../redux/user/slice';
 import { boardAction } from '../redux/board/slice';
@@ -10,6 +10,7 @@ import MainPage from '../components/MainPage';
 import ListPage from '../components/ListPage';
 import NewBoardForm from '../components/NewBoardForm';
 import InviteForm from '../components/InviteForm';
+import api from '../utils/api';
 
 const {
   initUser,
@@ -25,6 +26,7 @@ const AppContainer = () => {
   const { loading, user, error } = useSelector(userSelector.all);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
   const routePage = (route) => {
     history.push(route);
@@ -46,11 +48,18 @@ const AppContainer = () => {
     dispatch(updateBoard(data));
   };
 
+  const sendInviteMail = async (email, boardId) => {
+    // TODO: Try - catch
+    await api.post(`/board/${boardId}/invite`, { email });
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     if (!token) return;
+    const currentLocation = location.pathname;
     dispatch(initUser());
+    history.push(currentLocation);
   }, []);
 
   return (
@@ -95,6 +104,7 @@ const AppContainer = () => {
             user={user}
             routePage={routePage}
             updateAuthorizedUsers={updateAuthorizedUsers}
+            sendInviteMail={sendInviteMail}
           />
         </Route>
         <Route path='/board/:board_id'>

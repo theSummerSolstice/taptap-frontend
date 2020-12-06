@@ -1,0 +1,17 @@
+@import '../../styles/theme.module.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid $black;
+
+  .emailInput {
+    display: flex;
+  }
+
+  .email {
+    display: flex;
+    justify-content: space-between;
+  }
+}

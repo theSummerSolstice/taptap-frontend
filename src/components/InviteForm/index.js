@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './InviteForm.module.scss';
 import { useParams } from 'react-router-dom';
 
-const InviteForm = ({ user, updateAuthorizedUsers, routePage}) => {
+const InviteForm = ({ user, updateAuthorizedUsers, routePage, sendInviteMail }) => {
   const { board_id } = useParams();
   const [email, setEmail] = useState('');
   const [emailList, setEmailList] = useState([]);
@@ -16,7 +16,7 @@ const InviteForm = ({ user, updateAuthorizedUsers, routePage}) => {
 
     if (emailList.length > 2) return;
 
-    //TODO: 이메일 보내는 server 처리
+    sendInviteMail(email, board_id);
     setEmailList([
       ...emailList,
       email,
@@ -45,7 +45,7 @@ const InviteForm = ({ user, updateAuthorizedUsers, routePage}) => {
   };
 
   return (
-    <div className={styles.emailContainer}>
+    <div className={styles.container}>
       <h4>Invite (up to 3 people)</h4>
       <div className={styles.emailInput}>
         <input
