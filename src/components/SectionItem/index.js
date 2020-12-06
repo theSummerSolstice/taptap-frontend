@@ -13,9 +13,14 @@ const SectionItem = ({
 }) => {
   const [isDeleteButtonShowing, setIsDeleteButtonShowing] = useState(false);
 
-  const handleMouseAction = () => {
+  const handleMouseEnter = () => {
     if (!canDelete) return;
-    setIsDeleteButtonShowing(!isDeleteButtonShowing);
+    setIsDeleteButtonShowing(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (!canDelete) return;
+    setIsDeleteButtonShowing(false);
   };
 
   const handleDeleteButton = (event) => {
@@ -28,8 +33,8 @@ const SectionItem = ({
       <div
         className={styles.container}
         onClick={() => routePage(`/board/${id}`)}
-        onMouseEnter={handleMouseAction}
-        onMouseLeave={handleMouseAction}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {
           isDeleteButtonShowing &&
