@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './NewBoardForm.module.scss';
 
-const NewBoardForm = ({ user, routePage, createBoard }) => {
+const NewBoardForm = ({ user, routePage, createNewBoard }) => {
   const [boardInfo, setBoardInfo] = useState({
     owner: user._id,
     name: '',
@@ -19,7 +19,7 @@ const NewBoardForm = ({ user, routePage, createBoard }) => {
 
   const handleConfirmButton = (event) => {
     event.preventDefault();
-    createBoard(boardInfo);
+    createNewBoard(boardInfo);
   };
 
   const handleCancelButton = (event) => {

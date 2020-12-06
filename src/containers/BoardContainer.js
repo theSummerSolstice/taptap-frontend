@@ -1,11 +1,10 @@
 import React from 'react';
 import Board from '../components/Board';
 import { useSelector, useDispatch } from 'react-redux';
+import { userSelector } from '../redux/user/slice';
+import { boardSelector } from '../redux/board/slice';
 
 const BoardContainer = () => {
-  const user = useSelector((state) => state.userReducer.user);
-  const dispatch = useDispatch();
-
   return (
     <div>
       <Board />
