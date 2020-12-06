@@ -1,5 +1,4 @@
-import { createAction } from '@reduxjs/toolkit';
-import { takeLatest, put, all, call, getContext } from 'redux-saga/effects';
+import { takeLatest, put, all, call } from 'redux-saga/effects';
 import firebase from '../../utils/firebase';
 import api from '../../utils/api';
 import { userAction } from './slice';
@@ -13,14 +12,6 @@ const {
   deleteMyBoardsFailure,
 } = userAction;
 
-const GO_TO_MAIN = 'GO_TO_MAIN';
-const goToMain = createAction(GO_TO_MAIN);
-
-function* goToMainSaga () {
-  const history = yield getContext('history');
-  history.push('/');
-}
-
 function* initUserSaga () {
   const hasToken = localStorage.getItem('token');
 
@@ -28,7 +19,6 @@ function* initUserSaga () {
     if (hasToken) {
       const { user } = yield call(api.get, '/user/login/token');
       yield put(initUserSuccess(user));
-      yield put(goToMain());
       return;
     }
 
@@ -41,7 +31,6 @@ function* initUserSaga () {
 
     localStorage.setItem('token', token);
     yield put(initUserSuccess(user));
-    yield put(goToMain());
   } catch (error) {
     yield put(initUserFailure(error));
   }
@@ -58,10 +47,6 @@ function* deleteMyBoardsSaga ({ payload }) {
   }
 }
 
-export function* watchGoToMain () {
-  yield takeLatest(goToMain, goToMainSaga);
-}
-
 export function* watchInitUser () {
   yield takeLatest(initUser, initUserSaga);
 }
@@ -73,7 +58,6 @@ export function* watchDeleteMyBoards () {
 export function* userSagas () {
   yield all([
     call(watchInitUser),
-    call(watchGoToMain),
     call(watchDeleteMyBoards),
   ]);
 }
