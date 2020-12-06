@@ -8,8 +8,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { initUserStart } from '../redux/user.reducer';
 import NewBoardForm from '../components/NewBoardForm';
 import { useHistory } from 'react-router-dom';
-import { createBoardStart, deleteBoardStart } from '../redux/board.reducer';
+import { createBoardStart, deleteBoardStart, updateBoardStart } from '../redux/board.reducer';
 import BoardContainer from './BoardContainer';
+import InviteForm from '../components/InviteForm';
 
 const AppContainer = () => {
   const user = useSelector((state) => state.userReducer.user);
@@ -30,6 +31,10 @@ const AppContainer = () => {
 
   const deleteBoard = (boardId) => {
     dispatch(deleteBoardStart(boardId));
+  };
+
+  const updateAuthorizedUsers = (data) => {
+    dispatch(updateBoardStart(data));
   };
 
   useEffect(() => {
@@ -74,6 +79,13 @@ const AppContainer = () => {
             user={user}
             routePage={routePage}
             createBoard={createBoard}
+          />
+        </Route>
+        <Route path='/board/:board_id/invite'>
+          <InviteForm
+            user={user}
+            routePage={routePage}
+            updateAuthorizedUsers={updateAuthorizedUsers}
           />
         </Route>
         <Route path='/board/:board_id'>
