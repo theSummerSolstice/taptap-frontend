@@ -1,15 +1,20 @@
 import { combineReducers } from 'redux';
-import userReducer, { userSagas } from './user.reducer';
-import boardReducer, { boardSagas } from './board.reducer';
+import { USER, userReducer } from './user/slice';
+import { userSagas } from './user/saga';
+import { BOARD, boardReducer } from './board/slice';
+import { boardSagas } from './board/saga';
 import { all } from 'redux-saga/effects';
 
 const rootReducer = combineReducers({
-  userReducer,
-  boardReducer,
+  [USER]: userReducer,
+  [BOARD]: boardReducer,
 });
 
 export function* rootSaga () {
-  yield all([userSagas(), boardSagas()]);
+  yield all([
+    userSagas(),
+    boardSagas(),
+  ]);
 }
 
 export default rootReducer;

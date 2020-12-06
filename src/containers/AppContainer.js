@@ -1,42 +1,65 @@
 import React, { useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { userAction, userSelector } from '../redux/user/slice';
+import { boardAction } from '../redux/board/slice';
+import BoardContainer from './BoardContainer';
+import Header from '../components/Header';
 import IntroPage from '../components/IntroPage';
 import MainPage from '../components/MainPage';
 import ListPage from '../components/ListPage';
-import Header from '../components/Header';
-import { useSelector, useDispatch } from 'react-redux';
-import { initUserStart } from '../redux/user.reducer';
 import NewBoardForm from '../components/NewBoardForm';
-import { useHistory } from 'react-router-dom';
-import { createBoardStart, deleteBoardStart } from '../redux/board.reducer';
-import BoardContainer from './BoardContainer';
+import InviteForm from '../components/InviteForm';
+import api from '../utils/api';
+
+const {
+  initUser,
+  deleteMyBoards,
+} = userAction;
+
+const {
+  createBoard,
+  updateBoard,
+} = boardAction;
 
 const AppContainer = () => {
-  const user = useSelector((state) => state.userReducer.user);
+  const { loading, user, error } = useSelector(userSelector.all);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
   const routePage = (route) => {
     history.push(route);
   };
 
   const handleLogin = () => {
-    dispatch(initUserStart({ token: null }));
+    dispatch(initUser({ token: null }));
   };
 
-  const createBoard = (boardInfo) => {
-    dispatch(createBoardStart(boardInfo));
+  const createNewBoard = (boardInfo) => {
+    dispatch(createBoard(boardInfo));
   };
 
   const deleteBoard = (boardId) => {
-    dispatch(deleteBoardStart(boardId));
+    dispatch(deleteMyBoards(boardId));
+  };
+
+  const updateAuthorizedUsers = (data) => {
+    dispatch(updateBoard(data));
+  };
+
+  const sendInviteMail = async (email, boardId) => {
+    // TODO: Try - catch
+    await api.post(`/board/${boardId}/invite`, { email });
   };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     if (!token) return;
-    dispatch(initUserStart());
+    const currentLocation = location.pathname;
+    dispatch(initUser());
+    history.push(currentLocation);
   }, []);
 
   return (
@@ -73,7 +96,15 @@ const AppContainer = () => {
           <NewBoardForm
             user={user}
             routePage={routePage}
-            createBoard={createBoard}
+            createNewBoard={createNewBoard}
+          />
+        </Route>
+        <Route path='/board/:board_id/invite'>
+          <InviteForm
+            user={user}
+            routePage={routePage}
+            updateAuthorizedUsers={updateAuthorizedUsers}
+            sendInviteMail={sendInviteMail}
           />
         </Route>
         <Route path='/board/:board_id'>
