@@ -25,7 +25,7 @@ const Section = ({ title, list, routePage }) => {
                     <SectionItem
                       id={item._id}
                       key={item._id}
-                      imageSrc={item.imageSrc}
+                      src={item.imageSrc}
                       name={item.name}
                       lastUpdate={item.updatedAt}
                       routePage={routePage}

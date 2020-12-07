@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styles from './SectionItem.module.scss';
+import LazyImage from '../LazyImage';
 
 const SectionItem = ({
   id,
-  imageSrc,
+  src,
   name,
   lastUpdate,
   routePage,
@@ -45,7 +46,7 @@ const SectionItem = ({
             Delete
           </button>
         }
-        <img src={imageSrc} alt='project image' />
+        <LazyImage src={src} />
         <div className={styles.projectDetails}>
           <h4>{name}</h4>
           <p>Last updated at {lastUpdate}</p>
