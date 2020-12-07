@@ -12,7 +12,7 @@ const ListPage = ({ userId, title, list, routePage, deleteBoard }) => {
             <SectionItem
               id={item._id}
               key={item._id}
-              imageSrc={item.imageSrc}
+              src={item.imageSrc}
               name={item.name}
               lastUpdate={item.updatedAt}
               routePage={routePage}

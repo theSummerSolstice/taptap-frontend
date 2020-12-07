@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { userAction, userSelector } from '../redux/user/slice';
-import { boardAction } from '../redux/board/slice';
+import { userAction, userSelector } from '../modules/user/slice';
+import { boardAction } from '../modules/board/slice';
 import BoardContainer from './BoardContainer';
 import Header from '../components/Header';
 import IntroPage from '../components/IntroPage';
