@@ -20,6 +20,7 @@ const {
 const {
   createBoard,
   updateBoard,
+  leaveBoard,
 } = boardAction;
 
 const AppContainer = () => {
@@ -35,6 +36,11 @@ const AppContainer = () => {
 
   const handleLogin = () => {
     dispatch(initUser({ token: null }));
+  };
+
+  const handleLogoClick = () => {
+    dispatch(leaveBoard());
+    routePage('/');
   };
 
   const createNewBoard = (boardInfo) => {
@@ -69,6 +75,7 @@ const AppContainer = () => {
       board={board}
       onLogin={handleLogin}
       routePage={routePage}
+      handleLogoClick={handleLogoClick}
     >
       <Switch>
         <Route exact path='/'>

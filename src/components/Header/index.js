@@ -31,7 +31,7 @@ const ShareHeader = () => {
   );
 };
 
-const Header = ({ user, board, onLogin, routePage, children }) => {
+const Header = ({ user, board, onLogin, routePage, handleLogoClick, children }) => {
   const renderHeader = () => {
     if (!board) return <MainHeader routePage={routePage} />;
 
@@ -44,7 +44,7 @@ const Header = ({ user, board, onLogin, routePage, children }) => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.logo} onClick={() => routePage('/')}>taptap</div>
+        <div className={styles.logo} onClick={handleLogoClick}>taptap</div>
         {
           !user
             ? <LoginHeader onLogin={onLogin} />
