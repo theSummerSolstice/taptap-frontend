@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userAction, userSelector } from '../modules/user/slice';
-import { boardAction } from '../modules/board/slice';
+import { boardAction, boardSelector } from '../modules/board/slice';
 import BoardContainer from './BoardContainer';
 import Header from '../components/Header';
 import IntroPage from '../components/IntroPage';
@@ -24,6 +24,7 @@ const {
 
 const AppContainer = () => {
   const { loading, user, error } = useSelector(userSelector.all);
+  const { board } = useSelector(boardSelector.all);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -65,6 +66,7 @@ const AppContainer = () => {
   return (
     <Header
       user={user}
+      board={board}
       onLogin={handleLogin}
       routePage={routePage}
     >
