@@ -1,16 +1,55 @@
 import React from 'react';
 import styles from './Header.module.scss';
 
-const Header = ({ user, onLogin, routePage, children }) => {
+const LoginHeader = ({ onLogin }) => {
+  return (
+    <button onClick={onLogin}>Login</button>
+  );
+};
+
+const MainHeader = ({ routePage }) => {
+  return (
+    <button onClick={() => routePage('/board/new')}>New taptap</button>
+  );
+};
+
+const BoardHeader = () => {
+  return (
+    <>
+      <button>Snapshot</button>
+      <button>History mode</button>
+    </>
+  );
+};
+
+const ShareHeader = () => {
+  return (
+    <>
+      <button>Download</button>
+      <button>Link</button>
+    </>
+  );
+};
+
+const Header = ({ user, board, onLogin, routePage, children }) => {
+  const renderHeader = () => {
+    if (!board) return <MainHeader routePage={routePage} />;
+
+    switch (board.isCategorized) {
+      case true: return <ShareHeader />;
+      case false: return <BoardHeader />;
+    }
+  };
+
   return (
     <>
       <div className={styles.container}>
         <div className={styles.logo} onClick={() => routePage('/')}>taptap</div>
         {
           !user
-            ? <button onClick={onLogin}>Login</button>
+            ? <LoginHeader onLogin={onLogin} />
             : <div className={styles.buttonContainer}>
-                <button onClick={() => routePage('/board/new')}>New taptap</button>
+                { renderHeader() }
                 <img src={user.imageSrc} alt='user profile' />
               </div>
         }
