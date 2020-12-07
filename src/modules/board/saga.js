@@ -11,6 +11,9 @@ const {
   updateBoard,
   updateBoardSuccess,
   updateBoardFailure,
+  getBoard,
+  getBoardSuccess,
+  getBoardFailure,
 } = boardAction;
 
 const {
@@ -52,6 +55,17 @@ function* updateBoardSaga ({ payload }) {
   }
 }
 
+function* getBoardSaga ({ payload }) {
+  const boardId = payload;
+
+  try {
+    const { board } = yield call(api.get, `/board/${boardId}`);
+    yield put(getBoardSuccess(board));
+  } catch (error) {
+    yield put(getBoardFailure(error));
+  }
+}
+
 export function* watchGoToBoard () {
   yield takeLatest(goToBoard, goToBoardSaga);
 }
@@ -64,10 +78,15 @@ export function* watchUpdateBoard () {
   yield takeLatest(updateBoard, updateBoardSaga);
 }
 
+export function* watchGetBoard () {
+  yield takeLatest(getBoard, getBoardSaga);
+}
+
 export function* boardSagas () {
   yield all([
     call(watchGoToBoard),
     call(watchCreateBoard),
     call(watchUpdateBoard),
+    call(watchGetBoard),
   ]);
 }
