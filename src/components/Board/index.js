@@ -3,10 +3,10 @@ import styles from './Board.module.scss';
 import BoardAside from '../BoardAside';
 import BoardCanvas from '../BoardCanvas';
 
-const Board = () => {
+const Board = ({ board }) => {
   return (
     <div className={styles.container}>
-      <BoardAside />
+      <BoardAside board={board} />
       <BoardCanvas />
     </div>
   );

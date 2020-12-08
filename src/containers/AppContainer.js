@@ -11,9 +11,11 @@ import ListPage from '../components/ListPage';
 import NewBoardForm from '../components/NewBoardForm';
 import InviteForm from '../components/InviteForm';
 import api from '../utils/api';
+import { boardSocket } from '../modules/socket/saga';
 
 const {
   initUser,
+  logoutUser,
   deleteMyBoards,
 } = userAction;
 
@@ -38,8 +40,15 @@ const AppContainer = () => {
     dispatch(initUser({ token: null }));
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
   const handleLogoClick = () => {
+    if (!board) return;
+
     dispatch(leaveBoard());
+    boardSocket.leaveUser({ boardId: board._id, userEmail: user.email });
     routePage('/');
   };
 
@@ -74,6 +83,7 @@ const AppContainer = () => {
       user={user}
       board={board}
       onLogin={handleLogin}
+      onLogout={handleLogout}
       routePage={routePage}
       handleLogoClick={handleLogoClick}
     >

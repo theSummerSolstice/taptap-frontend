@@ -3,6 +3,7 @@ import { call, all, put, takeLatest, getContext } from 'redux-saga/effects';
 import { boardAction } from './slice';
 import { userAction } from '../user/slice';
 import api from '../../utils/api';
+import { boardSocket } from '../socket/saga';
 
 const {
   createBoard,
@@ -56,11 +57,13 @@ function* updateBoardSaga ({ payload }) {
 }
 
 function* getBoardSaga ({ payload }) {
-  const boardId = payload;
+  const { boardId, userEmail } = payload;
 
   try {
     const { board } = yield call(api.get, `/board/${boardId}`);
+
     yield put(getBoardSuccess(board));
+    yield call(boardSocket.joinUser, { boardId, userEmail });
   } catch (error) {
     yield put(getBoardFailure(error));
   }

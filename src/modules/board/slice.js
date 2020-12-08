@@ -43,6 +43,9 @@ const reducers = {
   leaveBoard: (state) => {
     state.board = null;
   },
+  updateUserList: (state, { payload }) => {
+    state.board = payload;
+  },
 };
 
 const name = 'BOARD';

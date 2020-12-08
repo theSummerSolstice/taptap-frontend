@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Board from '../components/Board';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { userSelector } from '../modules/user/slice';
 import { boardAction, boardSelector } from '../modules/board/slice';
 
@@ -10,17 +10,22 @@ const {
 } = boardAction;
 
 const BoardContainer = () => {
+  const { user } = useSelector(userSelector.all);
   const { loading, board, error } = useSelector(boardSelector.all);
   const dispatch = useDispatch();
   const { board_id } = useParams();
 
   useEffect(() => {
-    dispatch(getBoard(board_id));
+    dispatch(getBoard({ boardId: board_id, userEmail: user.email }));
   }, []);
+
+  if (!board) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      <Board />
+      <Board board={board} loading={loading} />
     </div>
   );
 };
