@@ -48,7 +48,7 @@ const AppContainer = () => {
     if (!board) return;
 
     dispatch(leaveBoard());
-    boardSocket.leaveUser({ boardId: board._id, userEmail: user.email });
+    boardSocket.leaveUser({ boardId: board._id, userId: user._id });
     routePage('/');
   };
 

@@ -14,6 +14,10 @@ function createSocketChannel (socket) {
       emit(updateUserList(board));
     });
 
+    socket.on('leaveUser', ({ board }) => {
+      emit(updateUserList(board));
+    });
+
     return () => {
       socket.off('joinUser');
     };

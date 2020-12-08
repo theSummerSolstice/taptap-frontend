@@ -12,9 +12,14 @@ const BoardAside = ({ board, children }) => {
       <div className={styles.participants}>
         <h4>Participants</h4>
         {
-          board.users?.map((user, index) => {
-            return <div key={index}>{user}</div>;
-          })
+          board.users?.map((user, index) => (
+            <div key={user.id} className={styles.userContainer}>
+              <span>{user.email}</span>
+              <span>
+                {user.id === board.owner ? 'Admin' : 'Guest'}
+              </span>
+            </div>
+          ))
         }
       </div>
     </div>

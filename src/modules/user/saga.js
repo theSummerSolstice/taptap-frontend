@@ -1,4 +1,4 @@
-import { takeLatest, put, all, call } from 'redux-saga/effects';
+import { takeLatest, put, all, call, getContext } from 'redux-saga/effects';
 import firebase from '../../utils/firebase';
 import api from '../../utils/api';
 import { userAction } from './slice';
@@ -17,6 +17,7 @@ const {
 
 function* initUserSaga () {
   const hasToken = localStorage.getItem('token');
+  const hasBoardId = localStorage.getItem('boardId');
 
   try {
     if (hasToken) {
@@ -34,6 +35,12 @@ function* initUserSaga () {
 
     localStorage.setItem('token', token);
     yield put(initUserSuccess(user));
+
+    //TODO: Route 처리 추후 분리 처리
+    if (hasBoardId) {
+      const history = yield getContext('history');
+      history.push(`/board/${hasBoardId}`);
+    }
   } catch (error) {
     yield put(initUserFailure(error));
   }

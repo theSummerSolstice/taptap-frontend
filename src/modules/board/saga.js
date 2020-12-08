@@ -57,13 +57,13 @@ function* updateBoardSaga ({ payload }) {
 }
 
 function* getBoardSaga ({ payload }) {
-  const { boardId, userEmail } = payload;
+  const { boardId, user } = payload;
 
   try {
     const { board } = yield call(api.get, `/board/${boardId}`);
 
     yield put(getBoardSuccess(board));
-    yield call(boardSocket.joinUser, { boardId, userEmail });
+    yield call(boardSocket.joinUser, { boardId, user });
   } catch (error) {
     yield put(getBoardFailure(error));
   }
