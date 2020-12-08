@@ -7,9 +7,12 @@ const LoginHeader = ({ onLogin }) => {
   );
 };
 
-const MainHeader = ({ routePage }) => {
+const MainHeader = ({ routePage, onLogout }) => {
   return (
-    <button onClick={() => routePage('/board/new')}>New taptap</button>
+    <>
+      <button onClick={() => routePage('/board/new')}>New taptap</button>
+      <button onClick={onLogout}>Logout</button>
+    </>
   );
 };
 
@@ -31,14 +34,13 @@ const ShareHeader = () => {
   );
 };
 
-const Header = ({ user, board, onLogin, routePage, handleLogoClick, children }) => {
+const Header = ({ user, board, onLogin, onLogout, routePage, handleLogoClick, children }) => {
   const renderHeader = () => {
-    if (!board) return <MainHeader routePage={routePage} />;
+    if (!board) return <MainHeader routePage={routePage} onLogout={onLogout} />;
 
-    switch (board.isCategorized) {
-      case true: return <ShareHeader />;
-      case false: return <BoardHeader />;
-    }
+    return board.isCategorized
+      ? <ShareHeader />
+      : <BoardHeader />;
   };
 
   return (

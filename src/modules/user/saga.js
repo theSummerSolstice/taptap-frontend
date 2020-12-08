@@ -7,6 +7,9 @@ const {
   initUser,
   initUserSuccess,
   initUserFailure,
+  logoutUser,
+  logoutUserSuccess,
+  logoutUserFailure,
   deleteMyBoards,
   deleteMyBoardsSuccess,
   deleteMyBoardsFailure,
@@ -36,6 +39,18 @@ function* initUserSaga () {
   }
 }
 
+function* logoutUserSaga () {
+  const token = localStorage.getItem('token');
+
+  try {
+    yield firebase.logoutGoogle();
+    localStorage.removeItem('token', token);
+    yield put(logoutUserSuccess());
+  } catch (error) {
+    yield put(logoutUserFailure(error));
+  }
+}
+
 function* deleteMyBoardsSaga ({ payload }) {
   const { userId, boardId } = payload;
 
@@ -51,6 +66,10 @@ export function* watchInitUser () {
   yield takeLatest(initUser, initUserSaga);
 }
 
+export function* watchLogoutUser () {
+  yield takeLatest(logoutUser, logoutUserSaga);
+}
+
 export function* watchDeleteMyBoards () {
   yield takeLatest(deleteMyBoards, deleteMyBoardsSaga);
 }
@@ -58,6 +77,7 @@ export function* watchDeleteMyBoards () {
 export function* userSagas () {
   yield all([
     call(watchInitUser),
+    call(watchLogoutUser),
     call(watchDeleteMyBoards),
   ]);
 }

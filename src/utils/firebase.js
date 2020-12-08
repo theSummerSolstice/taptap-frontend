@@ -15,8 +15,13 @@ const loginGoogle = async () => {
   return user;
 };
 
+const logoutGoogle = async () => {
+  await firebase.auth().signOut();
+};
+
 firebase.initializeApp(firebaseConfig);
 
 export default {
   loginGoogle,
+  logoutGoogle,
 };
