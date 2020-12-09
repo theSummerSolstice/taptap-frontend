@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import Board from '../components/Board';
-import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../modules/user/slice';
 import { boardAction, boardSelector } from '../modules/board/slice';
-import queryString from 'query-string';
 import { boardSocket } from '../modules/socket/saga';
+
+import queryString from 'query-string';
+import Board from '../components/Board';
 
 const {
   getBoard,
@@ -19,9 +20,8 @@ const BoardContainer = () => {
   const { board_id } = useParams();
   const history = useHistory();
 
-  const handleAddNote = (note) => {
-    boardSocket.addNote(note);
-  };
+  const handleAddNote = (note) => boardSocket.addNote(note);
+  const handleDeleteNote = (noteId) => boardSocket.deleteNote(noteId);
 
   useEffect(() => {
     const hasEmail = queryString.parse(board_id).email;
@@ -53,6 +53,7 @@ const BoardContainer = () => {
         notes={notes}
         user={user}
         handleAddNote={handleAddNote}
+        handleDeleteNote={handleDeleteNote}
       />
     </div>
   );

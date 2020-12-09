@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './Board.module.scss';
 import BoardAside from '../BoardAside';
 import BoardCanvas from '../BoardCanvas';
+import styles from './Board.module.scss';
 
-const Board = ({ board, notes, user, handleAddNote }) => {
+const Board = ({ board, notes, user, handleAddNote, handleDeleteNote }) => {
   return (
     <div className={styles.container}>
       <BoardAside board={board} />
@@ -12,6 +12,7 @@ const Board = ({ board, notes, user, handleAddNote }) => {
         notes={notes}
         user={user}
         handleAddNote={handleAddNote}
+        handleDeleteNote={handleDeleteNote}
       />
     </div>
   );

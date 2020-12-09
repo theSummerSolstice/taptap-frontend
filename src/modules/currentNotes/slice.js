@@ -9,6 +9,14 @@ const reducers = {
   addNote: (state, { payload }) => {
     state.push(payload);
   },
+  deleteNote: (state, { payload }) => {
+    return state.filter((state) => {
+      return state._id !== payload;
+    });
+  },
+  resetNotes: (state) => {
+    return [];
+  },
 };
 
 const name = 'NOTES';

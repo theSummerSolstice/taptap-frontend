@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
-import styles from './BoardCanvas.module.scss';
 import Draggable from 'react-draggable';
 import Note from '../Note';
+import styles from './BoardCanvas.module.scss';
 
-const BoardCanvas = ({ boardId, notes, user, handleAddNote }) => {
+const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) => {
   const initialState = {
     owner: user.username,
-    position: {
-      x: null,
-      y: null,
-    },
+    position: { x: null, y: null },
     contents: '',
   };
 
   const [isWriting, setIsWriting] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [note, setNote] = useState(initialState);
-
 
   const handleDoubleClick = (event) => {
     if (isWriting) return;
@@ -44,7 +40,7 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote }) => {
     event.preventDefault();
     handleAddNote({
       boardId,
-      note: { ...note, id: Date.now() },
+      note: { ...note, _id: Date.now() },
     });
 
     setIsWriting(false);
@@ -76,7 +72,13 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote }) => {
       }
       {
         notes.map((item, index) => (
-          <Note key={index} note={item} user={user} />
+          <Note
+            key={index}
+            note={item}
+            user={user}
+            boardId={boardId}
+            handleDeleteNote={handleDeleteNote}
+          />
         ))
       }
     </div>

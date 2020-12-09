@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './Note.module.scss';
 import Draggable from 'react-draggable';
 
-const Note = ({ note, user }) => {
+const Note = ({ note, user, boardId, handleDeleteNote }) => {
   const [isButtonShowing, setIsButtonShowing] = useState(false);
 
   const handleMouseEnter = () => {
@@ -11,6 +11,10 @@ const Note = ({ note, user }) => {
 
   const handleMouseLeave = () => {
     setIsButtonShowing(false);
+  };
+
+  const handleDelete = () => {
+    handleDeleteNote({ boardId, noteId: note._id });
   };
 
   return (
@@ -26,7 +30,7 @@ const Note = ({ note, user }) => {
         <span>{note.contents}</span>
         {
           isButtonShowing &&
-          <button className={styles.deleteButton} onClick={() => console.log('delete')}>Delete</button>
+          <button className={styles.deleteButton} onClick={handleDelete}>Delete</button>
         }
         <span>{user.username}</span>
       </div>

@@ -9,6 +9,7 @@ const {
 
 const {
   addNote,
+  deleteNote,
 } = notesAction;
 
 const socket = io(process.env.REACT_APP_SERVER_URI);
@@ -26,8 +27,16 @@ function createSocketChannel (socket) {
     socket.on('addNote', ({ note }) => {
       emit(addNote(note));
     });
+
+    socket.on('deleteNote', ({ noteId }) => {
+      emit(deleteNote(noteId));
+    });
+
     return () => {
       socket.off('joinUser');
+      socket.off('leaveUser');
+      socket.off('addNote');
+      socket.off('deleteNote');
     };
   });
 }
@@ -51,6 +60,9 @@ const boardSocket = {
   },
   addNote(data) {
     socket.emit('addNote', data);
+  },
+  deleteNote(data) {
+    socket.emit('deleteNote', data);
   },
 };
 
