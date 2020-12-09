@@ -8,12 +8,10 @@ import store, { customHistory } from './store';
 import AppContainer from './containers/AppContainer';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Router history={customHistory}>
-      <Provider store={store}>
-        <AppContainer />
-      </Provider>
-    </Router>
-  </React.StrictMode>,
+  <Router history={customHistory}>
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  </Router>,
   document.getElementById('root')
 );

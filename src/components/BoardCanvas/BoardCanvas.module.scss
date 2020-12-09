@@ -1,0 +1,21 @@
+@import '../../styles/theme.module.scss';
+
+.container {
+  position: relative;
+  border: 1px solid $black;
+  background-color: $main-color;
+
+  .note {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    margin-left: -200px;
+    margin-top: -10vh;
+    border: 1px solid $black;
+
+    .noteInput {
+      width: 120px;
+      height: 120px;
+    }
+  }
+}

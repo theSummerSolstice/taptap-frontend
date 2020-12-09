@@ -1,1 +1,7 @@
 @import '../../styles/theme.module.scss';
+
+.container {
+  display: grid;
+  grid-template-columns: 200px 4fr;
+  height: 90vh;
+}

@@ -29,6 +29,23 @@ const reducers = {
     state.loading = false;
     state.error = payload;
   },
+  getBoard: (state) => {
+    state.loading = true;
+  },
+  getBoardSuccess: (state, { payload }) => {
+    state.loading = false;
+    state.board = payload;
+  },
+  getBoardFailure: (state, { payload }) => {
+    state.loading = false;
+    state.error = payload;
+  },
+  leaveBoard: (state) => {
+    state.board = null;
+  },
+  updateUserList: (state, { payload }) => {
+    state.board = payload;
+  },
 };
 
 const name = 'BOARD';

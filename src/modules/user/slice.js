@@ -18,6 +18,17 @@ const reducers = {
     state.loading = false;
     state.error = payload;
   },
+  logoutUser: (state) => {
+    state.loading = true;
+  },
+  logoutUserSuccess: (state) => {
+    state.loading = false;
+    state.user = null;
+  },
+  logoutUserFailure: (state, { payload }) => {
+    state.loading = false;
+    state.error = payload;
+  },
   updateMyBoards: (state, { payload }) => {
     state.user.myBoards.push(payload);
   },

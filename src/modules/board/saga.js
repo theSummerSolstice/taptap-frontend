@@ -3,6 +3,8 @@ import { call, all, put, takeLatest, getContext } from 'redux-saga/effects';
 import { boardAction } from './slice';
 import { userAction } from '../user/slice';
 import api from '../../utils/api';
+import { boardSocket } from '../socket/saga';
+import { notesAction } from '../currentNotes/slice';
 
 const {
   createBoard,
@@ -11,11 +13,18 @@ const {
   updateBoard,
   updateBoardSuccess,
   updateBoardFailure,
+  getBoard,
+  getBoardSuccess,
+  getBoardFailure,
 } = boardAction;
 
 const {
   updateMyBoards,
 } = userAction;
+
+const {
+  getNotes,
+} = notesAction;
 
 const GO_TO_BOARD = 'GO_TO_BOARD';
 const goToBoard = createAction(GO_TO_BOARD);
@@ -52,6 +61,20 @@ function* updateBoardSaga ({ payload }) {
   }
 }
 
+function* getBoardSaga ({ payload }) {
+  const { boardId, user } = payload;
+
+  try {
+    const { board } = yield call(api.get, `/board/${boardId}`);
+
+    yield put(getBoardSuccess(board));
+    yield put(getNotes(board.currentNotes));
+    yield call(boardSocket.joinUser, { boardId, user });
+  } catch (error) {
+    yield put(getBoardFailure(error));
+  }
+}
+
 export function* watchGoToBoard () {
   yield takeLatest(goToBoard, goToBoardSaga);
 }
@@ -64,10 +87,15 @@ export function* watchUpdateBoard () {
   yield takeLatest(updateBoard, updateBoardSaga);
 }
 
+export function* watchGetBoard () {
+  yield takeLatest(getBoard, getBoardSaga);
+}
+
 export function* boardSagas () {
   yield all([
     call(watchGoToBoard),
     call(watchCreateBoard),
     call(watchUpdateBoard),
+    call(watchGetBoard),
   ]);
 }
