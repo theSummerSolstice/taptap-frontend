@@ -5,6 +5,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { userSelector } from '../modules/user/slice';
 import { boardAction, boardSelector } from '../modules/board/slice';
 import queryString from 'query-string';
+import { boardSocket } from '../modules/socket/saga';
 
 const {
   getBoard,
@@ -13,9 +14,14 @@ const {
 const BoardContainer = () => {
   const { user } = useSelector(userSelector.all);
   const { loading, board, error } = useSelector(boardSelector.all);
+  const notes = useSelector((state) => state.NOTES);
   const dispatch = useDispatch();
   const { board_id } = useParams();
   const history = useHistory();
+
+  const handleAddNote = (note) => {
+    boardSocket.addNote(note);
+  };
 
   useEffect(() => {
     const hasEmail = queryString.parse(board_id).email;
@@ -41,7 +47,13 @@ const BoardContainer = () => {
 
   return (
     <div>
-      <Board board={board} loading={loading} />
+      <Board
+        board={board}
+        loading={loading}
+        notes={notes}
+        user={user}
+        handleAddNote={handleAddNote}
+      />
     </div>
   );
 };

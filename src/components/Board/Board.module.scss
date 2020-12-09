@@ -2,6 +2,6 @@
 
 .container {
   display: grid;
-  grid-template-columns: minmax(200px, 1fr) 4fr;
+  grid-template-columns: 200px 4fr;
   height: 90vh;
 }

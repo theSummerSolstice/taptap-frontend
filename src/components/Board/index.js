@@ -3,11 +3,16 @@ import styles from './Board.module.scss';
 import BoardAside from '../BoardAside';
 import BoardCanvas from '../BoardCanvas';
 
-const Board = ({ board }) => {
+const Board = ({ board, notes, user, handleAddNote }) => {
   return (
     <div className={styles.container}>
       <BoardAside board={board} />
-      <BoardCanvas />
+      <BoardCanvas
+        boardId={board._id}
+        notes={notes}
+        user={user}
+        handleAddNote={handleAddNote}
+      />
     </div>
   );
 };
