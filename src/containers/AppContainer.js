@@ -3,6 +3,8 @@ import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userAction, userSelector } from '../modules/user/slice';
 import { boardAction, boardSelector } from '../modules/board/slice';
+import { boardSocket } from '../modules/socket/saga';
+
 import BoardContainer from './BoardContainer';
 import Header from '../components/Header';
 import IntroPage from '../components/IntroPage';
@@ -11,7 +13,7 @@ import ListPage from '../components/ListPage';
 import NewBoardForm from '../components/NewBoardForm';
 import InviteForm from '../components/InviteForm';
 import api from '../utils/api';
-import { boardSocket } from '../modules/socket/saga';
+import { notesAction } from '../modules/currentNotes/slice';
 
 const {
   initUser,
@@ -25,6 +27,10 @@ const {
   leaveBoard,
 } = boardAction;
 
+const {
+  resetNotes,
+} = notesAction;
+
 const AppContainer = () => {
   const { loading, user, error } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
@@ -32,38 +38,22 @@ const AppContainer = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const routePage = (route) => {
-    history.push(route);
-  };
-
-  const handleLogin = () => {
-    dispatch(initUser({ token: null }));
-  };
-
-  const handleLogout = () => {
-    dispatch(logoutUser());
-  };
+  const routePage = (route) => history.push(route);
+  const handleLogin = () => dispatch(initUser({ token: null }));
+  const handleLogout = () => dispatch(logoutUser());
 
   const handleLogoClick = () => {
     if (!board) return;
 
     dispatch(leaveBoard());
+    dispatch(resetNotes());
     boardSocket.leaveUser({ boardId: board._id, userId: user._id });
     routePage('/');
   };
 
-  const createNewBoard = (boardInfo) => {
-    dispatch(createBoard(boardInfo));
-  };
-
-  const deleteBoard = (boardId) => {
-    dispatch(deleteMyBoards(boardId));
-  };
-
-  const updateAuthorizedUsers = (data) => {
-    dispatch(updateBoard(data));
-  };
-
+  const createNewBoard = (boardInfo) => dispatch(createBoard(boardInfo));
+  const deleteBoard = (boardId) => dispatch(deleteMyBoards(boardId));
+  const updateAuthorizedUsers = (data) => dispatch(updateBoard(data));
   const sendInviteMail = async (email, boardId) => {
     // TODO: Try - catch
     await api.post(`/board/${boardId}/invite`, { email });

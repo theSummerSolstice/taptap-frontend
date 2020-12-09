@@ -67,7 +67,6 @@ function* getBoardSaga ({ payload }) {
   try {
     const { board } = yield call(api.get, `/board/${boardId}`);
 
-    console.log(board);
     yield put(getBoardSuccess(board));
     yield put(getNotes(board.currentNotes));
     yield call(boardSocket.joinUser, { boardId, user });
