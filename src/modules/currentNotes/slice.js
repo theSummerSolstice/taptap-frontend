@@ -3,6 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = [];
 
 const reducers = {
+  getNotes: (state, { payload }) => {
+    return payload;
+  },
   addNote: (state, { payload }) => {
     state.push(payload);
   },

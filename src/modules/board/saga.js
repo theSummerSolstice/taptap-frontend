@@ -4,6 +4,7 @@ import { boardAction } from './slice';
 import { userAction } from '../user/slice';
 import api from '../../utils/api';
 import { boardSocket } from '../socket/saga';
+import { notesAction } from '../currentNotes/slice';
 
 const {
   createBoard,
@@ -20,6 +21,10 @@ const {
 const {
   updateMyBoards,
 } = userAction;
+
+const {
+  getNotes,
+} = notesAction;
 
 const GO_TO_BOARD = 'GO_TO_BOARD';
 const goToBoard = createAction(GO_TO_BOARD);
@@ -62,7 +67,9 @@ function* getBoardSaga ({ payload }) {
   try {
     const { board } = yield call(api.get, `/board/${boardId}`);
 
+    console.log(board);
     yield put(getBoardSuccess(board));
+    yield put(getNotes(board.currentNotes));
     yield call(boardSocket.joinUser, { boardId, user });
   } catch (error) {
     yield put(getBoardFailure(error));

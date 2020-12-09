@@ -15,7 +15,7 @@ const Note = ({ note, user }) => {
 
   return (
     <Draggable
-      defaultPosition={{ x: note.x, y: note.y }}
+      defaultPosition={{ x: note.position.x, y: note.position.y }}
       bounds='parent'
     >
       <div

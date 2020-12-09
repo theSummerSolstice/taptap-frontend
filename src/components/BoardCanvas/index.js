@@ -3,16 +3,20 @@ import styles from './BoardCanvas.module.scss';
 import Draggable from 'react-draggable';
 import Note from '../Note';
 
-const initialState = {
-  x: null,
-  y: null,
-  contents: '',
-};
-
 const BoardCanvas = ({ boardId, notes, user, handleAddNote }) => {
+  const initialState = {
+    owner: user.username,
+    position: {
+      x: null,
+      y: null,
+    },
+    contents: '',
+  };
+
   const [isWriting, setIsWriting] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [note, setNote] = useState(initialState);
+
 
   const handleDoubleClick = (event) => {
     if (isWriting) return;
@@ -20,8 +24,10 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote }) => {
 
     setNote({
       ...note,
-      x: event.clientX,
-      y: event.clientY,
+      position: {
+        x: event.clientX,
+        y: event.clientY,
+      },
     });
 
     setIsWriting(true);
@@ -51,7 +57,7 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote }) => {
       {
         isDoubleClicked &&
         <Draggable
-          defaultPosition={{ x: note.x, y: note.y }}
+          defaultPosition={{ x: note.position.x, y: note.position.y }}
           bounds='parent'
         >
           <form className={styles.note}>
