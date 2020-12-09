@@ -16,11 +16,18 @@ const MainHeader = ({ routePage, onLogout }) => {
   );
 };
 
-const BoardHeader = () => {
+const BoardHeader = ({ userId, boardOwner }) => {
+  const isOwner = userId === boardOwner;
+
   return (
     <>
-      <button>Snapshot</button>
-      <button>History mode</button>
+      {
+        isOwner &&
+          <>
+            <button>Snapshot</button>
+            <button>History mode</button>
+          </>
+      }
     </>
   );
 };
@@ -34,19 +41,27 @@ const ShareHeader = () => {
   );
 };
 
-const Header = ({ user, board, onLogin, onLogout, routePage, handleLogoClick, children }) => {
+const Header = ({
+  user,
+  board,
+  onLogin,
+  onLogout,
+  routePage,
+  handleLeaveBoard,
+  children
+}) => {
   const renderHeader = () => {
     if (!board) return <MainHeader routePage={routePage} onLogout={onLogout} />;
 
     return board.isCategorized
       ? <ShareHeader />
-      : <BoardHeader />;
+      : <BoardHeader userId={user._id} boardOwner={board.owner} />;
   };
 
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.logo} onClick={handleLogoClick}>taptap</div>
+        <div className={styles.logo} onClick={handleLeaveBoard}>taptap</div>
         {
           !user
             ? <LoginHeader onLogin={onLogin} />
