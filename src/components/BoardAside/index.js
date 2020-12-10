@@ -4,6 +4,7 @@ import styles from './BoardAside.module.scss';
 const BoardAside = ({
   userId,
   board,
+  auth,
   handleLeaveBoard,
   children
 }) => {
@@ -12,10 +13,8 @@ const BoardAside = ({
   return (
     <div className={styles.container}>
       <div className={styles.buttonContainer}>
-        <button onClick={handleLeaveBoard}>Back</button>
-        {
-          isOwner && <button>Toggle</button>
-        }
+        {auth === 'EDIT' && <button onClick={handleLeaveBoard}>Back</button>}
+        {isOwner && <button>Toggle</button>}
       </div>
       <h3>{board.name}</h3>
       <div className={styles.participants}>

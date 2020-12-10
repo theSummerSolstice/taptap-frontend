@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   user: null,
   error: null,
+  auth: null,
 };
 
 const reducers = {
@@ -49,7 +50,13 @@ const reducers = {
   deleteMyBoardsFailure: (state, { payload }) => {
     state.loading = false;
     state.error = payload;
-  }
+  },
+  updateAuthorizedBoards: (state, { payload }) => {
+    state.user.authorizedBoards.push(payload);
+  },
+  changeAuthState: (state, { payload }) => {
+    state.auth = payload;
+  },
 };
 
 const name = 'USER';
@@ -61,8 +68,9 @@ const selectAllState = createSelector(
   (state) => state.loading,
   (state) => state.user,
   (state) => state.error,
-  (loading, user, error) => {
-    return { loading, user, error };
+  (state) => state.auth,
+  (loading, user, error, auth) => {
+    return { loading, user, error, auth };
   }
 );
 
