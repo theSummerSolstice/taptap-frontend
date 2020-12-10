@@ -23,7 +23,7 @@ const reducers = {
   },
   updateBoardSuccess: (state, { payload }) => {
     state.loading = false;
-    state.board.authorizedUsers = payload;
+    state.board[payload.updatedItem] = payload.data;
   },
   updateBoardFailure: (state, { payload }) => {
     state.loading = false;

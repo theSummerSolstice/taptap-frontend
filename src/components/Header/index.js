@@ -16,15 +16,23 @@ const MainHeader = ({ routePage, onLogout }) => {
   );
 };
 
-const BoardHeader = ({ userId, boardOwner }) => {
-  const isOwner = userId === boardOwner;
+const BoardHeader = ({ userId, board, notes, updateBoard }) => {
+  const isOwner = userId === board.owner;
+
+  const handleSnapshot = () => {
+    updateBoard({
+      data: { notes },
+      boardId: board._id,
+      updatedItem: 'snapshots',
+    });
+  };
 
   return (
     <>
       {
         isOwner &&
           <>
-            <button>Snapshot</button>
+            <button onClick={handleSnapshot}>Snapshot</button>
             <button>History mode</button>
           </>
       }
@@ -44,10 +52,12 @@ const ShareHeader = () => {
 const Header = ({
   user,
   board,
+  notes,
   onLogin,
   onLogout,
   routePage,
   handleLeaveBoard,
+  updateBoard,
   children
 }) => {
   const renderHeader = () => {
@@ -55,7 +65,12 @@ const Header = ({
 
     return board.isCategorized
       ? <ShareHeader />
-      : <BoardHeader userId={user._id} boardOwner={board.owner} />;
+      : <BoardHeader
+          userId={user._id}
+          board={board}
+          notes={notes}
+          updateBoard={updateBoard}
+        />;
   };
 
   return (

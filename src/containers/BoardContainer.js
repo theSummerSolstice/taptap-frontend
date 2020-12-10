@@ -12,7 +12,7 @@ const {
   getBoard,
 } = boardAction;
 
-const BoardContainer = () => {
+const BoardContainer = ({ handleLeaveBoard }) => {
   const { user } = useSelector(userSelector.all);
   const { loading, board, error } = useSelector(boardSelector.all);
   const notes = useSelector((state) => state.NOTES);
@@ -20,8 +20,9 @@ const BoardContainer = () => {
   const { board_id } = useParams();
   const history = useHistory();
 
-  const handleAddNote = (note) => boardSocket.addNote(note);
-  const handleDeleteNote = (noteId) => boardSocket.deleteNote(noteId);
+  const addNote = (note) => boardSocket.addNote(note);
+  const deleteNote = (noteId) => boardSocket.deleteNote(noteId);
+  const updateNotePosition = (boardId, noteId, position) => boardSocket.updateNotePosition({ boardId, noteId, position });
 
   useEffect(() => {
     const hasEmail = queryString.parse(board_id).email;
@@ -52,8 +53,10 @@ const BoardContainer = () => {
         loading={loading}
         notes={notes}
         user={user}
-        handleAddNote={handleAddNote}
-        handleDeleteNote={handleDeleteNote}
+        addNote={addNote}
+        deleteNote={deleteNote}
+        handleLeaveBoard={handleLeaveBoard}
+        updateNotePosition={updateNotePosition}
       />
     </div>
   );

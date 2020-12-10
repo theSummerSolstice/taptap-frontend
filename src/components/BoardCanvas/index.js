@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import Note from '../Note';
 import styles from './BoardCanvas.module.scss';
+import PhaseDescription from '../PhaseDescription';
 
-const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) => {
+const BoardCanvas = ({
+  boardId,
+  notes,
+  user,
+  addNote,
+  deleteNote,
+  updateNotePosition
+}) => {
   const initialState = {
-    owner: user.username,
+    owner: user.username || '',
     position: { x: null, y: null },
     contents: '',
   };
@@ -21,8 +29,8 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) 
     setNote({
       ...note,
       position: {
-        x: event.clientX,
-        y: event.clientY,
+        x: event.clientX - 200,
+        y: event.clientY - 100,
       },
     });
 
@@ -38,9 +46,9 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) 
 
   const handleConfirm = (event) => {
     event.preventDefault();
-    handleAddNote({
+    addNote({
       boardId,
-      note: { ...note, _id: Date.now() },
+      note: { ...note, _id: String(Date.now()) },
     });
 
     setIsWriting(false);
@@ -50,6 +58,11 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) 
 
   return (
     <div onDoubleClick={handleDoubleClick} className={styles.container}>
+      <PhaseDescription
+        description='Put all the thoughts in stick notes, then CATEGORIZE!'
+        buttonText='Categorize'
+        onClick={() => console.log('categorize')}
+      />
       {
         isDoubleClicked &&
         <Draggable
@@ -71,15 +84,17 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) 
         </Draggable>
       }
       {
-        notes.map((item, index) => (
-          <Note
-            key={index}
+        notes.map((item, index) => {
+          console.log(item);
+          return <Note
+            key={item._id}
             note={item}
             user={user}
             boardId={boardId}
-            handleDeleteNote={handleDeleteNote}
+            deleteNote={deleteNote}
+            updateNotePosition={updateNotePosition}
           />
-        ))
+        })
       }
     </div>
   );

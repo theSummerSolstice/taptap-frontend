@@ -50,12 +50,12 @@ function* createBoardSaga ({ payload }) {
 }
 
 function* updateBoardSaga ({ payload }) {
-  const { data, boardId } = payload;
+  const { data, boardId, updatedItem } = payload;
 
   try {
-    yield call(api.put, `/board/${boardId}`, data);
+    yield call(api.put, `/board/${boardId}`, { data, updatedItem });
 
-    yield put(updateBoardSuccess(data));
+    yield put(updateBoardSuccess({ data, updatedItem }));
   } catch (error) {
     yield put(updateBoardFailure(error));
   }

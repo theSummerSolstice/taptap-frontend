@@ -3,16 +3,29 @@ import BoardAside from '../BoardAside';
 import BoardCanvas from '../BoardCanvas';
 import styles from './Board.module.scss';
 
-const Board = ({ board, notes, user, handleAddNote, handleDeleteNote }) => {
+const Board = ({
+  board,
+  notes,
+  user,
+  addNote,
+  deleteNote,
+  handleLeaveBoard,
+  updateNotePosition,
+}) => {
   return (
     <div className={styles.container}>
-      <BoardAside board={board} />
+      <BoardAside
+        board={board}
+        userId={user._id}
+        handleLeaveBoard={handleLeaveBoard}
+      />
       <BoardCanvas
         boardId={board._id}
         notes={notes}
         user={user}
-        handleAddNote={handleAddNote}
-        handleDeleteNote={handleDeleteNote}
+        addNote={addNote}
+        deleteNote={deleteNote}
+        updateNotePosition={updateNotePosition}
       />
     </div>
   );

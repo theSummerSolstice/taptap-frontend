@@ -34,6 +34,7 @@ const {
 const AppContainer = () => {
   const { loading, user, error } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
+  const notes = useSelector((state) => state.NOTES);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -42,8 +43,11 @@ const AppContainer = () => {
   const handleLogin = () => dispatch(initUser({ token: null }));
   const handleLogout = () => dispatch(logoutUser());
 
-  const handleLogoClick = () => {
-    if (!board) return;
+  const handleLeaveBoard = () => {
+    if (!board) {
+      routePage('/');
+      return;
+    }
 
     dispatch(leaveBoard());
     dispatch(resetNotes());
@@ -53,7 +57,7 @@ const AppContainer = () => {
 
   const createNewBoard = (boardInfo) => dispatch(createBoard(boardInfo));
   const deleteBoard = (boardId) => dispatch(deleteMyBoards(boardId));
-  const updateAuthorizedUsers = (data) => dispatch(updateBoard(data));
+  const updateBoardItem = (data) => dispatch(updateBoard(data));
   const sendInviteMail = async (email, boardId) => {
     // TODO: Try - catch
     await api.post(`/board/${boardId}/invite`, { email });
@@ -72,10 +76,12 @@ const AppContainer = () => {
     <Header
       user={user}
       board={board}
+      notes={notes}
       onLogin={handleLogin}
       onLogout={handleLogout}
       routePage={routePage}
-      handleLogoClick={handleLogoClick}
+      handleLeaveBoard={handleLeaveBoard}
+      updateBoard={updateBoardItem}
     >
       <Switch>
         <Route exact path='/'>
@@ -112,12 +118,14 @@ const AppContainer = () => {
           <InviteForm
             user={user}
             routePage={routePage}
-            updateAuthorizedUsers={updateAuthorizedUsers}
+            updateBoard={updateBoardItem}
             sendInviteMail={sendInviteMail}
           />
         </Route>
         <Route path='/board/:board_id'>
-          <BoardContainer />
+          <BoardContainer
+            handleLeaveBoard={handleLeaveBoard}
+          />
         </Route>
       </Switch>
     </Header>
