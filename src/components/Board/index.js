@@ -11,6 +11,8 @@ const Board = ({
   deleteNote,
   handleLeaveBoard,
   updateNotePosition,
+  boardRef,
+  handleCapture,
 }) => {
   return (
     <div className={styles.container}>
@@ -18,6 +20,7 @@ const Board = ({
         board={board}
         userId={user._id}
         handleLeaveBoard={handleLeaveBoard}
+        handleCapture={handleCapture}
       />
       <BoardCanvas
         boardId={board._id}
@@ -26,6 +29,7 @@ const Board = ({
         addNote={addNote}
         deleteNote={deleteNote}
         updateNotePosition={updateNotePosition}
+        boardRef={boardRef}
       />
     </div>
   );

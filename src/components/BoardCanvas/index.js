@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 import Note from '../Note';
 import styles from './BoardCanvas.module.scss';
@@ -10,7 +10,8 @@ const BoardCanvas = ({
   user,
   addNote,
   deleteNote,
-  updateNotePosition
+  updateNotePosition,
+  boardRef,
 }) => {
   const initialState = {
     owner: user.username || '',
@@ -57,7 +58,7 @@ const BoardCanvas = ({
   };
 
   return (
-    <div onDoubleClick={handleDoubleClick} className={styles.container}>
+    <div id='canvas' onDoubleClick={handleDoubleClick} className={styles.container} ref={boardRef}>
       <PhaseDescription
         description='Put all the thoughts in stick notes, then CATEGORIZE!'
         buttonText='Categorize'
@@ -84,9 +85,8 @@ const BoardCanvas = ({
         </Draggable>
       }
       {
-        notes.map((item, index) => {
-          console.log(item);
-          return <Note
+        notes.map((item) => (
+          <Note
             key={item._id}
             note={item}
             user={user}
@@ -94,7 +94,7 @@ const BoardCanvas = ({
             deleteNote={deleteNote}
             updateNotePosition={updateNotePosition}
           />
-        })
+        ))
       }
     </div>
   );

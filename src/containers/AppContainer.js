@@ -3,7 +3,6 @@ import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userAction, userSelector } from '../modules/user/slice';
 import { boardAction, boardSelector } from '../modules/board/slice';
-import { boardSocket } from '../modules/socket/saga';
 
 import BoardContainer from './BoardContainer';
 import Header from '../components/Header';
@@ -13,7 +12,6 @@ import ListPage from '../components/ListPage';
 import NewBoardForm from '../components/NewBoardForm';
 import InviteForm from '../components/InviteForm';
 import api from '../utils/api';
-import { notesAction } from '../modules/currentNotes/slice';
 
 const {
   initUser,
@@ -27,10 +25,6 @@ const {
   leaveBoard,
 } = boardAction;
 
-const {
-  resetNotes,
-} = notesAction;
-
 const AppContainer = () => {
   const { loading, user, error } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
@@ -43,15 +37,13 @@ const AppContainer = () => {
   const handleLogin = () => dispatch(initUser({ token: null }));
   const handleLogout = () => dispatch(logoutUser());
 
-  const handleLeaveBoard = () => {
+  const handleLeaveBoard = async () => {
     if (!board) {
       routePage('/');
       return;
     }
 
-    dispatch(leaveBoard());
-    dispatch(resetNotes());
-    boardSocket.leaveUser({ boardId: board._id, userId: user._id });
+    dispatch(leaveBoard({ boardId: board._id, userId: user._id }));
     routePage('/');
   };
 

@@ -5,6 +5,7 @@ import { userAction } from '../user/slice';
 import api from '../../utils/api';
 import { boardSocket } from '../socket/saga';
 import { notesAction } from '../currentNotes/slice';
+import html2canvas from 'html2canvas';
 
 const {
   createBoard,
@@ -16,6 +17,9 @@ const {
   getBoard,
   getBoardSuccess,
   getBoardFailure,
+  leaveBoard,
+  leaveBoardSuccess,
+  leaveBoardFailure,
 } = boardAction;
 
 const {
@@ -24,6 +28,7 @@ const {
 
 const {
   getNotes,
+  resetNotes,
 } = notesAction;
 
 const GO_TO_BOARD = 'GO_TO_BOARD';
@@ -54,7 +59,6 @@ function* updateBoardSaga ({ payload }) {
 
   try {
     yield call(api.put, `/board/${boardId}`, { data, updatedItem });
-
     yield put(updateBoardSuccess({ data, updatedItem }));
   } catch (error) {
     yield put(updateBoardFailure(error));
@@ -75,6 +79,25 @@ function* getBoardSaga ({ payload }) {
   }
 }
 
+function* leaveBoardSaga ({ payload }) {
+  const { boardId, userId } = payload;
+
+  try {
+    const capture = yield html2canvas(document.getElementById('canvas'));
+    yield call(api.put, `/board/${boardId}`, {
+      data: capture.toDataURL('image/jpeg'),
+      boardId,
+      updatedItem: 'imageSrc'
+    });
+
+    yield call(boardSocket.leaveUser, { boardId, userId });
+    yield put(resetNotes());
+    yield put(leaveBoardSuccess());
+  } catch (error) {
+    yield put(leaveBoardFailure(error));
+  }
+}
+
 export function* watchGoToBoard () {
   yield takeLatest(goToBoard, goToBoardSaga);
 }
@@ -91,11 +114,16 @@ export function* watchGetBoard () {
   yield takeLatest(getBoard, getBoardSaga);
 }
 
+export function* watchLeaveBoard () {
+  yield takeLatest(leaveBoard, leaveBoardSaga);
+}
+
 export function* boardSagas () {
   yield all([
     call(watchGoToBoard),
     call(watchCreateBoard),
     call(watchUpdateBoard),
     call(watchGetBoard),
+    call(watchLeaveBoard),
   ]);
 }

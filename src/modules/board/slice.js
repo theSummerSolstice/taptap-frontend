@@ -41,7 +41,15 @@ const reducers = {
     state.error = payload;
   },
   leaveBoard: (state) => {
+    state.loading = true;
+  },
+  leaveBoardSuccess: (state) => {
+    state.loading = false;
     state.board = null;
+  },
+  leaveBoardFailure: (state, { payload }) => {
+    state.loading = false;
+    state.error = payload;
   },
   updateUserList: (state, { payload }) => {
     state.board = payload;

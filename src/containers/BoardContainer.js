@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../modules/user/slice';
@@ -10,6 +10,7 @@ import Board from '../components/Board';
 
 const {
   getBoard,
+  updateBoard,
 } = boardAction;
 
 const BoardContainer = ({ handleLeaveBoard }) => {
@@ -19,6 +20,8 @@ const BoardContainer = ({ handleLeaveBoard }) => {
   const dispatch = useDispatch();
   const { board_id } = useParams();
   const history = useHistory();
+
+  const boardRef = useRef(null);
 
   const addNote = (note) => boardSocket.addNote(note);
   const deleteNote = (noteId) => boardSocket.deleteNote(noteId);
@@ -57,6 +60,7 @@ const BoardContainer = ({ handleLeaveBoard }) => {
         deleteNote={deleteNote}
         handleLeaveBoard={handleLeaveBoard}
         updateNotePosition={updateNotePosition}
+        boardRef={boardRef}
       />
     </div>
   );
