@@ -1,17 +1,13 @@
 import React from 'react';
 import BoardAside from '../BoardAside';
-import BoardCanvas from '../BoardCanvas';
 import styles from './Board.module.scss';
+import CanvasContainer from '../../containers/CanvasContainer';
 
 const Board = ({
   board,
-  notes,
   user,
-  addNote,
-  deleteNote,
+  auth,
   handleLeaveBoard,
-  updateNotePosition,
-  boardRef,
   handleCapture,
 }) => {
   return (
@@ -19,18 +15,11 @@ const Board = ({
       <BoardAside
         board={board}
         userId={user._id}
+        auth={auth}
         handleLeaveBoard={handleLeaveBoard}
         handleCapture={handleCapture}
       />
-      <BoardCanvas
-        boardId={board._id}
-        notes={notes}
-        user={user}
-        addNote={addNote}
-        deleteNote={deleteNote}
-        updateNotePosition={updateNotePosition}
-        boardRef={boardRef}
-      />
+      <CanvasContainer />
     </div>
   );
 };
