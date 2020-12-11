@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { Switch, Route, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userAction, userSelector } from '../modules/user/slice';
 import { boardAction, boardSelector } from '../modules/board/slice';
@@ -35,7 +35,10 @@ const AppContainer = () => {
 
   const routePage = (route) => history.push(route);
   const handleLogin = () => dispatch(initUser({ token: null }));
-  const handleLogout = () => dispatch(logoutUser());
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    routePage('/');
+  };
 
   const handleLeaveBoard = async () => {
     if (!board) {
@@ -57,8 +60,10 @@ const AppContainer = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    if (!token) {
+      return routePage('/');
+    }
 
-    if (!token) return;
     const currentLocation = location.pathname;
     dispatch(initUser());
     history.push(currentLocation);
@@ -119,6 +124,7 @@ const AppContainer = () => {
             handleLeaveBoard={handleLeaveBoard}
           />
         </Route>
+        <Redirect to='/'/>
       </Switch>
     </Header>
   );
