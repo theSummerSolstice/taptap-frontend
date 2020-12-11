@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Draggable from 'react-draggable';
 import Note from '../Note';
 import styles from './BoardCanvas.module.scss';
+import PhaseDescription from '../PhaseDescription';
 
-const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) => {
+const BoardCanvas = ({
+  boardId,
+  notes,
+  user,
+  auth,
+  addNote,
+  deleteNote,
+  updateNotePosition,
+}) => {
   const initialState = {
     owner: user.username,
     position: { x: null, y: null },
@@ -13,16 +22,18 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) 
   const [isWriting, setIsWriting] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [note, setNote] = useState(initialState);
+  const boardRef = useRef();
 
   const handleDoubleClick = (event) => {
-    if (isWriting) return;
+    if (isWriting || auth === 'READ') return;
     setIsDoubleClicked(true);
 
     setNote({
       ...note,
+      owner: user.username,
       position: {
-        x: event.clientX,
-        y: event.clientY,
+        x: event.clientX - 200,
+        y: event.clientY - 100,
       },
     });
 
@@ -38,9 +49,9 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) 
 
   const handleConfirm = (event) => {
     event.preventDefault();
-    handleAddNote({
+    addNote({
       boardId,
-      note: { ...note, _id: Date.now() },
+      note: { ...note, _id: String(Date.now()) },
     });
 
     setIsWriting(false);
@@ -49,12 +60,21 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) 
   };
 
   return (
-    <div onDoubleClick={handleDoubleClick} className={styles.container}>
+    <div id='canvas' onDoubleClick={handleDoubleClick} className={styles.container} ref={boardRef}>
+      {
+        auth === 'EDIT' &&
+        <PhaseDescription
+          description='Put all the thoughts in stick notes, then CATEGORIZE!'
+          buttonText='Categorize'
+          onClick={() => console.log('categorize')}
+        />
+      }
       {
         isDoubleClicked &&
         <Draggable
           defaultPosition={{ x: note.position.x, y: note.position.y }}
           bounds='parent'
+          disabled={auth === 'READ'}
         >
           <form className={styles.note}>
             <textarea
@@ -71,13 +91,15 @@ const BoardCanvas = ({ boardId, notes, user, handleAddNote, handleDeleteNote }) 
         </Draggable>
       }
       {
-        notes.map((item, index) => (
+        notes.map((item) => (
           <Note
-            key={index}
+            key={item._id}
             note={item}
             user={user}
+            auth={auth}
             boardId={boardId}
-            handleDeleteNote={handleDeleteNote}
+            deleteNote={deleteNote}
+            updateNotePosition={updateNotePosition}
           />
         ))
       }

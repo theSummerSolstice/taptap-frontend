@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { Switch, Route, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userAction, userSelector } from '../modules/user/slice';
 import { boardAction, boardSelector } from '../modules/board/slice';
-import { boardSocket } from '../modules/socket/saga';
 
 import BoardContainer from './BoardContainer';
 import Header from '../components/Header';
@@ -13,7 +12,6 @@ import ListPage from '../components/ListPage';
 import NewBoardForm from '../components/NewBoardForm';
 import InviteForm from '../components/InviteForm';
 import api from '../utils/api';
-import { notesAction } from '../modules/currentNotes/slice';
 
 const {
   initUser,
@@ -27,33 +25,34 @@ const {
   leaveBoard,
 } = boardAction;
 
-const {
-  resetNotes,
-} = notesAction;
-
 const AppContainer = () => {
   const { loading, user, error } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
+  const notes = useSelector((state) => state.NOTES);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
 
   const routePage = (route) => history.push(route);
   const handleLogin = () => dispatch(initUser({ token: null }));
-  const handleLogout = () => dispatch(logoutUser());
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    routePage('/');
+  };
 
-  const handleLogoClick = () => {
-    if (!board) return;
+  const handleLeaveBoard = async () => {
+    if (!board) {
+      routePage('/');
+      return;
+    }
 
-    dispatch(leaveBoard());
-    dispatch(resetNotes());
-    boardSocket.leaveUser({ boardId: board._id, userId: user._id });
+    dispatch(leaveBoard({ boardId: board._id, userId: user._id }));
     routePage('/');
   };
 
   const createNewBoard = (boardInfo) => dispatch(createBoard(boardInfo));
   const deleteBoard = (boardId) => dispatch(deleteMyBoards(boardId));
-  const updateAuthorizedUsers = (data) => dispatch(updateBoard(data));
+  const updateBoardItem = (data) => dispatch(updateBoard(data));
   const sendInviteMail = async (email, boardId) => {
     // TODO: Try - catch
     await api.post(`/board/${boardId}/invite`, { email });
@@ -61,8 +60,10 @@ const AppContainer = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    if (!token) {
+      return routePage('/');
+    }
 
-    if (!token) return;
     const currentLocation = location.pathname;
     dispatch(initUser());
     history.push(currentLocation);
@@ -72,10 +73,12 @@ const AppContainer = () => {
     <Header
       user={user}
       board={board}
+      notes={notes}
       onLogin={handleLogin}
       onLogout={handleLogout}
       routePage={routePage}
-      handleLogoClick={handleLogoClick}
+      handleLeaveBoard={handleLeaveBoard}
+      updateBoard={updateBoardItem}
     >
       <Switch>
         <Route exact path='/'>
@@ -112,13 +115,16 @@ const AppContainer = () => {
           <InviteForm
             user={user}
             routePage={routePage}
-            updateAuthorizedUsers={updateAuthorizedUsers}
+            updateBoard={updateBoardItem}
             sendInviteMail={sendInviteMail}
           />
         </Route>
         <Route path='/board/:board_id'>
-          <BoardContainer />
+          <BoardContainer
+            handleLeaveBoard={handleLeaveBoard}
+          />
         </Route>
+        <Redirect to='/'/>
       </Switch>
     </Header>
   );

@@ -9,9 +9,8 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    margin-left: -200px;
-    margin-top: -10vh;
     border: 1px solid $black;
+    z-index: 999;
 
     .noteInput {
       width: 120px;

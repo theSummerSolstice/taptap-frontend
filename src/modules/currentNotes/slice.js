@@ -10,8 +10,21 @@ const reducers = {
     state.push(payload);
   },
   deleteNote: (state, { payload }) => {
-    return state.filter((state) => {
-      return state._id !== payload;
+    return state.filter((note) => {
+      return note._id !== payload;
+    });
+  },
+  updateNotePosition: (state, { payload }) => {
+    return state.map((note) => {
+      if (note._id === payload.noteId) {
+        return {
+          ...note,
+          position: {
+            ...payload.position,
+          },
+        };
+      }
+      return note;
     });
   },
   resetNotes: (state) => {

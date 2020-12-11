@@ -1,7 +1,7 @@
 @import '../../styles/theme.module.scss';
 
 .container {
-  height: 90vh;
+  height: calc(100vh - 50px);
   padding-top: 10vh;
   background-color: $base-color;
 }

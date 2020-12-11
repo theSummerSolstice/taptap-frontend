@@ -1,19 +1,25 @@
 import React from 'react';
 import BoardAside from '../BoardAside';
-import BoardCanvas from '../BoardCanvas';
 import styles from './Board.module.scss';
+import CanvasContainer from '../../containers/CanvasContainer';
 
-const Board = ({ board, notes, user, handleAddNote, handleDeleteNote }) => {
+const Board = ({
+  board,
+  user,
+  auth,
+  handleLeaveBoard,
+  handleCapture,
+}) => {
   return (
     <div className={styles.container}>
-      <BoardAside board={board} />
-      <BoardCanvas
-        boardId={board._id}
-        notes={notes}
-        user={user}
-        handleAddNote={handleAddNote}
-        handleDeleteNote={handleDeleteNote}
+      <BoardAside
+        board={board}
+        userId={user._id}
+        auth={auth}
+        handleLeaveBoard={handleLeaveBoard}
+        handleCapture={handleCapture}
       />
+      <CanvasContainer />
     </div>
   );
 };

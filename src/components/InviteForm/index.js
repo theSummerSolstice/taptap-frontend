@@ -3,7 +3,7 @@ import styles from './InviteForm.module.scss';
 import { useParams } from 'react-router-dom';
 import { validateEmail } from '../../utils/validation';
 
-const InviteForm = ({ user, updateAuthorizedUsers, routePage, sendInviteMail }) => {
+const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
   const { board_id } = useParams();
   const [email, setEmail] = useState('');
   const [emailList, setEmailList] = useState([]);
@@ -38,9 +38,10 @@ const InviteForm = ({ user, updateAuthorizedUsers, routePage, sendInviteMail }) 
   };
 
   const handleConfirmButton = () => {
-    updateAuthorizedUsers({
+    updateBoard({
       data: emailList,
       boardId: board_id,
+      updatedItem: 'authorizedUsers',
     });
     routePage(`/board/${board_id}`);
   };
