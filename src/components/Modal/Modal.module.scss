@@ -1,0 +1,23 @@
+@import '../../styles/theme.module.scss';
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .modalOverlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .modalContents {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    width: 300px;
+    border: 1px solid $black;
+    padding: 10px;
+    background-color: $white;
+  }
+}

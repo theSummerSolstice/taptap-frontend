@@ -1,0 +1,28 @@
+@import '../../styles/theme.module.scss';
+
+.container {
+  .welcomeMessage {
+    display: flex;
+    flex-direction: column;
+
+    button {
+      align-self: flex-end;
+    }
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+
+    .navButton {
+      display: flex;
+      justify-content: space-between;
+      background-color: $white;
+      border: none;
+    }
+
+    .navButton:first-child {
+      border-top: 1px solid $black;
+    }
+  }
+}
