@@ -3,6 +3,7 @@ import { Switch, Route, Redirect, useHistory, useLocation } from 'react-router-d
 import { useSelector, useDispatch } from 'react-redux';
 import { userAction, userSelector } from '../modules/user/slice';
 import { boardAction, boardSelector } from '../modules/board/slice';
+import { notesAction } from '../modules/currentNotes/slice';
 
 import BoardContainer from './BoardContainer';
 import Header from '../components/Header';
@@ -23,10 +24,16 @@ const {
   createBoard,
   updateBoard,
   leaveBoard,
+  storeCurrentNotes,
+  deleteSnapshots,
 } = boardAction;
 
+const {
+  getNotes,
+} = notesAction;
+
 const AppContainer = () => {
-  const { loading, user, error } = useSelector(userSelector.all);
+  const { user } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
   const notes = useSelector((state) => state.NOTES);
   const dispatch = useDispatch();
@@ -41,11 +48,7 @@ const AppContainer = () => {
   };
 
   const handleLeaveBoard = async () => {
-    if (!board) {
-      routePage('/');
-      return;
-    }
-
+    if (!board) return routePage('/');
     dispatch(leaveBoard({ boardId: board._id, userId: user._id }));
     routePage('/');
   };
@@ -57,6 +60,9 @@ const AppContainer = () => {
     // TODO: Try - catch
     await api.post(`/board/${boardId}/invite`, { email });
   };
+  const showPreviousNotes = (noteList) => dispatch(getNotes(noteList));
+  const storeCurrentNoteList = (notes) => dispatch(storeCurrentNotes(notes));
+  const deleteLaterSnapshots = (boardId, index) => dispatch(deleteSnapshots(boardId, index));
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -79,6 +85,9 @@ const AppContainer = () => {
       routePage={routePage}
       handleLeaveBoard={handleLeaveBoard}
       updateBoard={updateBoardItem}
+      showPreviousNotes={showPreviousNotes}
+      storeCurrentNoteList={storeCurrentNoteList}
+      deleteLaterSnapshots={deleteLaterSnapshots}
     >
       <Switch>
         <Route exact path='/'>

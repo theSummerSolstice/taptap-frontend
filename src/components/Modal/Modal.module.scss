@@ -1,6 +1,6 @@
 @import '../../styles/theme.module.scss';
 
-.container {
+.headerModal {
   position: fixed;
   top: 0;
   left: 0;
@@ -19,5 +19,28 @@
     border: 1px solid $black;
     padding: 10px;
     background-color: $white;
+  }
+}
+
+.alertModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .modalOverlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .modalContents {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: $white;
+    border: 1px solid $black;
+    z-index: 999;
   }
 }

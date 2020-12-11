@@ -17,6 +17,7 @@ const BoardCanvas = ({
     owner: user.username,
     position: { x: null, y: null },
     contents: '',
+    category: 'unsorted',
   };
 
   const [isWriting, setIsWriting] = useState(false);
