@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import cloneDeep from 'lodash';
 
 const initialState = [];
 
@@ -11,46 +10,23 @@ const reducers = {
     state.push(payload);
   },
   deleteNote: (state, { payload }) => {
-    return state.filter((state) => {
-      return state._id !== payload;
+    return state.filter((note) => {
+      return note._id !== payload;
     });
   },
   updateNotePosition: (state, { payload }) => {
-    const clone = cloneDeep(state.map((item) => {
-      if (item._id === payload.noteId) {
+    return state.map((note) => {
+      if (note._id === payload.noteId) {
         return {
-          ...item,
-          position: payload.position,
+          ...note,
+          position: {
+            ...payload.position,
+          },
         };
       }
-      return item;
-    }));
-
-    return clone.value();
+      return note;
+    });
   },
-  // updateNotePosition: (state, { payload }) => {
-  //   return state.map((state) => {
-  //     if (state._id === payload.noteId) {
-  //       return {
-  //         ...state,
-  //         position: Object.assign({}, payload.position),
-  //       };
-  //     }
-  //     return state;
-  //   });
-  // },
-  // updateNotePosition: (state, { payload }) => {
-  //   return state.map((item) => {
-  //     if (item._id === payload.noteId) {
-  //       return {
-  //         ...state,
-  //        _id: item._id+item._id,
-  //         position: payload.position,
-  //       };
-  //     }
-  //     return item;
-  //   });
-  // },
   resetNotes: (state) => {
     return [];
   },

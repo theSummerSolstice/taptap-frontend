@@ -36,7 +36,6 @@ function* initUserSaga () {
     localStorage.setItem('token', token);
     yield put(initUserSuccess(user));
 
-    //TODO: Route 처리 추후 분리 처리
     if (hasBoardId) {
       const history = yield getContext('history');
       history.push(`/board/${hasBoardId}`);

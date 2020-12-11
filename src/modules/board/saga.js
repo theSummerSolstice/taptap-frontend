@@ -73,15 +73,11 @@ function* getBoardSaga ({ payload }) {
   try {
     const { board } = yield call(api.get, `/board/${boardId}`);
 
-    // FIXME: 제발.. 정리해줘 ㅠ.ㅠ
-    if (board.owner === user._id || board.authorizedUsers.indexOf(user.email) !== -1) {
-      if (board.owner !== user._id) {
-        yield put(updateAuthorizedBoards(board));
-      }
+    if (board.owner !== user._id && board.authorizedUsers.indexOf(user.email) === -1) {
+      yield put(changeAuthState('READ'));
+    } else {
       yield call(boardSocket.joinUser, { boardId, user });
       yield put(changeAuthState('EDIT'));
-    } else {
-      yield put(changeAuthState('READ'));
     }
 
     yield put(getBoardSuccess(board));
