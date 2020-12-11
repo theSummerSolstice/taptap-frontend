@@ -54,6 +54,30 @@ const reducers = {
   updateUserList: (state, { payload }) => {
     state.board = payload;
   },
+  updateSnapshots: (state, { payload }) => {
+    state.loading = false;
+    state.board[payload.updatedItem].push(payload.data);
+  },
+  storeCurrentNotes: (state, { payload }) => {
+    state.board.currentNotes = payload;
+  },
+  deleteSnapshots: (state) => {
+    state.loading = true;
+  },
+  deleteSnapshotsSuccess: (state, { payload }) => {
+    return {
+      ...state,
+      loading: false,
+      board: {
+        ...state.board,
+        snapshots: state.board.snapshots.slice(0, payload),
+      },
+    };
+  },
+  deleteSnapshotsFailure: (state, { payload }) => {
+    state.loading = false;
+    state.error = payload;
+  },
 };
 
 const name = 'BOARD';

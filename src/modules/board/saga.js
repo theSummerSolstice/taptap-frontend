@@ -13,6 +13,7 @@ const {
   createBoardFailure,
   updateBoard,
   updateBoardSuccess,
+  updateSnapshots,
   updateBoardFailure,
   getBoard,
   getBoardSuccess,
@@ -20,12 +21,14 @@ const {
   leaveBoard,
   leaveBoardSuccess,
   leaveBoardFailure,
+  deleteSnapshots,
+  deleteSnapshotsSuccess,
+  deleteSnapshotsFailure,
 } = boardAction;
 
 const {
   updateMyBoards,
   changeAuthState,
-  updateAuthorizedBoards,
 } = userAction;
 
 const {
@@ -61,7 +64,12 @@ function* updateBoardSaga ({ payload }) {
 
   try {
     yield call(api.put, `/board/${boardId}`, { data, updatedItem });
-    yield put(updateBoardSuccess({ data, updatedItem }));
+
+    if (typeof data === 'string') {
+      yield put(updateBoardSuccess({ data, updatedItem }));
+    } else {
+      yield put(updateSnapshots({ data, updatedItem }));
+    }
   } catch (error) {
     yield put(updateBoardFailure(error));
   }
@@ -106,6 +114,17 @@ function* leaveBoardSaga ({ payload }) {
   }
 }
 
+function* deleteSnapshotsSaga ({ payload }) {
+  const { boardId, index } = payload;
+
+  try {
+    yield call(api.delete, `/board/${boardId}/snapshots`, { index });
+    yield put(deleteSnapshotsSuccess(index));
+  } catch (error) {
+    yield put(deleteSnapshotsFailure(error));
+  }
+}
+
 export function* watchGoToBoard () {
   yield takeLatest(goToBoard, goToBoardSaga);
 }
@@ -126,6 +145,10 @@ export function* watchLeaveBoard () {
   yield takeLatest(leaveBoard, leaveBoardSaga);
 }
 
+export function* watchDeleteSnapshots () {
+  yield takeLatest(deleteSnapshots, deleteSnapshotsSaga);
+}
+
 export function* boardSagas () {
   yield all([
     call(watchGoToBoard),
@@ -133,5 +156,6 @@ export function* boardSagas () {
     call(watchUpdateBoard),
     call(watchGetBoard),
     call(watchLeaveBoard),
+    call(watchDeleteSnapshots),
   ]);
 }

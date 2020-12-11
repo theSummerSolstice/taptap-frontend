@@ -3,6 +3,8 @@ import styles from './Header.module.scss';
 import Modal from '../Modal';
 import ModalPortal from '../ModalPortal';
 import ModalUser from '../ModalUser';
+import ModalHistory from '../ModalHistory';
+import { LoginHeader, MainHeader, BoardHeader, ShareHeader } from '../SubHeader';
 
 const Header = ({
   user,
@@ -13,9 +15,37 @@ const Header = ({
   routePage,
   handleLeaveBoard,
   updateBoard,
+  showPreviousNotes,
+  storeCurrentNoteList,
+  deleteLaterSnapshots,
   children
 }) => {
-  const [isModalShowing, setIsModalShowing] = useState(false);
+  const [isUserModalShowing, setIsUserModalShowing] = useState(false);
+  const [isHistoryModalShowing, setIsHistoryModalShowing] = useState(false);
+
+  const handleUserModal = () => setIsUserModalShowing(!isUserModalShowing);
+  const handleHistoryModal = () => {
+    setIsHistoryModalShowing(!isHistoryModalShowing);
+    storeCurrentNoteList(notes);
+  };
+
+  const handleSnapshot = () => {
+    updateBoard({
+      data: { notes },
+      boardId: board._id,
+      updatedItem: 'snapshots',
+    });
+  };
+
+  const navigatePage = ({ target }) => {
+    setIsUserModalShowing(!isUserModalShowing);
+    routePage(target.value);
+  };
+
+  const handleLogout = () => {
+    setIsUserModalShowing(!isUserModalShowing);
+    onLogout();
+  };
 
   const renderHeader = () => {
     if (!board) {
@@ -26,24 +56,11 @@ const Header = ({
       ? <ShareHeader />
       : <BoardHeader
           userId={user._id}
-          board={board}
+          boardOwner={board.owner}
           notes={notes}
-          updateBoard={updateBoard}
+          handleSnapshot={handleSnapshot}
+          handleHistoryModal={handleHistoryModal}
         />;
-  };
-
-  const handleModalShowing = () => {
-    setIsModalShowing(!isModalShowing);
-  };
-
-  const navigatePage = ({ target }) => {
-    setIsModalShowing(!isModalShowing);
-    routePage(target.value);
-  };
-
-  const handleLogout = () => {
-    setIsModalShowing(!isModalShowing);
-    onLogout();
   };
 
   return (
@@ -55,7 +72,7 @@ const Header = ({
             ? <LoginHeader onLogin={onLogin} />
             : <div className={styles.buttonContainer}>
                 { renderHeader() }
-                <img src={user.imageSrc} alt='user profile' onClick={handleModalShowing} />
+                <img src={user.imageSrc} alt='user profile' onClick={handleUserModal} />
               </div>
         }
       </div>
@@ -63,9 +80,9 @@ const Header = ({
         { children }
       </div>
       {
-        isModalShowing &&
+        isUserModalShowing &&
         <ModalPortal>
-          <Modal onClick={handleModalShowing}>
+          <Modal onClick={handleUserModal} className='headerModal'>
             <ModalUser
               username={user.username}
               onLogout={handleLogout}
@@ -74,52 +91,21 @@ const Header = ({
           </Modal>
         </ModalPortal>
       }
-    </>
-  );
-};
-
-const LoginHeader = ({ onLogin }) => {
-  return (
-    <button onClick={onLogin}>Login</button>
-  );
-};
-
-const MainHeader = ({ routePage }) => {
-  return (
-    <button onClick={() => routePage('/board/new')}>New taptap</button>
-  );
-};
-
-const BoardHeader = ({ userId, board, notes, updateBoard }) => {
-  const isOwner = userId === board.owner;
-
-  // TODO: 여기 데이터가 필요 없는거라면 위에서 처리하고 실행만 여기서 하는게 맞지 않을까?
-  const handleSnapshot = () => {
-    updateBoard({
-      data: { notes },
-      boardId: board._id,
-      updatedItem: 'snapshots',
-    });
-  };
-
-  return (
-    <>
       {
-        isOwner &&
-          <>
-            <button onClick={handleSnapshot}>Snapshot</button>
-            <button>History mode</button>
-          </>
+        isHistoryModalShowing &&
+        <ModalPortal>
+          <Modal className='headerModal'>
+            <ModalHistory
+              boardId={board._id}
+              snapshots={board.snapshots}
+              showPreviousNotes={showPreviousNotes}
+              setIsHistoryModalShowing={setIsHistoryModalShowing}
+              currentNotes={board.currentNotes}
+              deleteLaterSnapshots={deleteLaterSnapshots}
+            />
+          </Modal>
+        </ModalPortal>
       }
-    </>
-  );
-};
-
-const ShareHeader = () => {
-  return (
-    <>
-      <button>Download</button>
-      <button>Link</button>
     </>
   );
 };
