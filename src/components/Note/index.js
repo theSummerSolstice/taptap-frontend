@@ -24,6 +24,7 @@ const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => 
       disabled={auth === 'READ'}
     >
       <div
+        style={{ backgroundImage: note.color }}
         className={styles.note}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
