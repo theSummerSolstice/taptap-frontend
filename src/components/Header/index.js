@@ -1,22 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Header.module.scss';
-import Modal from '../Modal';
-import ModalPortal from '../ModalPortal';
-import ModalUser from '../ModalUser';
+import { LoginHeader, MainHeader, BoardHeader, ShareHeader } from '../SubHeader';
 
 const Header = ({
   user,
   board,
-  notes,
   onLogin,
-  onLogout,
   routePage,
+  handleSnapshot,
+  handleUserModal,
+  handleHistoryModeOn,
   handleLeaveBoard,
-  updateBoard,
-  children
+  children,
 }) => {
-  const [isModalShowing, setIsModalShowing] = useState(false);
-
   const renderHeader = () => {
     if (!board) {
       return <MainHeader routePage={routePage} />;
@@ -25,25 +21,10 @@ const Header = ({
     return board.isCategorized
       ? <ShareHeader />
       : <BoardHeader
-          userId={user._id}
-          board={board}
-          notes={notes}
-          updateBoard={updateBoard}
+          isOwner={user._id === board.owner}
+          handleSnapshot={handleSnapshot}
+          handleHistoryModeOn={handleHistoryModeOn}
         />;
-  };
-
-  const handleModalShowing = () => {
-    setIsModalShowing(!isModalShowing);
-  };
-
-  const navigatePage = ({ target }) => {
-    setIsModalShowing(!isModalShowing);
-    routePage(target.value);
-  };
-
-  const handleLogout = () => {
-    setIsModalShowing(!isModalShowing);
-    onLogout();
   };
 
   return (
@@ -55,71 +36,13 @@ const Header = ({
             ? <LoginHeader onLogin={onLogin} />
             : <div className={styles.buttonContainer}>
                 { renderHeader() }
-                <img src={user.imageSrc} alt='user profile' onClick={handleModalShowing} />
+                <img src={user.imageSrc} alt='user profile' onClick={handleUserModal} />
               </div>
         }
       </div>
       <div className={styles.children}>
-        { children }
+        {children}
       </div>
-      {
-        isModalShowing &&
-        <ModalPortal>
-          <Modal onClick={handleModalShowing}>
-            <ModalUser
-              username={user.username}
-              onLogout={handleLogout}
-              navigatePage={navigatePage}
-            />
-          </Modal>
-        </ModalPortal>
-      }
-    </>
-  );
-};
-
-const LoginHeader = ({ onLogin }) => {
-  return (
-    <button onClick={onLogin}>Login</button>
-  );
-};
-
-const MainHeader = ({ routePage }) => {
-  return (
-    <button onClick={() => routePage('/board/new')}>New taptap</button>
-  );
-};
-
-const BoardHeader = ({ userId, board, notes, updateBoard }) => {
-  const isOwner = userId === board.owner;
-
-  // TODO: 여기 데이터가 필요 없는거라면 위에서 처리하고 실행만 여기서 하는게 맞지 않을까?
-  const handleSnapshot = () => {
-    updateBoard({
-      data: { notes },
-      boardId: board._id,
-      updatedItem: 'snapshots',
-    });
-  };
-
-  return (
-    <>
-      {
-        isOwner &&
-          <>
-            <button onClick={handleSnapshot}>Snapshot</button>
-            <button>History mode</button>
-          </>
-      }
-    </>
-  );
-};
-
-const ShareHeader = () => {
-  return (
-    <>
-      <button>Download</button>
-      <button>Link</button>
     </>
   );
 };

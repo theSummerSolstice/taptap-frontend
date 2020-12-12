@@ -29,7 +29,7 @@ const BoardContainer = ({ handleLeaveBoard }) => {
 
     localStorage.removeItem('boardId');
     dispatch(getBoard({ boardId: board_id, user }));
-  }, []);
+  }, [user]);
 
   if (!board) {
     return <div>Loading...</div>;

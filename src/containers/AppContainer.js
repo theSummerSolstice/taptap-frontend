@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { userAction, userSelector } from '../modules/user/slice';
 import { boardAction, boardSelector } from '../modules/board/slice';
 
+import HeaderContainer from './HeaderContainer';
 import BoardContainer from './BoardContainer';
-import Header from '../components/Header';
 import IntroPage from '../components/IntroPage';
 import MainPage from '../components/MainPage';
 import ListPage from '../components/ListPage';
@@ -15,7 +15,6 @@ import api from '../utils/api';
 
 const {
   initUser,
-  logoutUser,
   deleteMyBoards,
 } = userAction;
 
@@ -26,36 +25,27 @@ const {
 } = boardAction;
 
 const AppContainer = () => {
-  const { loading, user, error } = useSelector(userSelector.all);
+  const { user } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
-  const notes = useSelector((state) => state.NOTES);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
 
   const routePage = (route) => history.push(route);
   const handleLogin = () => dispatch(initUser({ token: null }));
-  const handleLogout = () => {
-    dispatch(logoutUser());
-    routePage('/');
-  };
-
-  const handleLeaveBoard = async () => {
-    if (!board) {
-      routePage('/');
-      return;
-    }
-
-    dispatch(leaveBoard({ boardId: board._id, userId: user._id }));
-    routePage('/');
-  };
-
   const createNewBoard = (boardInfo) => dispatch(createBoard(boardInfo));
   const deleteBoard = (boardId) => dispatch(deleteMyBoards(boardId));
   const updateBoardItem = (data) => dispatch(updateBoard(data));
+
   const sendInviteMail = async (email, boardId) => {
-    // TODO: Try - catch
     await api.post(`/board/${boardId}/invite`, { email });
+  };
+
+  const handleLeaveBoard = () => {
+    if (!board) return routePage('/');
+
+    dispatch(leaveBoard({ boardId: board._id, userId: user._id }));
+    routePage('/');
   };
 
   useEffect(() => {
@@ -70,15 +60,11 @@ const AppContainer = () => {
   }, []);
 
   return (
-    <Header
-      user={user}
-      board={board}
-      notes={notes}
+    <HeaderContainer
       onLogin={handleLogin}
-      onLogout={handleLogout}
       routePage={routePage}
-      handleLeaveBoard={handleLeaveBoard}
       updateBoard={updateBoardItem}
+      handleLeaveBoard={handleLeaveBoard}
     >
       <Switch>
         <Route exact path='/'>
@@ -126,7 +112,7 @@ const AppContainer = () => {
         </Route>
         <Redirect to='/'/>
       </Switch>
-    </Header>
+    </HeaderContainer>
   );
 };
 

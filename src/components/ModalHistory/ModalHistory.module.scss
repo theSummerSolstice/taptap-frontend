@@ -1,0 +1,58 @@
+@import '../../styles/theme.module.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+
+    h3 {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .timeTravel {
+    display: flex;
+    flex-direction: column;
+
+    .versionContainer {
+      height: 100px;
+      border: 1px solid $black;
+      overflow-y: scroll;
+
+      .version {
+        display: flex;
+        justify-content: space-between;
+        font-size: $font-size-1;
+      }
+    }
+
+    .controller {
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.modalContents {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+  }
+}
