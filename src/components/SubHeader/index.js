@@ -13,20 +13,17 @@ export const MainHeader = ({ routePage }) => {
 };
 
 export const BoardHeader = ({
-  userId,
-  boardOwner,
+  isOwner,
   handleSnapshot,
-  handleHistoryModal
+  handleHistoryModeOn
 }) => {
-  const isOwner = userId === boardOwner;
-
   return (
     <>
       {
         isOwner &&
           <>
             <button onClick={handleSnapshot}>Snapshot</button>
-            <button onClick={handleHistoryModal}>History mode</button>
+            <button onClick={handleHistoryModeOn}>History mode</button>
           </>
       }
     </>
