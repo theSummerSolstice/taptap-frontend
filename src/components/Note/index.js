@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from './Note.module.scss';
 import Draggable from 'react-draggable';
+import Button from '../Button';
+import { FaTrashAlt } from 'react-icons/fa';
 
 const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => {
   const [isButtonShowing, setIsButtonShowing] = useState(false);
@@ -32,9 +34,11 @@ const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => 
         <span>{note.contents}</span>
         {
           isButtonShowing && auth === 'EDIT' &&
-          <button className={styles.deleteButton} onClick={handleDelete}>Delete</button>
+          <Button className='circleButton' onClick={handleDelete}>
+            <FaTrashAlt size='1em' />
+          </Button>
         }
-        <span>{user.username}</span>
+        <span className={styles.username}>{user.username}</span>
       </div>
     </Draggable>
   );

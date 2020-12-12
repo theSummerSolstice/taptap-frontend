@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionItem from '../SectionItem';
 import styles from './Section.module.scss';
+import Button from '../Button';
 
 const Section = ({ title, list, routePage }) => {
   const handleMoreButton = () => {
@@ -13,7 +14,7 @@ const Section = ({ title, list, routePage }) => {
     <section className={styles.container}>
       <div className={styles.title}>
         <h3>{title}</h3>
-        <button onClick={handleMoreButton}>more</button>
+        <Button className='moreButton' onClick={handleMoreButton} text='more' />
       </div>
       <div className={styles.contents}>
         {

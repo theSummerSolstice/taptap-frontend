@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './InviteForm.module.scss';
 import { useParams } from 'react-router-dom';
 import { validateEmail } from '../../utils/validation';
+import Button from '../Button';
 
 const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
   const { board_id } = useParams();
@@ -52,33 +53,37 @@ const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
 
   return (
     <div className={styles.container}>
-      <h4>Invite (up to 3 people)</h4>
-      <div className={styles.emailInput}>
-        <input
-          type='text'
-          name='email'
-          value={email}
-          placeholder='Enter email'
-          onChange={handleEmailChange}
-        />
-        <button onClick={handleSendInviteButton}>Send invite</button>
-      </div>
-      <p>{validationMessage}</p>
-      <div className={styles.email}>
-        <span>{user.email}</span>
-        <span>admin</span>
-      </div>
-      {
-        emailList.map((item, index) => (
-          <div className={styles.email} key={index}>
-            <span>{item}</span>
-            <button id={index} onClick={handleDeleteButton}>Delete</button>
+      <div className={styles.wrapper}>
+        <h4>Invite (up to 3 people)</h4>
+        <div className={styles.emailInput}>
+          <input
+            type='text'
+            name='email'
+            value={email}
+            placeholder='Enter email'
+            onChange={handleEmailChange}
+          />
+          <Button className='defaultButton' onClick={handleSendInviteButton} text='Invite' />
+        </div>
+        <p className={styles.validationMessage}>{validationMessage}</p>
+        <div className={styles.emailContainer}>
+          <div className={styles.email}>
+            <span>{user.email}</span>
+            <span className={styles.adminLabel}>Admin</span>
           </div>
-        ))
-      }
-      <div className={styles.buttonContainer}>
-        <button onClick={handleConfirmButton}>Confirm</button>
-        <button onClick={handleSkipButton}>Skip</button>
+          {
+            emailList.map((item, index) => (
+              <div className={styles.email} key={index}>
+                <span>{item}</span>
+                <Button id={index} className='moreButton' onClick={handleDeleteButton} text='Delete' />
+              </div>
+            ))
+          }
+        </div>
+        <div className={styles.buttonContainer}>
+          <Button className='defaultButton' onClick={handleConfirmButton} text='Confirm' />
+          <Button className='defaultButton' onClick={handleSkipButton} text='Skip' />
+        </div>
       </div>
     </div>
   );

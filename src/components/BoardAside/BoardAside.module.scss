@@ -1,5 +1,67 @@
 @import '../../styles/theme.module.scss';
 
 .container {
-  border: 1px solid $black;
+  box-shadow: $shadow-3;
+  z-index: 2;
+
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .projectName {
+    margin-top: 15px;
+    padding: 0 20px;
+
+    h3 {
+      margin-bottom: 10px;
+      font-weight: 500;
+      font-size: $font-size-1;
+      letter-spacing: 0.5px;
+    }
+
+    h2 {
+      color: $main-color;
+      font-size: $font-size-3;
+    }
+  }
+
+  .participants {
+    margin-top: 40px;
+
+    h3 {
+      margin-bottom: 10px;
+      padding: 0 20px;
+      font-size: $font-size-1;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .userContainer {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 20px;
+      border-top: 1px solid $gray;
+      background-color: $base-color;
+
+      span {
+        display: inline-block;
+        font-size: $font-size-0;
+      }
+
+      span:nth-child(2) {
+        padding: 0 5px;
+        border-radius: 15px;
+        background-color: $main-color;
+        color: $white;
+        text-transform: uppercase;
+      }
+    }
+
+    .userContainer:last-child {
+      border-bottom: 1px solid $gray;
+    }
+  }
 }
