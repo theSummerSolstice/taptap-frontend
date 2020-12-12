@@ -3,6 +3,7 @@ import Draggable from 'react-draggable';
 import Note from '../Note';
 import styles from './BoardCanvas.module.scss';
 import PhaseDescription from '../PhaseDescription';
+import { COLORS } from '../../constants/colors';
 
 const BoardCanvas = ({
   boardId,
@@ -18,6 +19,7 @@ const BoardCanvas = ({
     position: { x: null, y: null },
     contents: '',
     category: 'unsorted',
+    color: COLORS[Math.floor(Math.random() * COLORS.length)],
   };
 
   const [isWriting, setIsWriting] = useState(false);

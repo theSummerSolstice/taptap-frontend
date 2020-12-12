@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './SectionItem.module.scss';
 import LazyImage from '../LazyImage';
+import { changeDateFormat } from '../../utils/date';
 
 const SectionItem = ({
   id,
@@ -49,7 +50,7 @@ const SectionItem = ({
         <LazyImage src={src} />
         <div className={styles.projectDetails}>
           <h4>{name}</h4>
-          <p>Last updated at {lastUpdate}</p>
+          <p>Last updated at {changeDateFormat(lastUpdate)}</p>
         </div>
       </div>
     </>
