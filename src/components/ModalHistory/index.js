@@ -2,6 +2,9 @@ import React from 'react';
 import styles from './ModalHistory.module.scss';
 import ModalPortal from '../ModalPortal';
 import Modal from '../Modal';
+import Button from '../Button';
+import { changeDateFormat } from '../../utils/date';
+import { RiArrowDropLeftLine, RiArrowDropRightLine } from 'react-icons/ri';
 
 const ModalHistory = ({
   snapshots,
@@ -17,7 +20,7 @@ const ModalHistory = ({
       <div className={styles.container}>
         <div className={styles.title}>
           <h3>History select</h3>
-          <button onClick={handleHistoryModeOff}>Cancel</button>
+          <Button className='defaultButton' onClick={handleHistoryModeOff} text='Cancel' />
         </div>
         <div className={styles.timeTravel}>
           <div className={styles.versionContainer}>
@@ -35,16 +38,20 @@ const ModalHistory = ({
                         : `Version ${index + 1}`
                     }
                   </span>
-                  <span>{snapshot.updatedAt}</span>
+                  <span>{changeDateFormat(snapshot?.updatedAt)}</span>
                 </div>
               )).reverse()
             }
           </div>
           <div className={styles.controller}>
-            <button onClick={handleVersionController} value='prev'>Prev</button>
-            <button onClick={handleVersionController} value='next'>Next</button>
+            <Button className='defaultButton' value='prev' onClick={handleVersionController}>
+              <RiArrowDropLeftLine size='4em' />
+            </Button>
+            <Button className='defaultButton' value='next' onClick={handleVersionController}>
+              <RiArrowDropRightLine size='4em' />
+            </Button>
+            <Button className='defaultButton' onClick={handleAlertModal} text='Return' />
           </div>
-          <button onClick={handleAlertModal}>Return</button>
         </div>
       </div>
       {
@@ -58,8 +65,8 @@ const ModalHistory = ({
                 all histories after this snapshot will be deleted.
               </p>
               <div className={styles.buttonContainer}>
-                <button onClick={confirmDeleteSnapshots}>Confirm</button>
-                <button onClick={handleAlertModal}>Cancel</button>
+                <Button className='defaultButton' onClick={confirmDeleteSnapshots} text='Confirm' />
+                <Button className='defaultButton' onClick={handleAlertModal} text='Cancel' />
               </div>
             </div>
           </Modal>

@@ -6,6 +6,7 @@ import { boardAction, boardSelector } from '../modules/board/slice';
 
 import queryString from 'query-string';
 import Board from '../components/Board';
+import Loader from '../components/Loader';
 
 const {
   getBoard,
@@ -28,11 +29,15 @@ const BoardContainer = ({ handleLeaveBoard }) => {
     }
 
     localStorage.removeItem('boardId');
-    dispatch(getBoard({ boardId: board_id, user }));
+    const timerId = setTimeout(() => {
+      dispatch(getBoard({ boardId: board_id, user }));
+    }, 2000);
+
+    return () => clearTimeout(timerId);
   }, [user]);
 
-  if (!board) {
-    return <div>Loading...</div>;
+  if (!board || loading) {
+    return <Loader />;
   }
 
   return (

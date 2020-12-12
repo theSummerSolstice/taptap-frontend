@@ -1,14 +1,15 @@
 import React from 'react';
+import Button from '../Button';
 
 export const LoginHeader = ({ onLogin }) => {
   return (
-    <button onClick={onLogin}>Login</button>
+    <Button className='defaultButton' onClick={onLogin} text='Login' />
   );
 };
 
 export const MainHeader = ({ routePage }) => {
   return (
-    <button onClick={() => routePage('/board/new')}>New taptap</button>
+    <Button className='defaultButton' onClick={() => routePage('/board/new')} text='New taptap' />
   );
 };
 
@@ -22,8 +23,8 @@ export const BoardHeader = ({
       {
         isOwner &&
           <>
-            <button onClick={handleSnapshot}>Snapshot</button>
-            <button onClick={handleHistoryModeOn}>History mode</button>
+            <Button className='defaultButton' onClick={handleSnapshot} text='Snapshot' />
+            <Button className='defaultButton' onClick={handleHistoryModeOn} text='History mode' />
           </>
       }
     </>

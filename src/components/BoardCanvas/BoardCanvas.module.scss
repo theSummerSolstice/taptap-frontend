@@ -1,20 +1,40 @@
 @import '../../styles/theme.module.scss';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
 
 .container {
   position: relative;
-  border: 1px solid $black;
-  background-color: $main-color;
+  background-color: $light-blue;
 
   .note {
     position: absolute;
     display: flex;
     flex-direction: column;
-    border: 1px solid $black;
     z-index: 999;
 
     .noteInput {
       width: 120px;
       height: 120px;
+      padding: 5px;
+      border: 1px solid $gray;
+      resize: none;
+      outline: none;
+      font-size: $font-size-1;
+      font-family: 'Open Sans';
+      transition: transform .2s ease-in-out;
+      box-shadow: $shadow-1;
+
+      &:focus {
+        transform: scale(1.5);
+      }
+    }
+
+    button {
+      position: absolute;
+      top: 90%;
+      left: 50%;
+      margin: 0;
+      padding: 5px 10px;
+      transform: translateX(-50%);
     }
   }
 }

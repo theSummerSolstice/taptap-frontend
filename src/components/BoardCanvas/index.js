@@ -3,6 +3,7 @@ import Draggable from 'react-draggable';
 import Note from '../Note';
 import styles from './BoardCanvas.module.scss';
 import PhaseDescription from '../PhaseDescription';
+import Button from '../Button';
 import { COLORS } from '../../constants/colors';
 
 const BoardCanvas = ({
@@ -68,7 +69,6 @@ const BoardCanvas = ({
         auth === 'EDIT' &&
         <PhaseDescription
           description='Put all the thoughts in stick notes, then CATEGORIZE!'
-          buttonText='Categorize'
           onClick={() => console.log('categorize')}
         />
       }
@@ -81,15 +81,15 @@ const BoardCanvas = ({
         >
           <form className={styles.note}>
             <textarea
+              className={styles.noteInput}
               type='text'
               name='contents'
-              className={styles.noteInput}
-              placeholder='Write only one thought'
+              placeholder='Write only one thought 📌'
               value={note.contents}
               onChange={handleInputChange}
-              maxLength={100}
+              maxLength={50}
             />
-            <button className={styles.confirmButton} onClick={handleConfirm}>Confirm</button>
+            <Button className='defaultButton' onClick={handleConfirm} text='Confirm' />
           </form>
         </Draggable>
       }

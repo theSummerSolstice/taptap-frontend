@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import styles from './SectionItem.module.scss';
 import LazyImage from '../LazyImage';
+import Button from '../Button';
 import { changeDateFormat } from '../../utils/date';
+import { FaTrashAlt } from 'react-icons/fa';
 
 const SectionItem = ({
   id,
@@ -40,14 +42,11 @@ const SectionItem = ({
       >
         {
           isDeleteButtonShowing &&
-          <button
-            className={styles.deleteButton}
-            onClick={handleDeleteButton}
-          >
-            Delete
-          </button>
+          <Button className='circleButton' onClick={handleDeleteButton}>
+            <FaTrashAlt size='1.3em' />
+          </Button>
         }
-        <LazyImage src={src} />
+        <LazyImage className={styles.boardImage} src={src} />
         <div className={styles.projectDetails}>
           <h4>{name}</h4>
           <p>Last updated at {changeDateFormat(lastUpdate)}</p>

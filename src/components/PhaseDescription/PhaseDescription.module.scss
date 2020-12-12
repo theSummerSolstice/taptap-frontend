@@ -4,4 +4,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 20px;
+
+  p {
+    font-size: $font-size-2;
+    font-family: $font-fugaz;
+  }
+
+  button {
+    background-color: $main-color;
+  }
 }

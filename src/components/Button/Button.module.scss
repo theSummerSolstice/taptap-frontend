@@ -1,0 +1,83 @@
+@import '../../styles/theme.module.scss';
+
+.defaultButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 3px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: $main-color;
+  color: $white;
+  text-transform: uppercase;
+  font-size: $font-size-0;
+  box-shadow: $shadow-1;
+  letter-spacing: 1.5px;
+  transition-duration: 0.3s;
+  transition-property: transform;
+  transform: translateZ(0);
+
+  &:hover {
+    transform: translateY(-1.5px);
+  }
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  font-size: $font-size-1;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.moreButton {
+  height: $font-size-2;
+  border: 1.5px solid $main-color;
+  border-radius: 5px;
+  background-color: transparent;
+  color: $main-color;
+  font-size: $font-size-0;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+
+.circleButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background-color: $white;
+  color: $main-color;
+  text-align: center;
+  line-height: 0.5em;
+  box-shadow: $shadow-1;
+
+  &:hover {
+    background-color: $main-color;
+    color: $white;
+  }
+}
+
+.modalButton {
+  margin-top: 4px;
+  padding: 15px;
+  border: none;
+  border-bottom: 3px solid $main-color;
+  border-radius: 5px;
+  background-color: $white;
+  color: $main-color;
+  font-size: $font-size-1;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  box-shadow: $shadow-3;
+}
