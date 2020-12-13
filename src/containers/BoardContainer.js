@@ -36,7 +36,7 @@ const BoardContainer = ({ handleLeaveBoard }) => {
     return () => clearTimeout(timerId);
   }, [user]);
 
-  if (!board || loading) {
+  if (!board) {
     return <Loader />;
   }
 
