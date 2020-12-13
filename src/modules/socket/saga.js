@@ -4,12 +4,18 @@ import { take, call, put } from 'redux-saga/effects';
 import { boardAction } from '../board/slice';
 import { notesAction } from '../currentNotes/slice';
 import { toast } from 'react-toastify';
+import { userAction } from '../user/slice';
+
+const {
+  changeAuthState,
+} = userAction;
 
 const {
   updateUserList,
 } = boardAction;
 
 const {
+  getNotes,
   addNote,
   deleteNote,
   updateNotePosition,
@@ -47,11 +53,27 @@ function createSocketChannel (socket) {
       emit(updateNotePosition({ noteId, position }));
     });
 
+    socket.on('historyModeOn', ({ data }) => {
+      emit(changeAuthState(data));
+    });
+
+    socket.on('historyModeOff', ({ data }) => {
+      emit(changeAuthState(data));
+    });
+
+    socket.on('selectVersion', ({ notes }) => {
+      console.log(notes);
+      emit(getNotes(notes));
+    });
+
     return () => {
       socket.off('joinUser');
       socket.off('leaveUser');
       socket.off('addNote');
       socket.off('deleteNote');
+      socket.off('updateNotePosition');
+      socket.off('historyModeOn');
+      socket.off('historyModeOff');
     };
   });
 }
@@ -81,6 +103,15 @@ const boardSocket = {
   },
   deleteNote(data) {
     socket.emit('deleteNote', data);
+  },
+  historyModeOn(data) {
+    socket.emit('historyModeOn', data);
+  },
+  historyModeOff(data) {
+    socket.emit('historyModeOff', data);
+  },
+  selectVersion(data) {
+    socket.emit('selectVersion', data);
   },
 };
 

@@ -29,7 +29,7 @@ const BoardCanvas = ({
   const boardRef = useRef();
 
   const handleDoubleClick = (event) => {
-    if (isWriting || auth === 'READ') return;
+    if (isWriting || auth === 'READ' || auth === 'HISTORY') return;
     setIsDoubleClicked(true);
 
     setNote({
@@ -66,6 +66,10 @@ const BoardCanvas = ({
   return (
     <div id='canvas' onDoubleClick={handleDoubleClick} className={styles.container} ref={boardRef}>
       {
+        auth === 'HISTORY' &&
+        <p className={styles.historyModeMessage}>History mode is on. You cannot edit sticky notes until the mode ends.</p>
+      }
+      {
         auth === 'EDIT' &&
         <PhaseDescription
           description='Put all the thoughts in stick notes, then CATEGORIZE!'
@@ -77,7 +81,7 @@ const BoardCanvas = ({
         <Draggable
           defaultPosition={{ x: note.position.x, y: note.position.y }}
           bounds='parent'
-          disabled={auth === 'READ'}
+          disabled={auth === 'READ' || auth === 'HISTORY'}
         >
           <form className={styles.note}>
             <textarea

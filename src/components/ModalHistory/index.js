@@ -38,7 +38,7 @@ const ModalHistory = ({
                         : `Version ${index + 1}`
                     }
                   </span>
-                  <span>{changeDateFormat(snapshot?.updatedAt)}</span>
+                  <span>{snapshot.updatedAt}</span>
                 </div>
               )).reverse()
             }

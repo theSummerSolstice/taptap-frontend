@@ -23,7 +23,7 @@ const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => 
       defaultPosition={{ x: note.position.x, y: note.position.y }}
       bounds='parent'
       onStop={handleDragNote}
-      disabled={auth === 'READ'}
+      disabled={auth === 'READ' || auth === 'HISTORY'}
     >
       <div
         style={{ backgroundImage: note.color }}

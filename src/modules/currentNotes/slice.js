@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// TODO: drag event -> { notes, isDragged toggle로 변경 }
 const initialState = [];
 
 const reducers = {
