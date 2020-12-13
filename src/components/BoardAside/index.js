@@ -4,14 +4,12 @@ import Button from '../Button';
 import { RiArrowDropLeftLine } from 'react-icons/ri';
 
 const BoardAside = ({
-  userId,
   board,
   auth,
   handleLeaveBoard,
+  handleBackToBoard,
   children
 }) => {
-  const isOwner = userId === board.owner;
-
   return (
     <div className={styles.container}>
       <div className={styles.buttonContainer}>
@@ -19,13 +17,16 @@ const BoardAside = ({
           auth === 'EDIT' &&
           <Button
             className='backButton'
-            onClick={handleLeaveBoard}
+            onClick={
+              board.isCategorized
+                ? handleBackToBoard
+                : handleLeaveBoard
+              }
             text='Back'
           >
             <RiArrowDropLeftLine size='1.5em' />
           </Button>
         }
-        {isOwner && <button>Toggle</button>}
       </div>
       <div className={styles.projectName}>
         <h3>Project name</h3>

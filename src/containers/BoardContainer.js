@@ -10,6 +10,7 @@ import Loader from '../components/Loader';
 
 const {
   getBoard,
+  updateBoardSettings,
 } = boardAction;
 
 const BoardContainer = ({ handleLeaveBoard }) => {
@@ -19,6 +20,10 @@ const BoardContainer = ({ handleLeaveBoard }) => {
   const dispatch = useDispatch();
   const { board_id } = useParams();
   const history = useHistory();
+
+  const handleBackToBoard = () => {
+    dispatch(updateBoardSettings(board.isCategorized));
+  };
 
   useEffect(() => {
     if (!user) {
@@ -49,6 +54,7 @@ const BoardContainer = ({ handleLeaveBoard }) => {
         user={user}
         auth={auth}
         handleLeaveBoard={handleLeaveBoard}
+        handleBackToBoard={handleBackToBoard}
       />
     </div>
   );

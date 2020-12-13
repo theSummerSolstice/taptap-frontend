@@ -78,6 +78,9 @@ const reducers = {
     state.loading = false;
     state.error = payload;
   },
+  updateBoardSettings: (state, { payload }) => {
+    state.board.isCategorized = !payload;
+  },
 };
 
 const name = 'BOARD';
