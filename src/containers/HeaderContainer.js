@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userAction, userSelector } from '../modules/user/slice';
 import { boardSelector, boardAction } from '../modules/board/slice';
 import { notesAction } from '../modules/currentNotes/slice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from '../components/Header';
 import ModalPortal from '../components/ModalPortal';
@@ -64,6 +66,15 @@ const HeaderContainer = ({
       boardId: board._id,
       updatedItem: 'snapshots',
     });
+
+    toast('📸 Snapshot is saved!', {
+      position: 'bottom-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      pauseOnHover: false,
+      closeOnClick: true,
+      progress: undefined,
+      });
   };
 
   const handleHistoryModeOn = () => {
@@ -100,6 +111,7 @@ const HeaderContainer = ({
 
   return (
     <>
+      <ToastContainer />
       <Header
         user={user}
         board={board}

@@ -3,6 +3,8 @@ import { eventChannel } from 'redux-saga';
 import { take, call, put } from 'redux-saga/effects';
 import { boardAction } from '../board/slice';
 import { notesAction } from '../currentNotes/slice';
+import { toast } from 'react-toastify';
+
 const {
   updateUserList,
 } = boardAction;
@@ -19,6 +21,14 @@ function createSocketChannel (socket) {
   return eventChannel((emit) => {
     socket.on('joinUser', ({ board }) => {
       emit(updateUserList(board));
+      toast.info('🥳 Welcome to join! Yeah!', {
+        position: 'bottom-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        pauseOnHover: false,
+        closeOnClick: true,
+        progress: undefined,
+      });
     });
 
     socket.on('leaveUser', ({ board }) => {
