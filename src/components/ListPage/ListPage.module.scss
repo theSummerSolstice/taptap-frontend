@@ -3,7 +3,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
   min-height: calc(100vh - 50px);
   padding: 10px 20px 30px;
   background-color: $base-color;
@@ -15,6 +14,15 @@
     font-family: $font-fugaz;
     margin-right: 5px;
     font-size: $font-size-2;
+  }
+
+  .noItem {
+    display: flex;
+    justify-content: center;
+    padding-top: 20vh;
+    font-size: $font-size-5;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   .itemList {

@@ -19,7 +19,9 @@ const Section = ({ title, list, routePage }) => {
       <div className={styles.contents}>
         {
           !list.length
-            ? <div>No taptap</div>
+            ? <div className={styles.noItem}>
+                😮 No taptap
+              </div>
             : <div className={styles.itemList}>
                 {
                   list.map((item) => (
