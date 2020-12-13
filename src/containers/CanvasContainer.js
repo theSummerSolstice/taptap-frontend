@@ -23,7 +23,8 @@ const CanvasContainer = () => {
   };
 
   const handleCategorize = () => {
-    dispatch(updateBoardSettings(board.isCategorized));
+    dispatch(updateBoardSettings(true));
+    boardSocket.startCategorize({ boardId: board._id });
   };
 
   return (

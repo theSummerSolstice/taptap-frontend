@@ -22,7 +22,7 @@ const BoardContainer = ({ handleLeaveBoard }) => {
   const history = useHistory();
 
   const handleBackToBoard = () => {
-    dispatch(updateBoardSettings(board.isCategorized));
+    dispatch(updateBoardSettings(false));
   };
 
   useEffect(() => {

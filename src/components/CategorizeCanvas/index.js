@@ -27,42 +27,33 @@ const CategorizeCanvas = ({ notes }) => {
     return note.category;
   })));
   const categoryLength = initialCategories.length;
-  const [categoryName, setCategoryName] = useState({});
+  const [categoryName, setCategoryName] = useState('');
+  //TODO: Redux로 올려야한다...!
   const [categories, setCategories] = useState(initialCategories);
   const [columns, setColumns] = useState(categoryLength);
   const [layout, setLayout] = useState(generateLayout(columns));
 
-  const handleAdd = () => {
-    setColumns((prev) => prev + 1 > 7 ? prev : prev + 1);
-    setCategories((prev) => {
-      const added = [ ...prev, '' ];
-      return added.length > 7 ? prev : added;
-    });
+  const handleInputChange = ({ target }) => {
+    setCategoryName(target.value);
   };
 
-  const handleDelete = ({ target }) => {
+  const handleAddCategory = () => {
+    setColumns((prev) => prev + 1 > 7 ? prev : prev + 1);
+    setCategories((prev) => {
+      const addedList = [ ...prev, categoryName ];
+      return addedList.length > 7 ? prev : addedList;
+    });
+    setCategoryName('');
+  };
+
+  const handleDeleteCategory = ({ target }) => {
     const { value } = target;
     setColumns((prev) => prev - 1 < 1 ? prev : prev - 1);
     setCategories(() => {
-      const filtered = categories.filter((item, index) => {
-        return value !== String(index);
-      });
-
-      return filtered.length < 1 ? categories : filtered;
+      const deletedList = categories.filter((item, index) => value !== String(index));
+      return deletedList.length < 1 ? categories : deletedList;
     });
-    setCategoryName({
-      ...categoryName,
-      [`category${value}`]: '',
-    });
-  };
-
-  const handleCategoryChange = ({ target }) => {
-    const { value, name } = target;
-
-    setCategoryName({
-      ...categoryName,
-      [name]: value,
-    });
+    setCategoryName('');
   };
 
   useEffect(() => {
@@ -78,9 +69,18 @@ const CategorizeCanvas = ({ notes }) => {
         buttonText='Save'
         onClick={() => console.log('save')}
       />
-      <Button className='circleButton' onClick={handleAdd}>
-        <FaPlus size='1em' />
-      </Button>
+      <div className={styles.inputContainer}>
+        <input
+          type='text'
+          placeholder='Enter category'
+          value={categoryName}
+          onChange={handleInputChange}
+        />
+        <Button className='circleButton' onClick={handleAddCategory}>
+          <FaPlus size='1em' />
+        </Button>
+      </div>
+
       <ResponsiveGridLayout
         className={styles.layout}
         isDraggable={true}
@@ -95,16 +95,10 @@ const CategorizeCanvas = ({ notes }) => {
         {
           categories.map((category, index) => (
             <div className={styles.category} key={index}>
-              <input
-                type='text'
-                placeholder='Enter category'
-                name={`category${index}`}
-                value={categoryName[`category${index}`]}
-                onChange={handleCategoryChange}
-              />
+              <div>{category}</div>
               {
-                index > 0 && index === categories.length - 1 &&
-                <Button className='moreButton' value={index} text='Delete' onClick={handleDelete} />
+                index > 0 &&
+                <Button className='moreButton' value={index} text='Delete' onClick={handleDeleteCategory} />
               }
             </div>
           ))

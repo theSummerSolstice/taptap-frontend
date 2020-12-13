@@ -12,6 +12,7 @@ const {
 
 const {
   updateUserList,
+  updateBoardSettings,
 } = boardAction;
 
 const {
@@ -62,8 +63,11 @@ function createSocketChannel (socket) {
     });
 
     socket.on('selectVersion', ({ notes }) => {
-      console.log(notes);
       emit(getNotes(notes));
+    });
+
+    socket.on('startCategorize', ({ data }) => {
+      emit(updateBoardSettings(data));
     });
 
     return () => {
@@ -74,7 +78,9 @@ function createSocketChannel (socket) {
       socket.off('updateNotePosition');
       socket.off('historyModeOn');
       socket.off('historyModeOff');
-    };
+      socket.off('selectVersion');
+      socket.off('startCategorize');
+    }
   });
 }
 
@@ -112,6 +118,12 @@ const boardSocket = {
   },
   selectVersion(data) {
     socket.emit('selectVersion', data);
+  },
+  startCategorize(data) {
+    socket.emit('startCategorize', data);
+  },
+  addCategory(data) {
+    socket.emit('addCategory', data);
   },
 };
 

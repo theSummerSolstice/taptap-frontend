@@ -79,7 +79,7 @@ const reducers = {
     state.error = payload;
   },
   updateBoardSettings: (state, { payload }) => {
-    state.board.isCategorized = !payload;
+    state.board.isCategorized = payload;
   },
 };
 
