@@ -14,6 +14,7 @@ const BoardCanvas = ({
   addNote,
   deleteNote,
   updateNotePosition,
+  handleCategorize,
 }) => {
   const initialState = {
     owner: user.username,
@@ -73,7 +74,8 @@ const BoardCanvas = ({
         auth === 'EDIT' &&
         <PhaseDescription
           description='Put all the thoughts in stick notes, then CATEGORIZE!'
-          onClick={() => console.log('categorize')}
+          buttonText='Categorize'
+          onClick={handleCategorize}
         />
       }
       {
