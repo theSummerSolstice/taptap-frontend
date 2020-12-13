@@ -11,6 +11,7 @@ import ModalPortal from '../components/ModalPortal';
 import Modal from '../components/Modal';
 import ModalUser from '../components/ModalUser';
 import ModalHistory from '../components/ModalHistory';
+import { boardSocket } from '../modules/socket/saga';
 
 const {
   logoutUser,
@@ -81,32 +82,36 @@ const HeaderContainer = ({
     setSnapshotIndex(board.snapshots.length - 1);
     setIsHistoryModalShowing(!isHistoryModalShowing);
     storeCurrentNoteList(notes);
+    boardSocket.historyModeOn({ boardId: board._id });
   };
 
   const handleHistoryModeOff = () => {
     setIsHistoryModalShowing(!isHistoryModalShowing);
     showPreviousNotes(board.currentNotes);
+    boardSocket.historyModeOff({ boardId: board._id });
   };
 
   const handleVersionClick = (notes, index) => {
     showPreviousNotes(notes);
     setSnapshotIndex(index);
+    boardSocket.selectVersion({ boardId: board._id, notes });
   };
 
   const handleVersionController = ({ target }) => {
     if (target.value === 'prev') {
       setSnapshotIndex((prev) => prev - 1 < 0 ? prev : prev - 1);
-      showPreviousNotes(board.snapshots[snapshotIndex].notes);
     } else {
       setSnapshotIndex((prev) => prev + 1 > board.snapshots.length - 1 ? prev : prev + 1);
-      showPreviousNotes(board.snapshots[snapshotIndex].notes);
     }
+    showPreviousNotes(board.snapshots[snapshotIndex].notes);
+    boardSocket.selectVersion({ boardId: board._id, notes: board.snapshots[snapshotIndex].notes });
   };
 
   const confirmDeleteSnapshots = () => {
     deleteLaterSnapshots({ boardId: board._id, index: snapshotIndex + 1});
     setIsHistoryModalShowing(!isHistoryModalShowing);
     setIsAlertModalShowing(!isAlertModalShowing);
+    boardSocket.historyModeOff({ boardId: board._id });
   };
 
   return (
