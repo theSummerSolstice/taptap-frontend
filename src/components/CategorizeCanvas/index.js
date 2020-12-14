@@ -7,59 +7,30 @@ import { FaPlus } from 'react-icons/fa';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const generateLayout = (number) => {
-  const temp = Array(number).fill({});
-  return temp.map((item, index) => {
-    return {
-      i: String(index),
-      x: index,
-      y: 0,
-      w: 1,
-      h: 0.3,
-      static: true,
-      minW: 1,
-    };
-  });
-};
-
-const CategorizeCanvas = ({ notes }) => {
-  const initialCategories = Array.from(new Set(notes.map((note) => {
-    return note.category;
-  })));
-  const categoryLength = initialCategories.length;
+const CategorizeCanvas = ({
+  notes,
+  categories,
+  columns,
+  layout,
+  handleAddCategory,
+  handleDeleteCategory,
+  handleUpdateLayout,
+ }) => {
   const [categoryName, setCategoryName] = useState('');
-  //TODO: Redux로 올려야한다...!
-  const [categories, setCategories] = useState(initialCategories);
-  const [columns, setColumns] = useState(categoryLength);
-  const [layout, setLayout] = useState(generateLayout(columns));
 
   const handleInputChange = ({ target }) => {
     setCategoryName(target.value);
   };
 
-  const handleAddCategory = () => {
-    setColumns((prev) => prev + 1 > 7 ? prev : prev + 1);
-    setCategories((prev) => {
-      const addedList = [ ...prev, categoryName ];
-      return addedList.length > 7 ? prev : addedList;
-    });
+  const handleAddClick = () => {
+    handleAddCategory(categoryName);
     setCategoryName('');
   };
 
-  const handleDeleteCategory = ({ target }) => {
-    const { value } = target;
-    setColumns((prev) => prev - 1 < 1 ? prev : prev - 1);
-    setCategories(() => {
-      const deletedList = categories.filter((item, index) => value !== String(index));
-      return deletedList.length < 1 ? categories : deletedList;
-    });
+  const handleDeleteClick = ({ target }) => {
+    handleDeleteCategory(target.value);
     setCategoryName('');
   };
-
-  useEffect(() => {
-    const newLayout = generateLayout(columns);
-    setLayout((prev) => newLayout.concat(prev));
-  }, [columns]);
 
   return (
     <div className={styles.container}>
@@ -76,11 +47,10 @@ const CategorizeCanvas = ({ notes }) => {
           value={categoryName}
           onChange={handleInputChange}
         />
-        <Button className='circleButton' onClick={handleAddCategory}>
+        <Button className='circleButton' onClick={handleAddClick}>
           <FaPlus size='1em' />
         </Button>
       </div>
-
       <ResponsiveGridLayout
         className={styles.layout}
         isDraggable={true}
@@ -90,7 +60,7 @@ const CategorizeCanvas = ({ notes }) => {
         breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
         cols={{lg: columns, md: columns, sm: columns, xs: columns, xxs: columns}}
         layouts={{lg: layout, md: layout, sm: layout, xs: layout, xxs: layout}}
-        onLayoutChange={(layout) => setLayout(layout)}
+        onDragStop={(layout) => handleUpdateLayout(layout)}
       >
         {
           categories.map((category, index) => (
@@ -98,7 +68,7 @@ const CategorizeCanvas = ({ notes }) => {
               <div className={styles.name}>{category}</div>
               {
                 index > 0 &&
-                <Button className='moreButton' value={index} text='Delete' onClick={handleDeleteCategory} />
+                <Button className='moreButton' value={index} text='Delete' onClick={handleDeleteClick} />
               }
             </div>
           ))

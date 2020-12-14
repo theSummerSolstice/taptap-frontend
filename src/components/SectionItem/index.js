@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './SectionItem.module.scss';
 import LazyImage from '../LazyImage';
 import Button from '../Button';
-import { changeDateFormat } from '../../utils/date';
+import { changeDateFormat } from '../../utils';
 import { FaTrashAlt } from 'react-icons/fa';
 
 const SectionItem = ({

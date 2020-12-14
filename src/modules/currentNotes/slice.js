@@ -1,11 +1,8 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
-// TODO: drag event -> { notes, isDragged toggle로 변경 }
 const initialState = {
   notes: [],
-  isDragged: true,
   categories: [],
-  columns: null,
   layout: [],
 };
 
@@ -31,6 +28,7 @@ const reducers = {
         if (note._id === payload.noteId) {
           return {
             ...note,
+            _id: note._id,
             position: {
               ...payload.position,
             },
@@ -43,6 +41,26 @@ const reducers = {
   resetNotes: (state) => {
     state.notes = [];
   },
+  initializeCategory: (state, { payload }) => {
+    state.categories = payload.categories;
+    state.layout = payload.layout;
+  },
+  addCategory: (state, { payload }) => {
+    state.categories.push(payload.categoryName);
+    state.layout = payload.layout;
+  },
+  deleteCategory: (state, { payload }) => {
+    return {
+      ...state,
+      categories: state.categories.filter((item, index) => (
+        payload.index !== String(index)
+      )),
+      layout: payload.layout,
+    };
+  },
+  updateLayout: (state, { payload }) => {
+    state.layout = payload;
+  },
 };
 
 const name = 'NOTES';
@@ -52,12 +70,10 @@ const slice = createSlice({
 
 const selectAllState = createSelector(
   (state) => state.notes,
-  (state) => state.isDragged,
   (state) => state.categories,
-  (state) => state.columns,
   (state) => state.layout,
-  (notes, isDragged, categories, columns, layout) => {
-    return { notes, isDragged, categories, columns, layout };
+  (notes, categories, layout) => {
+    return { notes, categories, layout };
   },
 );
 

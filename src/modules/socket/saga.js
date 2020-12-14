@@ -80,7 +80,7 @@ function createSocketChannel (socket) {
       socket.off('historyModeOff');
       socket.off('selectVersion');
       socket.off('startCategorize');
-    }
+    };
   });
 }
 

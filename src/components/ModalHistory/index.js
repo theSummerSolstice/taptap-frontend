@@ -3,7 +3,7 @@ import styles from './ModalHistory.module.scss';
 import ModalPortal from '../ModalPortal';
 import Modal from '../Modal';
 import Button from '../Button';
-import { changeDateFormat } from '../../utils/date';
+import { changeDateFormat } from '../../utils';
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from 'react-icons/ri';
 
 const ModalHistory = ({
