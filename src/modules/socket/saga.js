@@ -20,6 +20,9 @@ const {
   addNote,
   deleteNote,
   updateNotePosition,
+  addCategory,
+  deleteCategory,
+  updateLayout,
 } = notesAction;
 
 const socket = io(process.env.REACT_APP_SERVER_URI);
@@ -70,6 +73,18 @@ function createSocketChannel (socket) {
       emit(updateBoardSettings(data));
     });
 
+    socket.on('addCategory', ({ categoryName, layout }) => {
+      emit(addCategory({ categoryName, layout }));
+    });
+
+    socket.on('deleteCategory', ({ index, layout }) => {
+      emit(deleteCategory({ index, layout }));
+    });
+
+    socket.on('updateLayout', ({ layout }) => {
+      emit(updateLayout(layout));
+    });
+
     return () => {
       socket.off('joinUser');
       socket.off('leaveUser');
@@ -80,6 +95,9 @@ function createSocketChannel (socket) {
       socket.off('historyModeOff');
       socket.off('selectVersion');
       socket.off('startCategorize');
+      socket.off('addCategory');
+      socket.off('deleteCategory');
+      socket.off('updateLayout');
     };
   });
 }
@@ -124,6 +142,12 @@ const boardSocket = {
   },
   addCategory(data) {
     socket.emit('addCategory', data);
+  },
+  deleteCategory(data) {
+    socket.emit('deleteCategory', data);
+  },
+  updateLayout(data) {
+    socket.emit('updateLayout', data);
   },
 };
 

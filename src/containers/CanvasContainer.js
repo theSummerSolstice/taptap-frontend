@@ -25,6 +25,7 @@ const CanvasContainer = () => {
   const { board } = useSelector(boardSelector.all);
   const { notes, categories, layout } = useSelector(notesSelector.all);
   const dispatch = useDispatch();
+  const boardId = board._id;
 
   const addNote = (note) => boardSocket.addNote(note);
   const deleteNote = (noteId) => boardSocket.deleteNote(noteId);
@@ -35,13 +36,14 @@ const CanvasContainer = () => {
 
   const handleCategorize = () => {
     dispatch(updateBoardSettings(true));
-    boardSocket.startCategorize({ boardId: board._id });
+    boardSocket.startCategorize({ boardId });
   };
 
   const handleAddCategory = (categoryName) => {
     if (categories.length + 1 > 7) return;
     const newLayout = generateLayout(categories.length + 1);
     const combinedLayout = newLayout.concat(layout);
+    boardSocket.addCategory({ boardId, categoryName, layout: combinedLayout });
     dispatch(addCategory({ categoryName, layout: combinedLayout }));
   };
 
@@ -49,10 +51,12 @@ const CanvasContainer = () => {
     if (categories.length - 1 < 1) return;
     const newLayout = generateLayout(categories.length - 1);
     const combinedLayout = newLayout.concat(layout);
+    boardSocket.deleteCategory({ boardId, index, layout: combinedLayout });
     dispatch(deleteCategory({ index, layout: combinedLayout }));
   };
 
   const handleUpdateLayout = (layout) => {
+    boardSocket.updateLayout({ boardId, layout });
     dispatch(updateLayout(layout));
   };
 
