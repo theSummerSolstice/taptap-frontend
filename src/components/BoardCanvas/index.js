@@ -37,7 +37,7 @@ const BoardCanvas = ({
       ...note,
       owner: user.username,
       position: {
-        x: event.clientX - 200,
+        x: event.clientX - 230,
         y: event.clientY - 100,
       },
     });
@@ -81,7 +81,7 @@ const BoardCanvas = ({
       {
         isDoubleClicked &&
         <Draggable
-          defaultPosition={{ x: note.position.x, y: note.position.y }}
+          position={{ x: note.position.x, y: note.position.y }}
           bounds='parent'
           disabled={auth === 'READ' || auth === 'HISTORY'}
         >
