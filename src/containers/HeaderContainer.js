@@ -12,6 +12,7 @@ import Modal from '../components/Modal';
 import ModalUser from '../components/ModalUser';
 import ModalHistory from '../components/ModalHistory';
 import { boardSocket } from '../modules/socket/saga';
+import { notesSelector } from '../modules/currentNotes/slice';
 
 const {
   logoutUser,
@@ -35,7 +36,7 @@ const HeaderContainer = ({
 }) => {
   const { user } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
-  const notes = useSelector((state) => state.NOTES);
+  const { notes } = useSelector(notesSelector.all);
 
   const dispatch = useDispatch();
   const showPreviousNotes = (noteList) => dispatch(getNotes(noteList));

@@ -7,6 +7,7 @@ import { boardAction, boardSelector } from '../modules/board/slice';
 import queryString from 'query-string';
 import Board from '../components/Board';
 import Loader from '../components/Loader';
+import { notesSelector } from '../modules/currentNotes/slice';
 
 const {
   getBoard,
@@ -16,7 +17,7 @@ const {
 const BoardContainer = ({ handleLeaveBoard }) => {
   const { user, auth } = useSelector(userSelector.all);
   const { loading, board, error } = useSelector(boardSelector.all);
-  const notes = useSelector((state) => state.NOTES);
+  const { notes } = useSelector(notesSelector.all);
   const dispatch = useDispatch();
   const { board_id } = useParams();
   const history = useHistory();

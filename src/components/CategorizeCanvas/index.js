@@ -86,7 +86,7 @@ const CategorizeCanvas = ({ notes }) => {
         isDraggable={true}
         isBounded={true}
         rowHeight={120}
-        container={[50, 0]}
+        containerPadding={[0, 50]}
         breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
         cols={{lg: columns, md: columns, sm: columns, xs: columns, xxs: columns}}
         layouts={{lg: layout, md: layout, sm: layout, xs: layout, xxs: layout}}
@@ -95,7 +95,7 @@ const CategorizeCanvas = ({ notes }) => {
         {
           categories.map((category, index) => (
             <div className={styles.category} key={index}>
-              <div>{category}</div>
+              <div className={styles.name}>{category}</div>
               {
                 index > 0 &&
                 <Button className='moreButton' value={index} text='Delete' onClick={handleDeleteCategory} />

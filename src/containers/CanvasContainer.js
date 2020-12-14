@@ -5,6 +5,7 @@ import { boardSelector, boardAction } from '../modules/board/slice';
 import BoardCanvas from '../components/BoardCanvas';
 import { boardSocket } from '../modules/socket/saga';
 import CategorizeCanvas from '../components/CategorizeCanvas';
+import { notesSelector } from '../modules/currentNotes/slice';
 
 const {
   updateBoardSettings,
@@ -13,7 +14,7 @@ const {
 const CanvasContainer = () => {
   const { user, auth } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
-  const notes = useSelector((state) => state.NOTES);
+  const { notes } = useSelector(notesSelector.all);
   const dispatch = useDispatch();
 
   const addNote = (note) => boardSocket.addNote(note);
