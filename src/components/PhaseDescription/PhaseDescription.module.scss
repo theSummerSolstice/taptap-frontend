@@ -1,9 +1,11 @@
 @import '../../styles/theme.module.scss';
 
 .container {
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: calc(100vw - 230px);
   padding: 10px 20px;
 
   p {

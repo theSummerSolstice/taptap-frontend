@@ -44,7 +44,7 @@
       justify-content: flex-start;
       align-items: center;
 
-      input {
+      .name {
         width: 120px;
         border: none;
         border-radius: 30px;
@@ -53,13 +53,6 @@
         font-family: $font-openSans;
         font-size: $font-size-2;
         text-align: center;
-
-        &::placeholder {
-          color: $white;
-          font-size: $font-size-1;
-          letter-spacing: 0.5px;
-          opacity: 0.5;
-        }
       }
 
       button {
