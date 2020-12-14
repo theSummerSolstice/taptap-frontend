@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userAction, userSelector } from '../modules/user/slice';
 import { boardSelector, boardAction } from '../modules/board/slice';
@@ -13,6 +13,7 @@ import ModalUser from '../components/ModalUser';
 import ModalHistory from '../components/ModalHistory';
 import { boardSocket } from '../modules/socket/saga';
 import { notesSelector } from '../modules/currentNotes/slice';
+import html2canvas from 'html2canvas';
 
 const {
   logoutUser,
@@ -76,7 +77,7 @@ const HeaderContainer = ({
       pauseOnHover: false,
       closeOnClick: true,
       progress: undefined,
-      });
+    });
   };
 
   const handleHistoryModeOn = () => {
@@ -115,6 +116,41 @@ const HeaderContainer = ({
     boardSocket.historyModeOff({ boardId: board._id });
   };
 
+  const downloadImage = async () => {
+    const canvas = await html2canvas(document.getElementById('canvas'));
+    const link = document.getElementById('download');
+    link.href = canvas.toDataURL('image/jpeg');
+    link.download = `${board.name}.jpg`;
+    link.click();
+
+    toast.success('🗂 Download completed!', {
+      position: 'bottom-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      pauseOnHover: false,
+      closeOnClick: true,
+      progress: undefined,
+    });
+  };
+
+  const copyBoardUrl = useCallback(() => {
+    const temp = document.createElement('input');
+    temp.value = window.location.href;
+    document.body.appendChild(temp);
+
+    temp.select();
+    document.execCommand('copy');
+    toast.success('🔗 URL copied!', {
+      position: 'bottom-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      pauseOnHover: false,
+      closeOnClick: true,
+      progress: undefined,
+    });
+    document.body.removeChild(temp);
+  }, []);
+
   return (
     <>
       <ToastContainer />
@@ -127,6 +163,8 @@ const HeaderContainer = ({
         handleUserModal={handleUserModal}
         handleHistoryModeOn={handleHistoryModeOn}
         handleLeaveBoard={handleLeaveBoard}
+        downloadImage={downloadImage}
+        copyBoardUrl={copyBoardUrl}
       >
         {children}
       </Header>

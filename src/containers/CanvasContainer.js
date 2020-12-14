@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../modules/user/slice';
 import { boardSelector, boardAction } from '../modules/board/slice';
@@ -26,6 +26,7 @@ const CanvasContainer = () => {
   const { notes, categories, layout } = useSelector(notesSelector.all);
   const dispatch = useDispatch();
   const boardId = board._id;
+  const boardRef = useRef(null);
 
   const addNote = (note) => boardSocket.addNote(note);
   const deleteNote = (noteId) => boardSocket.deleteNote(noteId);
@@ -80,6 +81,7 @@ const CanvasContainer = () => {
               categories={categories}
               columns={categories.length}
               layout={layout}
+              boardRef={boardRef}
               handleAddCategory={handleAddCategory}
               handleDeleteCategory={handleDeleteCategory}
               handleUpdateLayout={handleUpdateLayout}
@@ -89,6 +91,7 @@ const CanvasContainer = () => {
               notes={notes}
               user={user}
               auth={auth}
+              boardRef={boardRef}
               addNote={addNote}
               deleteNote={deleteNote}
               updateNotePosition={handleNotePosition}

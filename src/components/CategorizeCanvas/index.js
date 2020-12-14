@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './CategorizeCanvas.module.scss';
 import PhaseDescription from '../PhaseDescription';
 import { Responsive, WidthProvider } from 'react-grid-layout';
@@ -12,6 +12,7 @@ const CategorizeCanvas = ({
   categories,
   columns,
   layout,
+  boardRef,
   handleAddCategory,
   handleDeleteCategory,
   handleUpdateLayout,
@@ -33,7 +34,7 @@ const CategorizeCanvas = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div id='canvas' ref={boardRef} className={styles.container}>
       <PhaseDescription
         className={styles.description}
         description='Make your thoughts organized.'
@@ -83,6 +84,7 @@ const CategorizeCanvas = ({
           ))
         }
       </ResponsiveGridLayout>
+      <a id='download' style={{ display: 'none' }}></a>
     </div>
   );
 };

@@ -11,6 +11,7 @@ const BoardCanvas = ({
   notes,
   user,
   auth,
+  boardRef,
   addNote,
   deleteNote,
   updateNotePosition,
@@ -27,7 +28,6 @@ const BoardCanvas = ({
   const [isWriting, setIsWriting] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [note, setNote] = useState(initialState);
-  const boardRef = useRef();
 
   const handleDoubleClick = (event) => {
     if (isWriting || auth === 'READ' || auth === 'HISTORY') return;
