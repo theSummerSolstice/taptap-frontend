@@ -1,9 +1,8 @@
 import { takeLatest, put, all, call, getContext } from 'redux-saga/effects';
 import firebase from '../../utils/firebase';
 import api from '../../utils/api';
-import { userAction } from './slice';
 
-const {
+import {
   initUser,
   initUserSuccess,
   initUserFailure,
@@ -13,7 +12,7 @@ const {
   deleteMyBoards,
   deleteMyBoardsSuccess,
   deleteMyBoardsFailure,
-} = userAction;
+} from './slice'
 
 function* initUserSaga () {
   const hasToken = localStorage.getItem('token');
@@ -68,15 +67,15 @@ function* deleteMyBoardsSaga ({ payload }) {
   }
 }
 
-export function* watchInitUser () {
+function* watchInitUser () {
   yield takeLatest(initUser, initUserSaga);
 }
 
-export function* watchLogoutUser () {
+function* watchLogoutUser () {
   yield takeLatest(logoutUser, logoutUserSaga);
 }
 
-export function* watchDeleteMyBoards () {
+function* watchDeleteMyBoards () {
   yield takeLatest(deleteMyBoards, deleteMyBoardsSaga);
 }
 

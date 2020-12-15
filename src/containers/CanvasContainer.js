@@ -1,24 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../modules/user/slice';
-import { boardSelector, boardAction } from '../modules/board/slice';
+import { boardSelector, updateBoardSettings } from '../modules/board/slice';
 import BoardCanvas from '../components/BoardCanvas';
 import { boardSocket } from '../modules/socket/saga';
 import CategorizeCanvas from '../components/CategorizeCanvas';
-import { notesSelector, notesAction } from '../modules/currentNotes/slice';
-import { generateLayout } from '../utils/index';
-
-const {
-  updateBoardSettings,
-} = boardAction;
-
-const {
+import {
+  notesSelector,
   initializeCategory,
   addCategory,
   deleteCategory,
   updateLayout,
   updateNotePosition,
-} = notesAction;
+  updateNoteCategory
+ } from '../modules/currentNotes/slice';
+import { generateLayout } from '../utils/index';
+
 
 const CanvasContainer = () => {
   const { user, auth } = useSelector(userSelector.all);
@@ -56,9 +53,14 @@ const CanvasContainer = () => {
     dispatch(deleteCategory({ index, layout: combinedLayout }));
   };
 
+  // handle 다 빼기..
   const handleUpdateLayout = (layout) => {
     boardSocket.updateLayout({ boardId, layout });
     dispatch(updateLayout(layout));
+  };
+
+  const saveCurrentCategories = (notes) => {
+    dispatch(updateNoteCategory(notes));
   };
 
   useEffect(() => {
@@ -85,6 +87,7 @@ const CanvasContainer = () => {
               handleAddCategory={handleAddCategory}
               handleDeleteCategory={handleDeleteCategory}
               handleUpdateLayout={handleUpdateLayout}
+              saveCurrentCategories={saveCurrentCategories}
             />
           : <BoardCanvas
               boardId={board._id}

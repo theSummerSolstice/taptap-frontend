@@ -2,8 +2,10 @@ import { createSlice, createSelector } from '@reduxjs/toolkit';
 
 const initialState = {
   notes: [],
-  categories: [],
-  layout: [],
+  categories: ['unsorted'],
+  layout: [{ i: '0', x: 0, y: 0, w: 1, h: 0.3, static: true, minW: 1 }],
+  loading: false,
+  error: null,
 };
 
 const reducers = {
@@ -42,8 +44,8 @@ const reducers = {
     state.notes = [];
   },
   initializeCategory: (state, { payload }) => {
-    state.categories = payload.categories;
-    state.layout = payload.layout;
+    state.categories.concat(payload.categories);
+    state.layout.concat(payload.layout);
   },
   addCategory: (state, { payload }) => {
     state.categories.push(payload.categoryName);
@@ -60,6 +62,23 @@ const reducers = {
   },
   updateLayout: (state, { payload }) => {
     state.layout = payload;
+  },
+  updateNoteCategory: (state, { payload }) => {
+    state.loading = true;
+  },
+  updateNoteCategorySuccess: (state, { payload }) => {
+    return {
+      ...state,
+      loading: false,
+      categories: payload.categories,
+      notes: [
+        ...payload.notes,
+      ],
+    };
+  },
+  updateNoteCategoryFailure: (state, { payload }) => {
+    state.loading = false;
+    state.error = payload;
   },
 };
 
@@ -83,4 +102,17 @@ export const notesSelector = {
 
 export const NOTES = slice.name;
 export const notesReducer = slice.reducer;
-export const notesAction = slice.actions;
+export const {
+  getNotes,
+  addNote,
+  deleteNote,
+  updateNotePosition,
+  resetNotes,
+  initializeCategory,
+  addCategory,
+  deleteCategory,
+  updateLayout,
+  updateNoteCategory,
+  updateNoteCategorySuccess,
+  updateNoteCategoryFailure,
+} = slice.actions;

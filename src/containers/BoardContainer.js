@@ -2,17 +2,12 @@ import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../modules/user/slice';
-import { boardAction, boardSelector } from '../modules/board/slice';
+import { boardSelector, getBoard, updateBoardSettings } from '../modules/board/slice';
 
 import queryString from 'query-string';
 import Board from '../components/Board';
 import Loader from '../components/Loader';
 import { notesSelector } from '../modules/currentNotes/slice';
-
-const {
-  getBoard,
-  updateBoardSettings,
-} = boardAction;
 
 const BoardContainer = ({ handleLeaveBoard }) => {
   const { user, auth } = useSelector(userSelector.all);

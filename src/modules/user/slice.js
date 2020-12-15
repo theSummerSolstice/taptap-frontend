@@ -80,4 +80,17 @@ export const userSelector = {
 
 export const USER = slice.name;
 export const userReducer = slice.reducer;
-export const userAction = slice.actions;
+export const {
+  initUser,
+  initUserSuccess,
+  initUserFailure,
+  logoutUser,
+  logoutUserSuccess,
+  logoutUserFailure,
+  updateMyBoards,
+  deleteMyBoards,
+  deleteMyBoardsSuccess,
+  deleteMyBoardsFailure,
+  updateAuthorizedBoards,
+  changeAuthState,
+} = slice.actions;

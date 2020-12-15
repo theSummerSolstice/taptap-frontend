@@ -6,6 +6,7 @@ import { boardSagas } from './board/saga';
 import { all } from 'redux-saga/effects';
 import { socketSagas } from './socket/saga';
 import { NOTES, notesReducer } from './currentNotes/slice';
+import { notesSagas } from './currentNotes/saga';
 
 const rootReducer = combineReducers({
   [USER]: userReducer,
@@ -18,6 +19,7 @@ export function* rootSaga () {
     userSagas(),
     boardSagas(),
     socketSagas(),
+    notesSagas(),
   ]);
 }
 

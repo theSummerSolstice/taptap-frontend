@@ -1,21 +1,10 @@
 import io from 'socket.io-client';
 import { eventChannel } from 'redux-saga';
 import { take, call, put } from 'redux-saga/effects';
-import { boardAction } from '../board/slice';
-import { notesAction } from '../currentNotes/slice';
 import { toast } from 'react-toastify';
-import { userAction } from '../user/slice';
-
-const {
-  changeAuthState,
-} = userAction;
-
-const {
-  updateUserList,
-  updateBoardSettings,
-} = boardAction;
-
-const {
+import { changeAuthState } from '../user/slice';
+import { updateUserList, updateBoardSettings } from '../board/slice';
+import {
   getNotes,
   addNote,
   deleteNote,
@@ -23,7 +12,7 @@ const {
   addCategory,
   deleteCategory,
   updateLayout,
-} = notesAction;
+} from '../currentNotes/slice';
 
 const socket = io(process.env.REACT_APP_SERVER_URI);
 

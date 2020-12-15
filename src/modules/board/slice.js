@@ -23,9 +23,20 @@ const reducers = {
   },
   updateBoardSuccess: (state, { payload }) => {
     state.loading = false;
-    state.board[payload.updatedItem] = payload.data;
+    state.board = payload;
   },
   updateBoardFailure: (state, { payload }) => {
+    state.loading = false;
+    state.error = payload;
+  },
+  updateSnapshot: (state) => {
+    state.loading = true;
+  },
+  updateSnapshotSuccess: (state, { payload }) => {
+    state.loading = false;
+    state.board.snapshots.push(payload.snapshots);
+  },
+  updateSnapshotFailure: (state, { payload }) => {
     state.loading = false;
     state.error = payload;
   },
@@ -53,10 +64,6 @@ const reducers = {
   },
   updateUserList: (state, { payload }) => {
     state.board = payload;
-  },
-  updateSnapshots: (state, { payload }) => {
-    state.loading = false;
-    state.board[payload.updatedItem].push(payload.data);
   },
   storeCurrentNotes: (state, { payload }) => {
     state.board.currentNotes = payload;
@@ -103,4 +110,26 @@ export const boardSelector = {
 
 export const BOARD = slice.name;
 export const boardReducer = slice.reducer;
-export const boardAction = slice.actions;
+export const {
+  createBoard,
+  createBoardSuccess,
+  createBoardFailure,
+  updateBoard,
+  updateBoardSuccess,
+  updateBoardFailure,
+  updateSnapshot,
+  updateSnapshotSuccess,
+  updateSnapshotFailure,
+  getBoard,
+  getBoardSuccess,
+  getBoardFailure,
+  leaveBoard,
+  leaveBoardSuccess,
+  leaveBoardFailure,
+  updateUserList,
+  deleteSnapshots,
+  deleteSnapshotsSuccess,
+  deleteSnapshotsFailure,
+  updateBoardSettings,
+  storeCurrentNotes,
+} = slice.actions;

@@ -1,8 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { userAction, userSelector } from '../modules/user/slice';
-import { boardSelector, boardAction } from '../modules/board/slice';
-import { notesAction } from '../modules/currentNotes/slice';
+import { userSelector, logoutUser } from '../modules/user/slice';
+import {
+  boardSelector,
+  deleteSnapshots,
+  storeCurrentNotes,
+  updateSnapshot
+} from '../modules/board/slice';
+import { getNotes } from '../modules/currentNotes/slice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,24 +20,10 @@ import { boardSocket } from '../modules/socket/saga';
 import { notesSelector } from '../modules/currentNotes/slice';
 import html2canvas from 'html2canvas';
 
-const {
-  logoutUser,
-} = userAction;
-
-const {
-  getNotes,
-} = notesAction;
-
-const {
-  deleteSnapshots,
-  storeCurrentNotes,
-} = boardAction;
-
 const HeaderContainer = ({
   onLogin,
   routePage,
   handleLeaveBoard,
-  updateBoard,
   children,
 }) => {
   const { user } = useSelector(userSelector.all);
@@ -64,11 +55,10 @@ const HeaderContainer = ({
   };
 
   const handleSnapshot = () => {
-    updateBoard({
-      data: { notes },
+    dispatch(updateSnapshot({
+      data: { snapshots: { notes } },
       boardId: board._id,
-      updatedItem: 'snapshots',
-    });
+    }));
 
     toast('📸 Snapshot is saved!', {
       position: 'bottom-center',

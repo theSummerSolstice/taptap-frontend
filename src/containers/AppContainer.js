@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { userAction, userSelector } from '../modules/user/slice';
-import { boardAction, boardSelector } from '../modules/board/slice';
+import { userSelector } from '../modules/user/slice';
+import { boardSelector, createBoard, updateBoard, leaveBoard  } from '../modules/board/slice';
+import { initUser, deleteMyBoards } from '../modules/user/slice';
 
 import HeaderContainer from './HeaderContainer';
 import BoardContainer from './BoardContainer';
@@ -12,17 +13,6 @@ import ListPage from '../components/ListPage';
 import NewBoardForm from '../components/NewBoardForm';
 import InviteForm from '../components/InviteForm';
 import api from '../utils/api';
-
-const {
-  initUser,
-  deleteMyBoards,
-} = userAction;
-
-const {
-  createBoard,
-  updateBoard,
-  leaveBoard,
-} = boardAction;
 
 const AppContainer = () => {
   const { user } = useSelector(userSelector.all);
