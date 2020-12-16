@@ -68,7 +68,12 @@ const BoardCanvas = ({
     <div id='canvas' onDoubleClick={handleDoubleClick} className={styles.container} ref={boardRef}>
       {
         auth === 'HISTORY' &&
-        <p className={styles.historyModeMessage}>History mode is on. You cannot edit sticky notes until the mode ends.</p>
+        <p
+          className={styles.historyModeMessage}
+          data-html2canvas-ignore={true}
+        >
+          History mode is on. You cannot edit sticky notes until the mode ends.
+        </p>
       }
       {
         auth === 'EDIT' &&
