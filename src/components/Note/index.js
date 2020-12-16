@@ -6,23 +6,25 @@ import { FaTrashAlt } from 'react-icons/fa';
 
 const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => {
   const [isButtonShowing, setIsButtonShowing] = useState(false);
-
   const handleMouseEnter = () => setIsButtonShowing(true);
   const handleMouseLeave = () => setIsButtonShowing(false);
-  const handleDelete = () => deleteNote({ boardId, noteId: note._id });
+  const handleDelete = (event) => deleteNote({ boardId, noteId: note._id });
+
   const handleDragNote = (event) => {
     const position = {
-      x: event.clientX - 200,
-      y: event.clientY - 100,
+      x: event.clientX - 230,
+      y: event.clientY - 50,
     };
+
     updateNotePosition(boardId, note._id, position);
   };
 
   return (
     <Draggable
       defaultPosition={{ x: note.position.x, y: note.position.y }}
+      position={{ x: note.position.x, y: note.position.y }}
       bounds='parent'
-      onStop={handleDragNote}
+      onDrag={handleDragNote}
       disabled={auth === 'READ' || auth === 'HISTORY'}
     >
       <div

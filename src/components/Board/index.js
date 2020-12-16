@@ -9,6 +9,7 @@ const Board = ({
   auth,
   handleLeaveBoard,
   handleCapture,
+  handleBackToBoard,
 }) => {
   return (
     <div className={styles.container}>
@@ -18,6 +19,7 @@ const Board = ({
         auth={auth}
         handleLeaveBoard={handleLeaveBoard}
         handleCapture={handleCapture}
+        handleBackToBoard={handleBackToBoard}
       />
       <CanvasContainer />
     </div>

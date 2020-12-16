@@ -11,6 +11,8 @@ const Header = ({
   handleUserModal,
   handleHistoryModeOn,
   handleLeaveBoard,
+  downloadImage,
+  copyBoardUrl,
   children,
 }) => {
   const renderHeader = () => {
@@ -19,7 +21,10 @@ const Header = ({
     }
 
     return board.isCategorized
-      ? <ShareHeader />
+      ? <ShareHeader
+          downloadImage={downloadImage}
+          copyBoardUrl={copyBoardUrl}
+        />
       : <BoardHeader
           isOwner={user._id === board.owner}
           handleSnapshot={handleSnapshot}

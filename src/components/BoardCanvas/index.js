@@ -11,9 +11,11 @@ const BoardCanvas = ({
   notes,
   user,
   auth,
+  boardRef,
   addNote,
   deleteNote,
   updateNotePosition,
+  handleCategorize,
 }) => {
   const initialState = {
     owner: user.username,
@@ -26,7 +28,6 @@ const BoardCanvas = ({
   const [isWriting, setIsWriting] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [note, setNote] = useState(initialState);
-  const boardRef = useRef();
 
   const handleDoubleClick = (event) => {
     if (isWriting || auth === 'READ' || auth === 'HISTORY') return;
@@ -36,7 +37,7 @@ const BoardCanvas = ({
       ...note,
       owner: user.username,
       position: {
-        x: event.clientX - 200,
+        x: event.clientX - 230,
         y: event.clientY - 100,
       },
     });
@@ -73,13 +74,14 @@ const BoardCanvas = ({
         auth === 'EDIT' &&
         <PhaseDescription
           description='Put all the thoughts in stick notes, then CATEGORIZE!'
-          onClick={() => console.log('categorize')}
+          buttonText='Categorize'
+          onClick={handleCategorize}
         />
       }
       {
         isDoubleClicked &&
         <Draggable
-          defaultPosition={{ x: note.position.x, y: note.position.y }}
+          position={{ x: note.position.x, y: note.position.y }}
           bounds='parent'
           disabled={auth === 'READ' || auth === 'HISTORY'}
         >

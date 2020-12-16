@@ -81,3 +81,21 @@
   text-transform: uppercase;
   box-shadow: $shadow-3;
 }
+
+.shareButton {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: $main-color;
+  color: $white;
+  text-align: center;
+  line-height: 0.5em;
+  box-shadow: $shadow-1;
+
+  &:hover {
+    background-color: $white;
+    color: $main-color;
+  }
+}

@@ -40,9 +40,8 @@ const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
 
   const handleConfirmButton = () => {
     updateBoard({
-      data: emailList,
+      data: { authorizedUsers: emailList },
       boardId: board_id,
-      updatedItem: 'authorizedUsers',
     });
     routePage(`/board/${board_id}`);
   };

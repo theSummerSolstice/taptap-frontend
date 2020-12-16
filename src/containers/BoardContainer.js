@@ -2,23 +2,24 @@ import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../modules/user/slice';
-import { boardAction, boardSelector } from '../modules/board/slice';
+import { boardSelector, getBoard, updateBoardSettings } from '../modules/board/slice';
 
 import queryString from 'query-string';
 import Board from '../components/Board';
 import Loader from '../components/Loader';
-
-const {
-  getBoard,
-} = boardAction;
+import { notesSelector } from '../modules/currentNotes/slice';
 
 const BoardContainer = ({ handleLeaveBoard }) => {
   const { user, auth } = useSelector(userSelector.all);
   const { loading, board, error } = useSelector(boardSelector.all);
-  const notes = useSelector((state) => state.NOTES);
+  const { notes } = useSelector(notesSelector.all);
   const dispatch = useDispatch();
   const { board_id } = useParams();
   const history = useHistory();
+
+  const handleBackToBoard = () => {
+    dispatch(updateBoardSettings(false));
+  };
 
   useEffect(() => {
     if (!user) {
@@ -49,6 +50,7 @@ const BoardContainer = ({ handleLeaveBoard }) => {
         user={user}
         auth={auth}
         handleLeaveBoard={handleLeaveBoard}
+        handleBackToBoard={handleBackToBoard}
       />
     </div>
   );

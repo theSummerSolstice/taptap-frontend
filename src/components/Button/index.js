@@ -1,9 +1,16 @@
 import React from 'react';
 import styles from './Button.module.scss';
 
-const Button = ({ className, id, text, onClick, value, children }) => {
+// TODO: attributes
+const Button = ({
+  className,
+  text,
+  onClick,
+  children,
+  ...attributes
+}) => {
   return (
-    <button className={styles[className]} onClick={onClick} value={value} id={id}>
+    <button className={styles[className]} onClick={onClick} {...attributes}>
       {children}
       {text}
     </button>

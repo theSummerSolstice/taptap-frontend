@@ -1,20 +1,20 @@
 import { createAction } from '@reduxjs/toolkit';
-import { call, all, put, takeLatest, getContext } from 'redux-saga/effects';
-import { boardAction } from './slice';
-import { userAction } from '../user/slice';
+import { call, all, put, takeLatest, getContext, takeEvery } from 'redux-saga/effects';
 import api from '../../utils/api';
 import { boardSocket } from '../socket/saga';
-import { notesAction } from '../currentNotes/slice';
 import html2canvas from 'html2canvas';
-
-const {
+import { updateMyBoards, changeAuthState } from '../user/slice';
+import { getNotes, resetNotes } from '../currentNotes/slice';
+import {
   createBoard,
   createBoardSuccess,
   createBoardFailure,
   updateBoard,
   updateBoardSuccess,
-  updateSnapshots,
   updateBoardFailure,
+  updateSnapshot,
+  updateSnapshotSuccess,
+  updateSnapshotFailure,
   getBoard,
   getBoardSuccess,
   getBoardFailure,
@@ -23,18 +23,8 @@ const {
   leaveBoardFailure,
   deleteSnapshots,
   deleteSnapshotsSuccess,
-  deleteSnapshotsFailure,
-} = boardAction;
-
-const {
-  updateMyBoards,
-  changeAuthState,
-} = userAction;
-
-const {
-  getNotes,
-  resetNotes,
-} = notesAction;
+  deleteSnapshotsFailure
+} from './slice';
 
 const GO_TO_BOARD = 'GO_TO_BOARD';
 const goToBoard = createAction(GO_TO_BOARD);
@@ -60,18 +50,26 @@ function* createBoardSaga ({ payload }) {
 }
 
 function* updateBoardSaga ({ payload }) {
-  const { data, boardId, updatedItem } = payload;
+  const { data, boardId } = payload;
 
   try {
-    yield call(api.put, `/board/${boardId}`, { data, updatedItem });
+    const { board } = yield call(api.put, `/board/${boardId}`, { data });
 
-    if (typeof data === 'string') {
-      yield put(updateBoardSuccess({ data, updatedItem }));
-    } else {
-      yield put(updateSnapshots({ data, updatedItem }));
-    }
+    yield put(updateBoardSuccess(board));
   } catch (error) {
     yield put(updateBoardFailure(error));
+  }
+}
+
+function* updateSnapshotSaga ({ payload }) {
+  const { data, boardId } = payload;
+
+  try {
+    yield call(api.put, `/board/${boardId}/snapshots`, { data });
+
+    yield put(updateSnapshotSuccess(data));
+  } catch (error) {
+    yield put(updateSnapshotFailure(error));
   }
 }
 
@@ -101,9 +99,7 @@ function* leaveBoardSaga ({ payload }) {
   try {
     const capture = yield html2canvas(document.getElementById('canvas'));
     yield call(api.put, `/board/${boardId}`, {
-      data: capture.toDataURL('image/jpeg'),
-      boardId,
-      updatedItem: 'imageSrc'
+      data: { imageSrc: capture.toDataURL('image/jpeg') },
     });
 
     yield call(boardSocket.leaveUser, { boardId, userId });
@@ -125,27 +121,31 @@ function* deleteSnapshotsSaga ({ payload }) {
   }
 }
 
-export function* watchGoToBoard () {
+function* watchGoToBoard () {
   yield takeLatest(goToBoard, goToBoardSaga);
 }
 
-export function* watchCreateBoard () {
+function* watchCreateBoard () {
   yield takeLatest(createBoard, createBoardSaga);
 }
 
-export function* watchUpdateBoard () {
+function* watchUpdateBoard () {
   yield takeLatest(updateBoard, updateBoardSaga);
 }
 
-export function* watchGetBoard () {
+function* watchUpdateSnapshot () {
+  yield takeEvery(updateSnapshot, updateSnapshotSaga);
+}
+
+function* watchGetBoard () {
   yield takeLatest(getBoard, getBoardSaga);
 }
 
-export function* watchLeaveBoard () {
+function* watchLeaveBoard () {
   yield takeLatest(leaveBoard, leaveBoardSaga);
 }
 
-export function* watchDeleteSnapshots () {
+function* watchDeleteSnapshots () {
   yield takeLatest(deleteSnapshots, deleteSnapshotsSaga);
 }
 
@@ -154,6 +154,7 @@ export function* boardSagas () {
     call(watchGoToBoard),
     call(watchCreateBoard),
     call(watchUpdateBoard),
+    call(watchUpdateSnapshot),
     call(watchGetBoard),
     call(watchLeaveBoard),
     call(watchDeleteSnapshots),

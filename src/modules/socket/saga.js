@@ -1,25 +1,18 @@
 import io from 'socket.io-client';
 import { eventChannel } from 'redux-saga';
 import { take, call, put } from 'redux-saga/effects';
-import { boardAction } from '../board/slice';
-import { notesAction } from '../currentNotes/slice';
 import { toast } from 'react-toastify';
-import { userAction } from '../user/slice';
-
-const {
-  changeAuthState,
-} = userAction;
-
-const {
-  updateUserList,
-} = boardAction;
-
-const {
+import { changeAuthState } from '../user/slice';
+import { updateUserList, updateBoardSettings } from '../board/slice';
+import {
   getNotes,
   addNote,
   deleteNote,
   updateNotePosition,
-} = notesAction;
+  addCategory,
+  deleteCategory,
+  updateLayout,
+} from '../currentNotes/slice';
 
 const socket = io(process.env.REACT_APP_SERVER_URI);
 
@@ -62,8 +55,23 @@ function createSocketChannel (socket) {
     });
 
     socket.on('selectVersion', ({ notes }) => {
-      console.log(notes);
       emit(getNotes(notes));
+    });
+
+    socket.on('startCategorize', ({ data }) => {
+      emit(updateBoardSettings(data));
+    });
+
+    socket.on('addCategory', ({ categoryName, layout }) => {
+      emit(addCategory({ categoryName, layout }));
+    });
+
+    socket.on('deleteCategory', ({ index, layout }) => {
+      emit(deleteCategory({ index, layout }));
+    });
+
+    socket.on('updateLayout', ({ layout }) => {
+      emit(updateLayout(layout));
     });
 
     return () => {
@@ -74,6 +82,11 @@ function createSocketChannel (socket) {
       socket.off('updateNotePosition');
       socket.off('historyModeOn');
       socket.off('historyModeOff');
+      socket.off('selectVersion');
+      socket.off('startCategorize');
+      socket.off('addCategory');
+      socket.off('deleteCategory');
+      socket.off('updateLayout');
     };
   });
 }
@@ -112,6 +125,18 @@ const boardSocket = {
   },
   selectVersion(data) {
     socket.emit('selectVersion', data);
+  },
+  startCategorize(data) {
+    socket.emit('startCategorize', data);
+  },
+  addCategory(data) {
+    socket.emit('addCategory', data);
+  },
+  deleteCategory(data) {
+    socket.emit('deleteCategory', data);
+  },
+  updateLayout(data) {
+    socket.emit('updateLayout', data);
   },
 };
 

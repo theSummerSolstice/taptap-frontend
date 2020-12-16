@@ -1,0 +1,79 @@
+@import '../../styles/theme.module.scss';
+
+.container {
+  position: relative;
+  width: calc(100vw - 230px);
+  padding-left: -230px;
+  background-color: $light-blue;
+
+  .inputContainer {
+    position: absolute;
+    top: 5px;
+    left: 280px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    input {
+      border: none;
+      border-radius: 30px;
+      height: 30px;
+      background-color: $white;
+      color: $main-color;
+      font-size: $font-size-2;
+      text-indent: 10px;
+      box-shadow: $shadow-3;
+
+      &::placeholder {
+        color: $main-color;
+        opacity: 0.8;
+      }
+    }
+
+    button {
+      position: relative;
+      top: 0;
+      right: 30px;
+    }
+  }
+
+  .layout {
+    .category {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+
+      .name {
+        width: 120px;
+        border: none;
+        border-radius: 30px;
+        background-color: $main-color;
+        color: $white;
+        font-family: $font-openSans;
+        font-size: $font-size-2;
+        text-align: center;
+      }
+
+      button {
+        height: 15px;
+        background-color: $white;
+        line-height: 5px;
+      }
+    }
+
+    .note {
+      display: flex;
+      justify-content: center;
+
+      .wrapper {
+        width: 120px;
+        height: 120px;
+        box-shadow: $shadow-1;
+        font-size: $font-size-1;
+        padding: 7px;
+        border-radius: 5px;
+      }
+    }
+  }
+}

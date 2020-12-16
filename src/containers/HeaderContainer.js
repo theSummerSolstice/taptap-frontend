@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { userAction, userSelector } from '../modules/user/slice';
-import { boardSelector, boardAction } from '../modules/board/slice';
-import { notesAction } from '../modules/currentNotes/slice';
+import { userSelector, logoutUser } from '../modules/user/slice';
+import {
+  boardSelector,
+  deleteSnapshots,
+  storeCurrentNotes,
+  updateSnapshot
+} from '../modules/board/slice';
+import { getNotes } from '../modules/currentNotes/slice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,30 +17,18 @@ import Modal from '../components/Modal';
 import ModalUser from '../components/ModalUser';
 import ModalHistory from '../components/ModalHistory';
 import { boardSocket } from '../modules/socket/saga';
-
-const {
-  logoutUser,
-} = userAction;
-
-const {
-  getNotes,
-} = notesAction;
-
-const {
-  deleteSnapshots,
-  storeCurrentNotes,
-} = boardAction;
+import { notesSelector } from '../modules/currentNotes/slice';
+import html2canvas from 'html2canvas';
 
 const HeaderContainer = ({
   onLogin,
   routePage,
   handleLeaveBoard,
-  updateBoard,
   children,
 }) => {
   const { user } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
-  const notes = useSelector((state) => state.NOTES);
+  const { notes } = useSelector(notesSelector.all);
 
   const dispatch = useDispatch();
   const showPreviousNotes = (noteList) => dispatch(getNotes(noteList));
@@ -62,11 +55,10 @@ const HeaderContainer = ({
   };
 
   const handleSnapshot = () => {
-    updateBoard({
-      data: { notes },
+    dispatch(updateSnapshot({
+      data: { snapshots: { notes } },
       boardId: board._id,
-      updatedItem: 'snapshots',
-    });
+    }));
 
     toast('📸 Snapshot is saved!', {
       position: 'bottom-center',
@@ -75,7 +67,7 @@ const HeaderContainer = ({
       pauseOnHover: false,
       closeOnClick: true,
       progress: undefined,
-      });
+    });
   };
 
   const handleHistoryModeOn = () => {
@@ -114,6 +106,41 @@ const HeaderContainer = ({
     boardSocket.historyModeOff({ boardId: board._id });
   };
 
+  const downloadImage = async () => {
+    const canvas = await html2canvas(document.getElementById('canvas'));
+    const link = document.getElementById('download');
+    link.href = canvas.toDataURL('image/jpeg');
+    link.download = `${board.name}.jpg`;
+    link.click();
+
+    toast.success('🗂 Download completed!', {
+      position: 'bottom-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      pauseOnHover: false,
+      closeOnClick: true,
+      progress: undefined,
+    });
+  };
+
+  const copyBoardUrl = useCallback(() => {
+    const temp = document.createElement('input');
+    temp.value = window.location.href;
+    document.body.appendChild(temp);
+
+    temp.select();
+    document.execCommand('copy');
+    toast.success('🔗 URL copied!', {
+      position: 'bottom-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      pauseOnHover: false,
+      closeOnClick: true,
+      progress: undefined,
+    });
+    document.body.removeChild(temp);
+  }, []);
+
   return (
     <>
       <ToastContainer />
@@ -126,6 +153,8 @@ const HeaderContainer = ({
         handleUserModal={handleUserModal}
         handleHistoryModeOn={handleHistoryModeOn}
         handleLeaveBoard={handleLeaveBoard}
+        downloadImage={downloadImage}
+        copyBoardUrl={copyBoardUrl}
       >
         {children}
       </Header>
