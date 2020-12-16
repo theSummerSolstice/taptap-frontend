@@ -37,6 +37,7 @@ const CategorizeCanvas = ({
     setCategoryName('');
   };
 
+  // TODO: Save categories later
   const handleSaveClick = () => {
     const hash = {
       [0]: 'unsorted',
@@ -53,9 +54,7 @@ const CategorizeCanvas = ({
       };
     });
 
-    const deduplicatedCategories = Array.from(
-      new Set(translateXArray.map((item) => item.category))
-    ).sort();
+    const deduplicatedCategories = [...new Set(translateXArray.map((item) => item.category))].sort();
 
     if (deduplicatedCategories[0] !== '0') {
       deduplicatedCategories.unshift('0');
@@ -73,7 +72,7 @@ const CategorizeCanvas = ({
       };
     });
 
-    saveCurrentCategories({ boardId, notes: categorizedNotes, categories, layout });
+    saveCurrentCategories(boardId, categorizedNotes);
   };
 
   return (

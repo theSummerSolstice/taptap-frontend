@@ -30,10 +30,7 @@ const reducers = {
         if (note._id === payload.noteId) {
           return {
             ...note,
-            _id: note._id,
-            position: {
-              ...payload.position,
-            },
+            position: payload.position,
           };
         }
         return note;

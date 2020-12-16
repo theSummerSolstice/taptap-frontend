@@ -12,7 +12,7 @@ import {
   deleteMyBoards,
   deleteMyBoardsSuccess,
   deleteMyBoardsFailure,
-} from './slice'
+} from './slice';
 
 function* initUserSaga () {
   const hasToken = localStorage.getItem('token');

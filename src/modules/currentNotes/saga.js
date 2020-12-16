@@ -6,17 +6,16 @@ import {
   updateNoteCategoryFailure
  } from './slice';
 
-// FIXME: layout update 분리
 function* updateNoteCategorySaga ({ payload }) {
-  const { boardId, notes, layout, categories } = payload;
+  const { boardId, currentNotes } = payload;
 
   try {
     yield call(api.put, `/board/${boardId}/currentNotes`, {
-      data: { notes, layout },
+      data: { currentNotes },
       boardId,
     });
 
-    yield put(updateNoteCategorySuccess({ boardId, notes, categories }));
+    yield put(updateNoteCategorySuccess({ boardId, currentNotes }));
   } catch (error) {
     yield put(updateNoteCategoryFailure(error));
   }

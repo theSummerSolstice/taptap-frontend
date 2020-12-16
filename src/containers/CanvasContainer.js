@@ -16,7 +16,6 @@ import {
  } from '../modules/currentNotes/slice';
 import { generateLayout } from '../utils/index';
 
-
 const CanvasContainer = () => {
   const { user, auth } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
@@ -53,14 +52,14 @@ const CanvasContainer = () => {
     dispatch(deleteCategory({ index, layout: combinedLayout }));
   };
 
-  // handle 다 빼기..
   const handleUpdateLayout = (layout) => {
     boardSocket.updateLayout({ boardId, layout });
     dispatch(updateLayout(layout));
   };
 
-  const saveCurrentCategories = (notes) => {
-    dispatch(updateNoteCategory(notes));
+  // TODO: Save categories later
+  const saveCurrentCategories = ({ boardId, categorizedNotes }) => {
+    dispatch(updateNoteCategory({ boardId, currentNotes: categorizedNotes }));
   };
 
   useEffect(() => {
