@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 import Note from '../Note';
 import styles from './BoardCanvas.module.scss';
 import PhaseDescription from '../PhaseDescription';
 import Button from '../Button';
-import { COLORS } from '../../constants/colors';
+import { COLORS } from '../../constants/style';
+import AUTH from '../../constants/auth';
 
 const BoardCanvas = ({
   boardId,
@@ -30,7 +31,7 @@ const BoardCanvas = ({
   const [note, setNote] = useState(initialState);
 
   const handleDoubleClick = (event) => {
-    if (isWriting || auth === 'READ' || auth === 'HISTORY') return;
+    if (isWriting || auth !== AUTH.EDIT) return;
     setIsDoubleClicked(true);
 
     setNote({
@@ -67,7 +68,7 @@ const BoardCanvas = ({
   return (
     <div id='canvas' onDoubleClick={handleDoubleClick} className={styles.container} ref={boardRef}>
       {
-        auth === 'HISTORY' &&
+        auth === AUTH.HISTORY &&
         <p
           className={styles.historyModeMessage}
           data-html2canvas-ignore={true}
@@ -76,7 +77,7 @@ const BoardCanvas = ({
         </p>
       }
       {
-        auth === 'EDIT' &&
+        auth === AUTH.EDIT &&
         <PhaseDescription
           description='Put all the thoughts in stick notes, then CATEGORIZE!'
           buttonText='Categorize'
@@ -88,7 +89,7 @@ const BoardCanvas = ({
         <Draggable
           position={{ x: note.position.x, y: note.position.y }}
           bounds='parent'
-          disabled={auth === 'READ' || auth === 'HISTORY'}
+          disabled={auth !== AUTH.EDIT}
         >
           <form className={styles.note}>
             <textarea

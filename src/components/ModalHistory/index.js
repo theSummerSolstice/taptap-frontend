@@ -5,6 +5,7 @@ import Modal from '../Modal';
 import Button from '../Button';
 import { changeDateFormat } from '../../utils';
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from 'react-icons/ri';
+import { ICON_SIZE } from '../../constants/style';
 
 const ModalHistory = ({
   snapshots,
@@ -45,10 +46,10 @@ const ModalHistory = ({
           </div>
           <div className={styles.controller}>
             <Button className='defaultButton' value='prev' onClick={handleVersionController}>
-              <RiArrowDropLeftLine size='4em' />
+              <RiArrowDropLeftLine size={ICON_SIZE.XLARGE} />
             </Button>
             <Button className='defaultButton' value='next' onClick={handleVersionController}>
-              <RiArrowDropRightLine size='4em' />
+              <RiArrowDropRightLine size={ICON_SIZE.XLARGE} />
             </Button>
             <Button className='defaultButton' onClick={handleAlertModal} text='Return' />
           </div>

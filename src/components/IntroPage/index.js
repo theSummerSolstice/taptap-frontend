@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './IntroPage.module.scss';
 import Button from '../Button';
 import { FcGoogle } from 'react-icons/fc';
+import { ICON_SIZE } from '../../constants/style';
 
 const IntroPage = ({ onLogin }) => {
   return (
@@ -15,7 +16,7 @@ const IntroPage = ({ onLogin }) => {
         <h4>you only need to “tap-tap”.</h4>
       </div>
       <Button className='defaultButton' onClick={onLogin} text='Continue with Google'>
-        <FcGoogle size='2em' />
+        <FcGoogle size={ICON_SIZE.LARGE} />
       </Button>
     </div>
   );

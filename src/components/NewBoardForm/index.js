@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './NewBoardForm.module.scss';
 import Button from '../Button';
+import ROUTE from '../../constants/route';
 
 const NewBoardForm = ({ user, routePage, createNewBoard }) => {
   const [boardInfo, setBoardInfo] = useState({
@@ -32,7 +33,7 @@ const NewBoardForm = ({ user, routePage, createNewBoard }) => {
 
   const handleCancelButton = (event) => {
     event.preventDefault();
-    routePage('/');
+    routePage(ROUTE.MAIN);
   };
 
   return (

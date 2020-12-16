@@ -8,9 +8,8 @@ import {
   updateSnapshot
 } from '../modules/board/slice';
 import { getNotes } from '../modules/currentNotes/slice';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer } from 'react-toastify';
+import toast from '../utils/toast';
 import Header from '../components/Header';
 import ModalPortal from '../components/ModalPortal';
 import Modal from '../components/Modal';
@@ -19,6 +18,7 @@ import ModalHistory from '../components/ModalHistory';
 import { boardSocket } from '../modules/socket/saga';
 import { notesSelector } from '../modules/currentNotes/slice';
 import html2canvas from 'html2canvas';
+import ROUTE from '../constants/route';
 
 const HeaderContainer = ({
   onLogin,
@@ -46,7 +46,7 @@ const HeaderContainer = ({
   const handleLogout = () => {
     setIsUserModalShowing(!isUserModalShowing);
     dispatch(logoutUser());
-    routePage('/');
+    routePage(ROUTE.MAIN);
   };
 
   const navigatePage = ({ target }) => {
@@ -60,14 +60,7 @@ const HeaderContainer = ({
       boardId: board._id,
     }));
 
-    toast('📸 Snapshot is saved!', {
-      position: 'bottom-center',
-      autoClose: 2000,
-      hideProgressBar: false,
-      pauseOnHover: false,
-      closeOnClick: true,
-      progress: undefined,
-    });
+    toast.saveSnapshot();
   };
 
   const handleHistoryModeOn = () => {
@@ -113,14 +106,7 @@ const HeaderContainer = ({
     link.download = `${board.name}.jpg`;
     link.click();
 
-    toast.success('🗂 Download completed!', {
-      position: 'bottom-center',
-      autoClose: 2000,
-      hideProgressBar: false,
-      pauseOnHover: false,
-      closeOnClick: true,
-      progress: undefined,
-    });
+    toast.completeDownload();
   };
 
   const copyBoardUrl = useCallback(() => {
@@ -130,14 +116,7 @@ const HeaderContainer = ({
 
     temp.select();
     document.execCommand('copy');
-    toast.success('🔗 URL copied!', {
-      position: 'bottom-center',
-      autoClose: 2000,
-      hideProgressBar: false,
-      pauseOnHover: false,
-      closeOnClick: true,
-      progress: undefined,
-    });
+    toast.copyURL();
     document.body.removeChild(temp);
   }, []);
 

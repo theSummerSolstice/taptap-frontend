@@ -13,6 +13,7 @@ import ListPage from '../components/ListPage';
 import NewBoardForm from '../components/NewBoardForm';
 import InviteForm from '../components/InviteForm';
 import api from '../utils/api';
+import ROUTE from '../constants/route';
 
 const AppContainer = () => {
   const { user } = useSelector(userSelector.all);
@@ -32,16 +33,16 @@ const AppContainer = () => {
   };
 
   const handleLeaveBoard = () => {
-    if (!board) return routePage('/');
+    if (!board) return routePage(ROUTE.MAIN);
 
     dispatch(leaveBoard({ boardId: board._id, userId: user._id }));
-    routePage('/');
+    routePage(ROUTE.MAIN);
   };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      return routePage('/');
+      return routePage(ROUTE.MAIN);
     }
 
     const currentLocation = location.pathname;
@@ -57,14 +58,14 @@ const AppContainer = () => {
       handleLeaveBoard={handleLeaveBoard}
     >
       <Switch>
-        <Route exact path='/'>
+        <Route exact path={ROUTE.MAIN}>
           {
             !user
               ? <IntroPage onLogin={handleLogin} />
               : <MainPage user={user} routePage={routePage} />
           }
         </Route>
-        <Route path='/my-taptap'>
+        <Route path={ROUTE.MY_TAPTAP}>
           <ListPage
             userId={user?._id}
             title='My taptap'
@@ -73,21 +74,21 @@ const AppContainer = () => {
             deleteBoard={deleteBoard}
           />
         </Route>
-        <Route path='/invited-taptap'>
+        <Route path={ROUTE.INVITED_TAPTAP}>
           <ListPage
             title='Invited taptap'
             list={user?.authorizedBoards}
             routePage={routePage}
           />
         </Route>
-        <Route path='/board/new'>
+        <Route path={ROUTE.BOARD_NEW}>
           <NewBoardForm
             user={user}
             routePage={routePage}
             createNewBoard={createNewBoard}
           />
         </Route>
-        <Route path='/board/:board_id/invite'>
+        <Route path={ROUTE.BOARD_INVITE}>
           <InviteForm
             user={user}
             routePage={routePage}
@@ -95,12 +96,12 @@ const AppContainer = () => {
             sendInviteMail={sendInviteMail}
           />
         </Route>
-        <Route path='/board/:board_id'>
+        <Route path={ROUTE.BOARD_ID}>
           <BoardContainer
             handleLeaveBoard={handleLeaveBoard}
           />
         </Route>
-        <Redirect to='/'/>
+        <Redirect to={ROUTE.MAIN}/>
       </Switch>
     </HeaderContainer>
   );

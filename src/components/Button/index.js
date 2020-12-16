@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './Button.module.scss';
 
-// TODO: attributes
 const Button = ({
   className,
   text,

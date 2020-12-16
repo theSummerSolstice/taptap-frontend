@@ -3,6 +3,8 @@ import styles from './Note.module.scss';
 import Draggable from 'react-draggable';
 import Button from '../Button';
 import { FaTrashAlt } from 'react-icons/fa';
+import AUTH from '../../constants/auth';
+import { ICON_SIZE } from '../../constants/style';
 
 const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => {
   const [isButtonShowing, setIsButtonShowing] = useState(false);
@@ -25,7 +27,7 @@ const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => 
       position={{ x: note.position.x, y: note.position.y }}
       bounds='parent'
       onDrag={handleDragNote}
-      disabled={auth === 'READ' || auth === 'HISTORY'}
+      disabled={auth !== AUTH.EDIT}
     >
       <div
         style={{ backgroundImage: note.color }}
@@ -35,9 +37,9 @@ const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => 
       >
         <span>{note.contents}</span>
         {
-          isButtonShowing && auth === 'EDIT' &&
+          isButtonShowing && auth === AUTH.EDIT &&
           <Button className='circleButton' onClick={handleDelete}>
-            <FaTrashAlt size='1em' />
+            <FaTrashAlt size={ICON_SIZE.XSMALL} />
           </Button>
         }
         <span className={styles.username}>{user.username}</span>

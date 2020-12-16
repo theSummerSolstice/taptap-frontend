@@ -4,6 +4,8 @@ import LazyImage from '../LazyImage';
 import Button from '../Button';
 import { changeDateFormat } from '../../utils';
 import { FaTrashAlt } from 'react-icons/fa';
+import ROUTE from '../../constants/route';
+import { ICON_SIZE } from '../../constants/style';
 
 const SectionItem = ({
   id,
@@ -36,14 +38,14 @@ const SectionItem = ({
     <>
       <div
         className={styles.container}
-        onClick={() => routePage(`/board/${id}`)}
+        onClick={() => routePage(`${ROUTE.BOARD}/${id}`)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         {
           isDeleteButtonShowing &&
           <Button className='circleButton' onClick={handleDeleteButton}>
-            <FaTrashAlt size='1.3em' />
+            <FaTrashAlt size={ICON_SIZE.SMALL} />
           </Button>
         }
         <LazyImage className={styles.boardImage} src={src} />

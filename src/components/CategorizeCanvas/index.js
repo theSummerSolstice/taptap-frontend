@@ -5,6 +5,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import Button from '../Button';
 import { FaPlus } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import { ICON_SIZE } from '../../constants/style';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -83,7 +84,7 @@ const CategorizeCanvas = ({
         buttonText='Save'
         onClick={handleSaveClick}
       />
-      <div className={styles.inputContainer}>
+      <div className={styles.inputContainer} data-html2canvas-ignore={true}>
         <input
           type='text'
           placeholder='Enter category'
@@ -91,7 +92,7 @@ const CategorizeCanvas = ({
           onChange={handleInputChange}
         />
         <Button className='circleButton' onClick={handleAddClick}>
-          <FaPlus size='1em' />
+          <FaPlus size={ICON_SIZE.XSMALL} />
         </Button>
       </div>
       <ResponsiveGridLayout
