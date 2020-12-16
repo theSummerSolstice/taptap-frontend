@@ -6,10 +6,9 @@
   overflow: hidden;
 
   .image {
-    margin-top: -15px;
-    width: 100%;
+    border: 1px solid $base-color;
     max-width: 250px;
-    height: 190px;
+    height: 150px;
   }
 }
 
