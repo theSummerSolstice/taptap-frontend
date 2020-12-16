@@ -1,9 +1,7 @@
 import React from 'react';
 import styles from './ModalHistory.module.scss';
-import ModalPortal from '../ModalPortal';
 import Modal from '../Modal';
 import Button from '../Button';
-import { changeDateFormat } from '../../utils';
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from 'react-icons/ri';
 import { ICON_SIZE } from '../../constants/style';
 
@@ -57,7 +55,6 @@ const ModalHistory = ({
       </div>
       {
         isAlertModalShowing &&
-        <ModalPortal>
           <Modal className='alertModal'>
             <div className={styles.modalContents}>
               <h3>Alert</h3>
@@ -71,7 +68,6 @@ const ModalHistory = ({
               </div>
             </div>
           </Modal>
-        </ModalPortal>
       }
     </>
   );

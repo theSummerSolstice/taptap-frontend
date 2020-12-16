@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { userSelector } from '../modules/user/slice';
-import { boardSelector, createBoard, updateBoard, leaveBoard  } from '../modules/board/slice';
-import { initUser, deleteMyBoards } from '../modules/user/slice';
+import { userSelector, initUser, deleteMyBoards } from '../modules/user/slice';
+import { boardSelector, createBoard, updateBoard, leaveBoard } from '../modules/board/slice';
 
 import HeaderContainer from './HeaderContainer';
 import BoardContainer from './BoardContainer';
@@ -12,12 +11,13 @@ import MainPage from '../components/MainPage';
 import ListPage from '../components/ListPage';
 import NewBoardForm from '../components/NewBoardForm';
 import InviteForm from '../components/InviteForm';
+import ErrorView from '../components/ErrorView';
 import api from '../utils/api';
 import ROUTE from '../constants/route';
 
 const AppContainer = () => {
-  const { user } = useSelector(userSelector.all);
-  const { board } = useSelector(boardSelector.all);
+  const { user, error: userError } = useSelector(userSelector.all);
+  const { board, error: boardError } = useSelector(boardSelector.all);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -49,6 +49,14 @@ const AppContainer = () => {
     dispatch(initUser());
     history.push(currentLocation);
   }, []);
+
+  if (userError || boardError) {
+    return (
+    <ErrorView
+      error={userError || boardError}
+      routePage={routePage}
+    />);
+  }
 
   return (
     <HeaderContainer

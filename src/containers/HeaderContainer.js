@@ -11,7 +11,6 @@ import { getNotes } from '../modules/currentNotes/slice';
 import { ToastContainer } from 'react-toastify';
 import toast from '../utils/toast';
 import Header from '../components/Header';
-import ModalPortal from '../components/ModalPortal';
 import Modal from '../components/Modal';
 import ModalUser from '../components/ModalUser';
 import ModalHistory from '../components/ModalHistory';
@@ -139,7 +138,6 @@ const HeaderContainer = ({
       </Header>
       {
         isUserModalShowing &&
-        <ModalPortal>
           <Modal onClick={handleUserModal} className='headerModal'>
             <ModalUser
               username={user.username}
@@ -147,24 +145,21 @@ const HeaderContainer = ({
               navigatePage={navigatePage}
             />
           </Modal>
-        </ModalPortal>
       }
       {
-          isHistoryModalShowing &&
-          <ModalPortal>
-            <Modal className='headerModal'>
-              <ModalHistory
-                snapshots={board.snapshots}
-                isAlertModalShowing={isAlertModalShowing}
-                handleAlertModal={handleAlertModal}
-                handleHistoryModeOff={handleHistoryModeOff}
-                handleVersionClick={handleVersionClick}
-                handleVersionController={handleVersionController}
-                confirmDeleteSnapshots={confirmDeleteSnapshots}
-              />
-            </Modal>
-          </ModalPortal>
-        }
+        isHistoryModalShowing &&
+          <Modal className='headerModal'>
+            <ModalHistory
+              snapshots={board.snapshots}
+              isAlertModalShowing={isAlertModalShowing}
+              handleAlertModal={handleAlertModal}
+              handleHistoryModeOff={handleHistoryModeOff}
+              handleVersionClick={handleVersionClick}
+              handleVersionController={handleVersionController}
+              confirmDeleteSnapshots={confirmDeleteSnapshots}
+            />
+          </Modal>
+      }
     </>
   );
 };
