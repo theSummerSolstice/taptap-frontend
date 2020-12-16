@@ -2,29 +2,31 @@ import React from 'react';
 import styles from './BoardAside.module.scss';
 import Button from '../Button';
 import { RiArrowDropLeftLine } from 'react-icons/ri';
+import AUTH from '../../constants/auth';
+import { ICON_SIZE } from '../../constants/style';
 
 const BoardAside = ({
   board,
   auth,
-  handleLeaveBoard,
-  handleBackToBoard,
+  leaveBoard,
+  setIsCategorized,
   children
 }) => {
   return (
     <div className={styles.container}>
       <div className={styles.buttonContainer}>
         {
-          auth === 'EDIT' &&
+          auth === AUTH.EDIT &&
           <Button
             className='backButton'
             onClick={
               board.isCategorized
-                ? handleBackToBoard
-                : handleLeaveBoard
+                ? setIsCategorized
+                : leaveBoard
               }
             text='Back'
           >
-            <RiArrowDropLeftLine size='1.5em' />
+            <RiArrowDropLeftLine size={ICON_SIZE.MEDIUM} />
           </Button>
         }
       </div>

@@ -5,6 +5,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import Button from '../Button';
 import { FaPlus } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import { ICON_SIZE } from '../../constants/style';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -14,10 +15,10 @@ const CategorizeCanvas = ({
   columns,
   layout,
   boardRef,
-  handleAddCategory,
-  handleDeleteCategory,
-  handleUpdateLayout,
-  saveCurrentCategories,
+  addCategory,
+  deleteCategory,
+  updateLayout,
+  updateNoteCategory,
  }) => {
   const [categoryName, setCategoryName] = useState('');
   const noteRef = useRef([]);
@@ -28,12 +29,12 @@ const CategorizeCanvas = ({
   };
 
   const handleAddClick = () => {
-    handleAddCategory(categoryName);
+    addCategory(categoryName);
     setCategoryName('');
   };
 
   const handleDeleteClick = ({ target }) => {
-    handleDeleteCategory(target.value);
+    deleteCategory(target.value);
     setCategoryName('');
   };
 
@@ -72,7 +73,7 @@ const CategorizeCanvas = ({
       };
     });
 
-    saveCurrentCategories(boardId, categorizedNotes);
+    updateNoteCategory(boardId, categorizedNotes);
   };
 
   return (
@@ -83,7 +84,7 @@ const CategorizeCanvas = ({
         buttonText='Save'
         onClick={handleSaveClick}
       />
-      <div className={styles.inputContainer}>
+      <div className={styles.inputContainer} data-html2canvas-ignore={true}>
         <input
           type='text'
           placeholder='Enter category'
@@ -91,7 +92,7 @@ const CategorizeCanvas = ({
           onChange={handleInputChange}
         />
         <Button className='circleButton' onClick={handleAddClick}>
-          <FaPlus size='1em' />
+          <FaPlus size={ICON_SIZE.XSMALL} />
         </Button>
       </div>
       <ResponsiveGridLayout
@@ -103,7 +104,7 @@ const CategorizeCanvas = ({
         breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
         cols={{lg: columns, md: columns, sm: columns, xs: columns, xxs: columns}}
         layouts={{lg: layout, md: layout, sm: layout, xs: layout, xxs: layout}}
-        onDragStop={(layout) => handleUpdateLayout(layout)}
+        onDragStop={(layout) => updateLayout(layout)}
       >
         {
           categories.map((category, index) => (

@@ -2,6 +2,8 @@ import React from 'react';
 import Button from '../Button';
 import { MdFileDownload } from 'react-icons/md';
 import { HiOutlineLink } from 'react-icons/hi';
+import ROUTE from '../../constants/route';
+import { ICON_SIZE } from '../../constants/style';
 
 export const LoginHeader = ({ onLogin }) => {
   return (
@@ -11,22 +13,22 @@ export const LoginHeader = ({ onLogin }) => {
 
 export const MainHeader = ({ routePage }) => {
   return (
-    <Button className='defaultButton' onClick={() => routePage('/board/new')} text='New taptap' />
+    <Button className='defaultButton' onClick={() => routePage(ROUTE.BOARD_NEW)} text='New taptap' />
   );
 };
 
 export const BoardHeader = ({
   isOwner,
-  handleSnapshot,
-  handleHistoryModeOn
+  saveSnapshot,
+  startHistoryMode,
 }) => {
   return (
     <>
       {
         isOwner &&
           <>
-            <Button className='defaultButton' onClick={handleSnapshot} text='Snapshot' />
-            <Button className='defaultButton' onClick={handleHistoryModeOn} text='History mode' />
+            <Button className='defaultButton' onClick={saveSnapshot} text='Snapshot' />
+            <Button className='defaultButton' onClick={startHistoryMode} text='History mode' />
           </>
       }
     </>
@@ -37,10 +39,10 @@ export const ShareHeader = ({ downloadImage, copyBoardUrl }) => {
   return (
     <>
       <Button className='shareButton' onClick={downloadImage}>
-        <MdFileDownload size='1.5em' />
+        <MdFileDownload size={ICON_SIZE.MEDIUM} />
       </Button>
       <Button className='shareButton' onClick={copyBoardUrl}>
-        <HiOutlineLink size='1.3em' />
+        <HiOutlineLink size={ICON_SIZE.SMALL} />
       </Button>
     </>
   );

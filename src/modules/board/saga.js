@@ -3,6 +3,7 @@ import { call, all, put, takeLatest, getContext, takeEvery } from 'redux-saga/ef
 import api from '../../utils/api';
 import { boardSocket } from '../socket/saga';
 import html2canvas from 'html2canvas';
+import AUTH from '../../constants/auth';
 import { updateMyBoards, changeAuthState } from '../user/slice';
 import { getNotes, resetNotes } from '../currentNotes/slice';
 import {
@@ -79,15 +80,17 @@ function* getBoardSaga ({ payload }) {
   try {
     const { board } = yield call(api.get, `/board/${boardId}`);
 
-    if (board.owner !== user._id && board.authorizedUsers.indexOf(user.email) === -1) {
-      yield put(changeAuthState('READ'));
+    const canEdit = board.owner === user._id
+      || board.authorizedUsers.indexOf(user.email) !== -1;
+    if (!canEdit) {
+      yield put(changeAuthState(AUTH.READ));
     } else {
       yield call(boardSocket.joinUser, { boardId, user });
-      yield put(changeAuthState('EDIT'));
+      yield put(changeAuthState(AUTH.EDIT));
     }
 
-    yield put(getBoardSuccess(board));
     yield put(getNotes(board.currentNotes));
+    yield put(getBoardSuccess(board));
   } catch (error) {
     yield put(getBoardFailure(error));
   }

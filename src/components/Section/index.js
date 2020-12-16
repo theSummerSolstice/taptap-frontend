@@ -2,12 +2,13 @@ import React from 'react';
 import SectionItem from '../SectionItem';
 import styles from './Section.module.scss';
 import Button from '../Button';
+import ROUTE from '../../constants/route';
 
 const Section = ({ title, list, routePage }) => {
   const handleMoreButton = () => {
     title === 'My taptap'
-      ? routePage('/my-taptap')
-      : routePage('/invited-taptap');
+      ? routePage(ROUTE.MY_TAPTAP)
+      : routePage(ROUTE.INVITED_TAPTAP);
   };
 
   return (

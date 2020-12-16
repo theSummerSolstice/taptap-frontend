@@ -1,7 +1,6 @@
 import { takeLatest, put, all, call, getContext } from 'redux-saga/effects';
 import firebase from '../../utils/firebase';
 import api from '../../utils/api';
-
 import {
   initUser,
   initUserSuccess,

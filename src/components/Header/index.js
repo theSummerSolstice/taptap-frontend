@@ -7,10 +7,10 @@ const Header = ({
   board,
   onLogin,
   routePage,
-  handleSnapshot,
-  handleUserModal,
-  handleHistoryModeOn,
-  handleLeaveBoard,
+  saveSnapshot,
+  showUserModal,
+  startHistoryMode,
+  leaveBoard,
   downloadImage,
   copyBoardUrl,
   children,
@@ -27,21 +27,21 @@ const Header = ({
         />
       : <BoardHeader
           isOwner={user._id === board.owner}
-          handleSnapshot={handleSnapshot}
-          handleHistoryModeOn={handleHistoryModeOn}
+          saveSnapshot={saveSnapshot}
+          startHistoryMode={startHistoryMode}
         />;
   };
 
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.logo} onClick={handleLeaveBoard}>taptap</div>
+        <div className={styles.logo} onClick={leaveBoard}>taptap</div>
         {
           !user
             ? <LoginHeader onLogin={onLogin} />
             : <div className={styles.buttonContainer}>
                 { renderHeader() }
-                <img src={user.imageSrc} alt='user profile' onClick={handleUserModal} />
+                <img src={user.imageSrc} alt='user profile' onClick={showUserModal} />
               </div>
         }
       </div>

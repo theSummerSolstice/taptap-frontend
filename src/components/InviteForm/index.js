@@ -3,6 +3,7 @@ import styles from './InviteForm.module.scss';
 import { useParams } from 'react-router-dom';
 import { validateEmail } from '../../utils/validation';
 import Button from '../Button';
+import ROUTE from '../../constants/route';
 
 const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
   const { board_id } = useParams();
@@ -43,11 +44,11 @@ const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
       data: { authorizedUsers: emailList },
       boardId: board_id,
     });
-    routePage(`/board/${board_id}`);
+    routePage(`${ROUTE.BOARD}/${board_id}`);
   };
 
   const handleSkipButton = () => {
-    routePage(`/board/${board_id}`);
+    routePage(`${ROUTE.BOARD}/${board_id}`);
   };
 
   return (

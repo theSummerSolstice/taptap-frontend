@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styles from './NewBoardForm.module.scss';
 import Button from '../Button';
+import ROUTE from '../../constants/route';
 
-const NewBoardForm = ({ user, routePage, createNewBoard }) => {
+const NewBoardForm = ({ user, routePage, createBoard }) => {
   const [boardInfo, setBoardInfo] = useState({
     owner: user._id,
     name: '',
@@ -27,12 +28,12 @@ const NewBoardForm = ({ user, routePage, createNewBoard }) => {
       setValidationMessage('should enter a board name');
       return;
     }
-    createNewBoard(boardInfo);
+    createBoard(boardInfo);
   };
 
   const handleCancelButton = (event) => {
     event.preventDefault();
-    routePage('/');
+    routePage(ROUTE.MAIN);
   };
 
   return (

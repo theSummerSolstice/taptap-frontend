@@ -85,7 +85,7 @@ const reducers = {
     state.loading = false;
     state.error = payload;
   },
-  updateBoardSettings: (state, { payload }) => {
+  setIsBoardCategorized: (state, { payload }) => {
     state.board.isCategorized = payload;
   },
 };
@@ -130,6 +130,6 @@ export const {
   deleteSnapshots,
   deleteSnapshotsSuccess,
   deleteSnapshotsFailure,
-  updateBoardSettings,
+  setIsBoardCategorized,
   storeCurrentNotes,
 } = slice.actions;
