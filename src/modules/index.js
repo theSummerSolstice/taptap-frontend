@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import { USER, userReducer } from './user/slice';
-import { userSagas } from './user/saga';
-import { BOARD, boardReducer } from './board/slice';
-import { boardSagas } from './board/saga';
 import { all } from 'redux-saga/effects';
-import { socketSagas } from './socket/saga';
-import { NOTES, notesReducer } from './currentNotes/slice';
+import { userSagas } from './user/saga';
+import { boardSagas } from './board/saga';
 import { notesSagas } from './currentNotes/saga';
+import { socketSagas } from './socket/saga';
+import { USER, userReducer } from './user/slice';
+import { BOARD, boardReducer } from './board/slice';
+import { NOTES, notesReducer } from './currentNotes/slice';
 
 const rootReducer = combineReducers({
   [USER]: userReducer,

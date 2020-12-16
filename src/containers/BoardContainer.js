@@ -2,36 +2,33 @@ import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../modules/user/slice';
-import { boardSelector, getBoard, updateBoardSettings } from '../modules/board/slice';
+import { boardSelector, getBoard, setIsBoardCategorized } from '../modules/board/slice';
 
 import queryString from 'query-string';
 import Board from '../components/Board';
 import Loader from '../components/Loader';
-import { notesSelector } from '../modules/currentNotes/slice';
 
-const BoardContainer = ({ handleLeaveBoard }) => {
+const BoardContainer = ({ leaveBoard }) => {
   const { user, auth } = useSelector(userSelector.all);
-  const { board, loading } = useSelector(boardSelector.all);
-  const { notes } = useSelector(notesSelector.all);
+  const { board } = useSelector(boardSelector.all);
   const dispatch = useDispatch();
-  const { board_id } = useParams();
   const history = useHistory();
+  const { board_id: boardId } = useParams();
 
-  const handleBackToBoard = () => {
-    dispatch(updateBoardSettings(false));
-  };
+  const handleIsCategorizedBoard = () => dispatch(setIsBoardCategorized(false));
 
   useEffect(() => {
     if (!user) {
-      const boardId = queryString.parseUrl(board_id).url;
-      localStorage.setItem('boardId', boardId);
+      const currentBoardId = queryString.parseUrl(boardId).url;
+      localStorage.setItem('boardId', currentBoardId);
       history.push('/');
       return;
     }
 
     localStorage.removeItem('boardId');
     const timerId = setTimeout(() => {
-      dispatch(getBoard({ boardId: board_id, user }));
+      console.log(boardId);
+      dispatch(getBoard({ boardId, user }));
     }, 2000);
 
     return () => clearTimeout(timerId);
@@ -44,13 +41,11 @@ const BoardContainer = ({ handleLeaveBoard }) => {
   return (
     <div>
       <Board
-        board={board}
-        loading={loading}
-        notes={notes}
         user={user}
         auth={auth}
-        handleLeaveBoard={handleLeaveBoard}
-        handleBackToBoard={handleBackToBoard}
+        board={board}
+        leaveBoard={leaveBoard}
+        setIsCategorized={handleIsCategorizedBoard}
       />
     </div>
   );

@@ -19,16 +19,16 @@ export const MainHeader = ({ routePage }) => {
 
 export const BoardHeader = ({
   isOwner,
-  handleSnapshot,
-  handleHistoryModeOn
+  saveSnapshot,
+  startHistoryMode,
 }) => {
   return (
     <>
       {
         isOwner &&
           <>
-            <Button className='defaultButton' onClick={handleSnapshot} text='Snapshot' />
-            <Button className='defaultButton' onClick={handleHistoryModeOn} text='History mode' />
+            <Button className='defaultButton' onClick={saveSnapshot} text='Snapshot' />
+            <Button className='defaultButton' onClick={startHistoryMode} text='History mode' />
           </>
       }
     </>

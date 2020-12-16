@@ -8,8 +8,8 @@ import { ICON_SIZE } from '../../constants/style';
 const BoardAside = ({
   board,
   auth,
-  handleLeaveBoard,
-  handleBackToBoard,
+  leaveBoard,
+  setIsCategorized,
   children
 }) => {
   return (
@@ -21,8 +21,8 @@ const BoardAside = ({
             className='backButton'
             onClick={
               board.isCategorized
-                ? handleBackToBoard
-                : handleLeaveBoard
+                ? setIsCategorized
+                : leaveBoard
               }
             text='Back'
           >

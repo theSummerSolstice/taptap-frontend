@@ -3,7 +3,7 @@ import { eventChannel } from 'redux-saga';
 import { take, call, put } from 'redux-saga/effects';
 import toast from '../../utils/toast';
 import { changeAuthState } from '../user/slice';
-import { updateUserList, updateBoardSettings } from '../board/slice';
+import { updateUserList, setIsBoardCategorized } from '../board/slice';
 import {
   getNotes,
   addNote,
@@ -53,7 +53,7 @@ function createSocketChannel (socket) {
     });
 
     socket.on(EVENT.START_CATEGORIZE, ({ data }) => {
-      emit(updateBoardSettings(data));
+      emit(setIsBoardCategorized(data));
     });
 
     socket.on(EVENT.ADD_CATEGORY, ({ categoryName, layout }) => {

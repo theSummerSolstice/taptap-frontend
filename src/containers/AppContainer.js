@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector, initUser, deleteMyBoards } from '../modules/user/slice';
@@ -12,10 +12,11 @@ import ListPage from '../components/ListPage';
 import NewBoardForm from '../components/NewBoardForm';
 import InviteForm from '../components/InviteForm';
 import ErrorView from '../components/ErrorView';
-import api from '../utils/api';
 import ROUTE from '../constants/route';
+import api from '../utils/api';
 
 const AppContainer = () => {
+  const [error, setError] = useState(null);
   const { user, error: userError } = useSelector(userSelector.all);
   const { board, error: boardError } = useSelector(boardSelector.all);
   const dispatch = useDispatch();
@@ -24,14 +25,9 @@ const AppContainer = () => {
 
   const routePage = (route) => history.push(route);
   const handleLogin = () => dispatch(initUser({ token: null }));
-  const createNewBoard = (boardInfo) => dispatch(createBoard(boardInfo));
-  const deleteBoard = (boardId) => dispatch(deleteMyBoards(boardId));
-  const updateBoardItem = (data) => dispatch(updateBoard(data));
-
-  const sendInviteMail = async (email, boardId) => {
-    await api.post(`/board/${boardId}/invite`, { email });
-  };
-
+  const handleCreateBoard = (boardInfo) => dispatch(createBoard(boardInfo));
+  const handleDeleteBoard = (boardId) => dispatch(deleteMyBoards(boardId));
+  const handleUpdateBoard = (data) => dispatch(updateBoard(data));
   const handleLeaveBoard = () => {
     if (!board) return routePage(ROUTE.MAIN);
 
@@ -39,8 +35,17 @@ const AppContainer = () => {
     routePage(ROUTE.MAIN);
   };
 
+  const sendInviteMail = async (email, boardId) => {
+    try {
+      await api.post(`/board/${boardId}/invite`, { email });
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
+
     if (!token) {
       return routePage(ROUTE.MAIN);
     }
@@ -50,7 +55,7 @@ const AppContainer = () => {
     history.push(currentLocation);
   }, []);
 
-  if (userError || boardError) {
+  if (error || userError || boardError) {
     return (
     <ErrorView
       error={userError || boardError}
@@ -62,8 +67,8 @@ const AppContainer = () => {
     <HeaderContainer
       onLogin={handleLogin}
       routePage={routePage}
-      updateBoard={updateBoardItem}
-      handleLeaveBoard={handleLeaveBoard}
+      updateBoard={handleUpdateBoard}
+      leaveBoard={handleLeaveBoard}
     >
       <Switch>
         <Route exact path={ROUTE.MAIN}>
@@ -79,7 +84,7 @@ const AppContainer = () => {
             title='My taptap'
             list={user?.myBoards}
             routePage={routePage}
-            deleteBoard={deleteBoard}
+            deleteBoard={handleDeleteBoard}
           />
         </Route>
         <Route path={ROUTE.INVITED_TAPTAP}>
@@ -93,20 +98,20 @@ const AppContainer = () => {
           <NewBoardForm
             user={user}
             routePage={routePage}
-            createNewBoard={createNewBoard}
+            createBoard={handleCreateBoard}
           />
         </Route>
         <Route path={ROUTE.BOARD_INVITE}>
           <InviteForm
             user={user}
             routePage={routePage}
-            updateBoard={updateBoardItem}
+            updateBoard={handleUpdateBoard}
             sendInviteMail={sendInviteMail}
           />
         </Route>
         <Route path={ROUTE.BOARD_ID}>
           <BoardContainer
-            handleLeaveBoard={handleLeaveBoard}
+            leaveBoard={handleLeaveBoard}
           />
         </Route>
         <Redirect to={ROUTE.MAIN}/>

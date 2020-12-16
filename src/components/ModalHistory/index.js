@@ -8,9 +8,9 @@ import { ICON_SIZE } from '../../constants/style';
 const ModalHistory = ({
   snapshots,
   isAlertModalShowing,
-  handleAlertModal,
-  handleHistoryModeOff,
-  handleVersionClick,
+  showAlertModal,
+  closeHistoryMode,
+  selectHistoryVersion,
   handleVersionController,
   confirmDeleteSnapshots,
  }) => {
@@ -19,7 +19,7 @@ const ModalHistory = ({
       <div className={styles.container}>
         <div className={styles.title}>
           <h3>History select</h3>
-          <Button className='defaultButton' onClick={handleHistoryModeOff} text='Cancel' />
+          <Button className='defaultButton' onClick={closeHistoryMode} text='Cancel' />
         </div>
         <div className={styles.timeTravel}>
           <div className={styles.versionContainer}>
@@ -28,7 +28,7 @@ const ModalHistory = ({
                 <div
                   key={index}
                   className={styles.version}
-                  onClick={() => handleVersionClick(snapshot.notes, index)}
+                  onClick={() => selectHistoryVersion(snapshot.notes, index)}
                 >
                   <span>
                     {
@@ -49,7 +49,7 @@ const ModalHistory = ({
             <Button className='defaultButton' value='next' onClick={handleVersionController}>
               <RiArrowDropRightLine size={ICON_SIZE.XLARGE} />
             </Button>
-            <Button className='defaultButton' onClick={handleAlertModal} text='Return' />
+            <Button className='defaultButton' onClick={showAlertModal} text='Return' />
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@ const ModalHistory = ({
               </p>
               <div className={styles.buttonContainer}>
                 <Button className='defaultButton' onClick={confirmDeleteSnapshots} text='Confirm' />
-                <Button className='defaultButton' onClick={handleAlertModal} text='Cancel' />
+                <Button className='defaultButton' onClick={showAlertModal} text='Cancel' />
               </div>
             </div>
           </Modal>

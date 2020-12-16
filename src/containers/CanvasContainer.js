@@ -1,10 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../modules/user/slice';
-import { boardSelector, updateBoardSettings } from '../modules/board/slice';
-import BoardCanvas from '../components/BoardCanvas';
-import { boardSocket } from '../modules/socket/saga';
-import CategorizeCanvas from '../components/CategorizeCanvas';
+import { boardSelector, setIsBoardCategorized } from '../modules/board/slice';
 import {
   notesSelector,
   initializeCategory,
@@ -13,7 +11,11 @@ import {
   updateLayout,
   updateNotePosition,
   updateNoteCategory
- } from '../modules/currentNotes/slice';
+} from '../modules/currentNotes/slice';
+import { boardSocket } from '../modules/socket/saga';
+
+import BoardCanvas from '../components/BoardCanvas';
+import CategorizeCanvas from '../components/CategorizeCanvas';
 import { generateLayout } from '../utils/index';
 
 const CanvasContainer = () => {
@@ -21,8 +23,8 @@ const CanvasContainer = () => {
   const { board } = useSelector(boardSelector.all);
   const { notes, categories, layout } = useSelector(notesSelector.all);
   const dispatch = useDispatch();
-  const boardId = board._id;
   const boardRef = useRef(null);
+  const { board_id: boardId } = useParams();
 
   const addNote = (note) => boardSocket.addNote(note);
   const deleteNote = (noteId) => boardSocket.deleteNote(noteId);
@@ -31,8 +33,8 @@ const CanvasContainer = () => {
     boardSocket.updateNotePosition({ boardId, noteId, position });
   };
 
-  const handleCategorize = () => {
-    dispatch(updateBoardSettings(true));
+  const handleStartCategorize = () => {
+    dispatch(setIsBoardCategorized(true));
     boardSocket.startCategorize({ boardId });
   };
 
@@ -57,8 +59,7 @@ const CanvasContainer = () => {
     dispatch(updateLayout(layout));
   };
 
-  // TODO: Save categories later
-  const saveCurrentCategories = ({ boardId, categorizedNotes }) => {
+  const handleUpdateNoteCategory = ({ boardId, categorizedNotes }) => {
     dispatch(updateNoteCategory({ boardId, currentNotes: categorizedNotes }));
   };
 
@@ -83,13 +84,13 @@ const CanvasContainer = () => {
               columns={categories.length}
               layout={layout}
               boardRef={boardRef}
-              handleAddCategory={handleAddCategory}
-              handleDeleteCategory={handleDeleteCategory}
-              handleUpdateLayout={handleUpdateLayout}
-              saveCurrentCategories={saveCurrentCategories}
+              addCategory={handleAddCategory}
+              deleteCategory={handleDeleteCategory}
+              updateLayout={handleUpdateLayout}
+              updateNoteCategory={handleUpdateNoteCategory}
             />
           : <BoardCanvas
-              boardId={board._id}
+              boardId={boardId}
               notes={notes}
               user={user}
               auth={auth}
@@ -97,7 +98,7 @@ const CanvasContainer = () => {
               addNote={addNote}
               deleteNote={deleteNote}
               updateNotePosition={handleNotePosition}
-              handleCategorize={handleCategorize}
+              startCategorize={handleStartCategorize}
             />
       }
     </>
