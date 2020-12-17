@@ -18,3 +18,18 @@ export const generateLayout = (number) => {
     };
   });
 };
+
+export const sortByUpdatedDate = (array) => {
+  return array.slice().sort((a, b) => {
+    const updatedDateA = new Date(a.updatedAt);
+    const updatedDateB = new Date(b.updatedAt);
+
+    if (updatedDateA > updatedDateB) {
+      return -1;
+    } else if (updatedDateA < updatedDateB) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }).slice(0, 8);
+};
