@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import { eventChannel } from 'redux-saga';
 import { take, call, put } from 'redux-saga/effects';
 import toast from '../../utils/toast';
-import { changeAuthState } from '../user/slice';
+import { changeAuthState, updateAuthorizedBoards } from '../user/slice';
 import { updateUserList, setIsBoardCategorized } from '../board/slice';
 import {
   getNotes,
@@ -26,6 +26,10 @@ function createSocketChannel (socket) {
 
     socket.on(EVENT.LEAVE_USER, ({ board }) => {
       emit(updateUserList(board));
+    });
+
+    socket.on(EVENT.UPDATE_AUTHORIZED_BOARDS, ({ board }) => {
+      emit(updateAuthorizedBoards(board));
     });
 
     socket.on(EVENT.ADD_NOTE, ({ note }) => {
