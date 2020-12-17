@@ -12,7 +12,6 @@ api.get = async (path) => {
   const response = await fetch(`${REACT_APP_SERVER_URI}${path}`, {
     method: 'GET',
     headers,
-    credentials: 'include',
   }).then((result) => result.json());
 
   return response.data;
@@ -29,7 +28,6 @@ api.post = async (path, body) => {
     method: 'POST',
     headers,
     body: JSON.stringify(body),
-    credentials: 'include',
   }).then((result) => result.json());
 
   return response.data;
@@ -46,7 +44,6 @@ api.put = async (path, body) => {
     method: 'PUT',
     headers,
     body: JSON.stringify(body),
-    credentials: 'include',
   }).then((result) => result.json());
 
   return response.data;
@@ -63,7 +60,6 @@ api.delete = async (path, body) => {
     method: 'DELETE',
     headers,
     body: JSON.stringify(body),
-    credentials: 'include',
   }).then((result) => result.json());
 
   return response;
