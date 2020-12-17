@@ -30,6 +30,7 @@ const AppContainer = () => {
   const handleUpdateBoard = (data) => dispatch(updateBoard(data));
   const handleLeaveBoard = () => {
     if (!board) return routePage(ROUTE.MAIN);
+    if (!board.users) return;
 
     dispatch(leaveBoard({ boardId: board._id, userId: user._id }));
     routePage(ROUTE.MAIN);
