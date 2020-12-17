@@ -1,28 +1,31 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 export const useLazyImageObserver = ({ src }) => {
-  const [imageSrc, setImageSrc] = useState(null);
   const imageRef = useRef(null);
 
-  useEffect(() => {
-    let observer;
+  useEffect((src) => {
+    let io;
 
-    if (imageRef && !imageSrc) {
-      observer = new IntersectionObserver((entries) => {
-        entries.forEach(({ isIntersecting }) => {
-          if (isIntersecting) {
-            setImageSrc(src);
-            observer.unobserve(imageRef.current);
+    if (imageRef) {
+      io = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.src = entry.target.dataset.src;
+            }, 300);
+
+            observer.unobserve(entry.target);
           }
         });
-      }, { threshold: [0.25] });
-      observer.observe(imageRef.current);
+      }, { threshold: 0.25 });
+
+      io.observe(imageRef.current);
     }
 
     return () => {
-      observer && observer.disconnect(imageRef);
+      io && io.disconnect(imageRef);
     };
-  }, [imageRef, imageSrc, src]);
+  }, [imageRef, src]);
 
-  return { imageSrc, imageRef };
+  return { imageRef };
 };
