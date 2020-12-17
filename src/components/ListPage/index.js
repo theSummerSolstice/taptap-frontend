@@ -21,7 +21,7 @@ const ListPage = ({
               {
                 list.map((item) => (
                   <SectionItem
-                    id={item._id}
+                    boardId={item._id}
                     key={item._id}
                     src={item.imageSrc}
                     name={item.name}

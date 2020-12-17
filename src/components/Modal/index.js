@@ -10,7 +10,7 @@ const Modal = ({ className, onClick, children }) => {
         <div className={styles.modalContents}>
           { children }
         </div>
-    </div>
+      </div>
     </ModalPortal>
   );
 };

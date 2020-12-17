@@ -30,6 +30,7 @@ const AppContainer = () => {
   const handleUpdateBoard = (data) => dispatch(updateBoard(data));
   const handleLeaveBoard = () => {
     if (!board) return routePage(ROUTE.MAIN);
+    if (!board.users) return;
 
     dispatch(leaveBoard({ boardId: board._id, userId: user._id }));
     routePage(ROUTE.MAIN);
@@ -113,6 +114,7 @@ const AppContainer = () => {
         <Route path={ROUTE.BOARD_ID}>
           <BoardContainer
             leaveBoard={handleLeaveBoard}
+            routePage={routePage}
           />
         </Route>
         <Redirect to={ROUTE.MAIN} />

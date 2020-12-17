@@ -51,6 +51,7 @@ const HeaderContainer = ({
 
   const navigatePage = ({ target }) => {
     setIsUserModalShowing(!isUserModalShowing);
+    leaveBoard();
     routePage(target.value);
   };
 

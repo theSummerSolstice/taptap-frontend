@@ -52,7 +52,7 @@ const reducers = {
     state.error = payload;
   },
   updateAuthorizedBoards: (state, { payload }) => {
-    state.user.authorizedBoards.push(payload);
+    state.user.authorizedBoards = payload;
   },
   changeAuthState: (state, { payload }) => {
     state.auth = payload;

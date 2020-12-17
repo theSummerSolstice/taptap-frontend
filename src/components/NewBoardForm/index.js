@@ -17,7 +17,9 @@ const NewBoardForm = ({ user, routePage, createBoard }) => {
 
     setBoardInfo({
       ...boardInfo,
-      [name]: value,
+      [name]: name === 'isPublic'
+        ? value === 'true'
+        : value,
     });
   };
 
@@ -28,6 +30,7 @@ const NewBoardForm = ({ user, routePage, createBoard }) => {
       setValidationMessage('should enter a board name');
       return;
     }
+
     createBoard(boardInfo);
   };
 
