@@ -37,11 +37,11 @@
 
   .modalContents {
     position: fixed;
-    left: 50%;
     top: 45%;
+    left: 50%;
     transform: translate(-45%, -50%);
     width: 30vw;
-    background-color: $white;
     border-radius: 5px;
+    background-color: $white;
   }
 }

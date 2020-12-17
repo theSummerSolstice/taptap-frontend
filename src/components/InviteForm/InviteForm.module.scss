@@ -35,8 +35,8 @@
       border-bottom: 1px solid $white;
       background-color: transparent;
       color: $white;
-      font-size: $font-size-2;
       font-family: $font-openSans;
+      font-size: $font-size-2;
       text-align: center;
 
       &::placeholder {
@@ -54,25 +54,25 @@
     }
 
     button {
+      padding: 5px 10px;
       background-color: $base-color;
       color: $main-color;
-      padding: 5px 10px;
     }
   }
 
   .validationMessage {
-    font-family: $font-openSans;
-    text-align: center;
     color: $red;
+    font-family: $font-openSans;
     font-size: $font-size-1;
+    text-align: center;
   }
 
   .emailContainer {
-    background-color: $base-color;
-    font-size: $font-size-1;
     margin: 30px 0;
     padding: 5px 10px;
     border-radius: 5px;
+    background-color: $base-color;
+    font-size: $font-size-1;
 
     .email {
       display: flex;
@@ -85,8 +85,8 @@
         border-radius: 15px;
         background-color: $main-color;
         color: $white;
-        text-transform: uppercase;
         font-size: $font-size-0;
+        text-transform: uppercase;
       }
 
       button {

@@ -29,8 +29,8 @@
       border-bottom: 1px solid $white;
       background-color: transparent;
       color: $white;
-      font-size: $font-size-4;
       font-family: $font-openSans;
+      font-size: $font-size-4;
       text-align: center;
       text-transform: uppercase;
 
@@ -49,10 +49,10 @@
     }
 
     .validationMessage {
-      font-family: $font-openSans;
       margin-bottom: 30px;
-      text-align: center;
       color: $red;
+      font-family: $font-openSans;
+      text-align: center;
     }
 
     select {
@@ -62,8 +62,8 @@
       padding: 10px 20px;
       border: none;
       border-radius: 10px;
-      font-size: $font-size-2;
       font-family: $font-openSans;
+      font-size: $font-size-2;
       text-transform: uppercase;
     }
   }
