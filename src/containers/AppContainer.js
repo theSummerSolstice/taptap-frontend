@@ -58,7 +58,7 @@ const AppContainer = () => {
   if (error || userError || boardError) {
     return (
     <ErrorView
-      error={userError || boardError}
+      error={error || userError || boardError}
       routePage={routePage}
     />);
   }
@@ -69,6 +69,7 @@ const AppContainer = () => {
       routePage={routePage}
       updateBoard={handleUpdateBoard}
       leaveBoard={handleLeaveBoard}
+      setError={setError}
     >
       <Switch>
         <Route exact path={ROUTE.MAIN}>
@@ -114,7 +115,7 @@ const AppContainer = () => {
             leaveBoard={handleLeaveBoard}
           />
         </Route>
-        <Redirect to={ROUTE.MAIN}/>
+        <Redirect to={ROUTE.MAIN} />
       </Switch>
     </HeaderContainer>
   );

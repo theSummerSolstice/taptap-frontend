@@ -1,12 +1,22 @@
 import React from 'react';
-import styles from './PhaseDescription.module.scss';
 import Button from '../Button';
+import styles from './PhaseDescription.module.scss';
 
-const PhaseDescription = ({ description, buttonText, onClick }) => {
+const PhaseDescription = ({
+  description,
+  buttonText,
+  onClick,
+  ...attributes
+}) => {
   return (
     <div className={styles.container} data-html2canvas-ignore={true}>
       <p>{ description }</p>
-      <Button className='defaultButton' onClick={onClick} text={buttonText} />
+      <Button
+        className='defaultButton'
+        onClick={onClick}
+        text={buttonText}
+        {...attributes}
+      />
     </div>
   );
 };

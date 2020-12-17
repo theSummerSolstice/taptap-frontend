@@ -2,7 +2,13 @@ import React from 'react';
 import SectionItem from '../SectionItem';
 import styles from './ListPage.module.scss';
 
-const ListPage = ({ userId, title, list, routePage, deleteBoard }) => {
+const ListPage = ({
+  userId,
+  title,
+  list,
+  routePage,
+  deleteBoard,
+}) => {
   return (
     <div className={styles.container}>
       <h3>{title}</h3>

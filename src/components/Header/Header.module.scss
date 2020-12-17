@@ -16,6 +16,7 @@
     font-family: $font-fugaz;
     font-size: $font-size-5;
     color: $main-color;
+    cursor: pointer;
   }
 
   .buttonContainer {
@@ -28,6 +29,7 @@
       margin-left: 10px;
       border-radius: 50%;
       box-shadow: $shadow-1;
+      cursor: pointer;
     }
   }
 }

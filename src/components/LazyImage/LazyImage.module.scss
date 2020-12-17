@@ -6,9 +6,8 @@
   overflow: hidden;
 
   .image {
-    border: 1px solid $base-color;
     max-width: 450px;
     height: 270px;
+    border: 1px solid $base-color;
   }
 }
-

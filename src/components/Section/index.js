@@ -1,11 +1,11 @@
 import React from 'react';
 import SectionItem from '../SectionItem';
-import styles from './Section.module.scss';
 import Button from '../Button';
+import styles from './Section.module.scss';
 import ROUTE from '../../constants/route';
 
 const Section = ({ title, list, routePage }) => {
-  const handleMoreButton = () => {
+  const handleMoreButtonClick = () => {
     title === 'My taptap'
       ? routePage(ROUTE.MY_TAPTAP)
       : routePage(ROUTE.INVITED_TAPTAP);
@@ -15,7 +15,11 @@ const Section = ({ title, list, routePage }) => {
     <section className={styles.container}>
       <div className={styles.title}>
         <h3>{title}</h3>
-        <Button className='moreButton' onClick={handleMoreButton} text='more' />
+        <Button
+          className='moreButton'
+          onClick={handleMoreButtonClick}
+          text='more'
+        />
       </div>
       <div className={styles.contents}>
         {
@@ -27,7 +31,7 @@ const Section = ({ title, list, routePage }) => {
                 {
                   list.map((item) => (
                     <SectionItem
-                      id={item._id}
+                      boardId={item._id}
                       key={item._id}
                       src={item.imageSrc}
                       name={item.name}

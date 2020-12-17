@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
-import styles from './CategorizeCanvas.module.scss';
-import PhaseDescription from '../PhaseDescription';
-import { Responsive, WidthProvider } from 'react-grid-layout';
-import Button from '../Button';
-import { FaPlus } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import { Responsive, WidthProvider } from 'react-grid-layout';
+import { FaPlus } from 'react-icons/fa';
+import Button from '../Button';
+import PhaseDescription from '../PhaseDescription';
+import styles from './CategorizeCanvas.module.scss';
 import { ICON_SIZE } from '../../constants/style';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -24,22 +24,22 @@ const CategorizeCanvas = ({
   const noteRef = useRef([]);
   const { board_id: boardId } = useParams();
 
-  const handleInputChange = ({ target }) => {
+  const handleCategoryNameChange = ({ target }) => {
     setCategoryName(target.value);
   };
 
-  const handleAddClick = () => {
+  const handleCategoryAddButtonClick = () => {
     addCategory(categoryName);
     setCategoryName('');
   };
 
-  const handleDeleteClick = ({ target }) => {
+  const handleCategoryDeleteButtonClick = ({ target }) => {
     deleteCategory(target.value);
     setCategoryName('');
   };
 
   // TODO: Save categories later
-  const handleSaveClick = () => {
+  const handleBoardSaveButtonClick = () => {
     const hash = {
       [0]: 'unsorted',
     };
@@ -55,7 +55,9 @@ const CategorizeCanvas = ({
       };
     });
 
-    const deduplicatedCategories = [...new Set(translateXArray.map((item) => item.category))].sort();
+    const deduplicatedCategories = [
+      ...new Set(translateXArray.map((item) => item.category))
+    ].sort();
 
     if (deduplicatedCategories[0] !== '0') {
       deduplicatedCategories.unshift('0');
@@ -82,16 +84,16 @@ const CategorizeCanvas = ({
         className={styles.description}
         description='Make your thoughts organized.'
         buttonText='Save'
-        onClick={handleSaveClick}
+        onClick={handleBoardSaveButtonClick}
       />
       <div className={styles.inputContainer} data-html2canvas-ignore={true}>
         <input
           type='text'
           placeholder='Enter category'
           value={categoryName}
-          onChange={handleInputChange}
+          onChange={handleCategoryNameChange}
         />
-        <Button className='circleButton' onClick={handleAddClick}>
+        <Button className='circleButton' onClick={handleCategoryAddButtonClick}>
           <FaPlus size={ICON_SIZE.XSMALL} />
         </Button>
       </div>
@@ -109,18 +111,27 @@ const CategorizeCanvas = ({
         {
           categories.map((category, index) => (
             <div className={styles.category} key={index}>
-              <div className={styles.name}>{category}</div>
+              <div className={styles.name}>
+                {category}
+              </div>
               {
                 index > 0 &&
-                <Button className='moreButton' value={index} text='Delete' onClick={handleDeleteClick} />
+                <Button className='moreButton' value={index} text='Delete' onClick={handleCategoryDeleteButtonClick} />
               }
             </div>
           ))
         }
         {
           notes.map((note, index) => (
-            <div className={styles.note} key={note._id} ref={(el) => noteRef.current[index] = el}>
-              <div className={styles.wrapper} style={{ backgroundImage: note.color }}>
+            <div
+              className={styles.note}
+              key={note._id}
+              ref={(el) => noteRef.current[index] = el}
+            >
+              <div
+                className={styles.wrapper}
+                style={{ backgroundImage: note.color }}
+              >
                 <span>{note.contents}</span>
               </div>
             </div>

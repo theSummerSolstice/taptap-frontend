@@ -9,7 +9,11 @@ const Button = ({
   ...attributes
 }) => {
   return (
-    <button className={styles[className]} onClick={onClick} {...attributes}>
+    <button
+      className={styles[className]}
+      onClick={onClick}
+      {...attributes}
+    >
       {children}
       {text}
     </button>

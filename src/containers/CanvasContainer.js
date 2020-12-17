@@ -40,18 +40,20 @@ const CanvasContainer = () => {
 
   const handleAddCategory = (categoryName) => {
     if (categories.length + 1 > 7) return;
-    const newLayout = generateLayout(categories.length + 1);
-    const combinedLayout = newLayout.concat(layout);
-    boardSocket.addCategory({ boardId, categoryName, layout: combinedLayout });
-    dispatch(addCategory({ categoryName, layout: combinedLayout }));
+    const categoryLayout = generateLayout(categories.length + 1);
+    const newLayout = categoryLayout.concat(layout);
+
+    boardSocket.addCategory({ boardId, categoryName, layout: newLayout });
+    dispatch(addCategory({ categoryName, layout: newLayout }));
   };
 
   const handleDeleteCategory = (index) => {
     if (categories.length - 1 < 1) return;
-    const newLayout = generateLayout(categories.length - 1);
-    const combinedLayout = newLayout.concat(layout);
-    boardSocket.deleteCategory({ boardId, index, layout: combinedLayout });
-    dispatch(deleteCategory({ index, layout: combinedLayout }));
+    const categoryLayout = generateLayout(categories.length - 1);
+    const newLayout = categoryLayout.concat(layout);
+
+    boardSocket.deleteCategory({ boardId, index, layout: newLayout });
+    dispatch(deleteCategory({ index, layout: newLayout }));
   };
 
   const handleUpdateLayout = (layout) => {
@@ -64,9 +66,7 @@ const CanvasContainer = () => {
   };
 
   useEffect(() => {
-    const initialCategories = Array.from(new Set(notes.map((note) => {
-      return note.category;
-    })));
+    const initialCategories = [...new Set(notes.map((note) => note.category))];
 
     dispatch(initializeCategory({
       categories: initialCategories,

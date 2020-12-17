@@ -27,7 +27,6 @@ const BoardContainer = ({ leaveBoard }) => {
 
     localStorage.removeItem('boardId');
     const timerId = setTimeout(() => {
-      console.log(boardId);
       dispatch(getBoard({ boardId, user }));
     }, 2000);
 
@@ -39,15 +38,13 @@ const BoardContainer = ({ leaveBoard }) => {
   }
 
   return (
-    <div>
-      <Board
-        user={user}
-        auth={auth}
-        board={board}
-        leaveBoard={leaveBoard}
-        setIsCategorized={handleIsCategorizedBoard}
-      />
-    </div>
+    <Board
+      user={user}
+      auth={auth}
+      board={board}
+      leaveBoard={leaveBoard}
+      setIsCategorized={handleIsCategorizedBoard}
+    />
   );
 };
 

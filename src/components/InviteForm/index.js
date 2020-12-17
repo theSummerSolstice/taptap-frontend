@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
-import styles from './InviteForm.module.scss';
 import { useParams } from 'react-router-dom';
 import { validateEmail } from '../../utils/validation';
 import Button from '../Button';
+import styles from './InviteForm.module.scss';
 import ROUTE from '../../constants/route';
 
-const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
-  const { board_id } = useParams();
+const InviteForm = ({
+  user,
+  updateBoard,
+  routePage,
+  sendInviteMail
+}) => {
+  const { board_id: boardId } = useParams();
   const [email, setEmail] = useState('');
   const [emailList, setEmailList] = useState([]);
   const [validationMessage, setValidationMessage] = useState(null);
 
-  const handleEmailChange = ({ target }) => {
+  const handleEmailInputChange = ({ target }) => {
     setValidationMessage(null);
     setEmail(target.value);
   };
 
-  const handleSendInviteButton = () => {
+  const handleInviteButtonClick = () => {
     const { result, message } = validateEmail(emailList, email);
 
     if (!result) {
@@ -24,7 +29,7 @@ const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
       return;
     }
 
-    sendInviteMail(email, board_id);
+    sendInviteMail(email, boardId);
     setEmailList([
       ...emailList,
       email,
@@ -32,23 +37,21 @@ const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
     setEmail('');
   };
 
-  const handleDeleteButton = () => {
+  const handleEmailDeleteButtonClick = () => {
     const id = Number(event.target.id);
-    setEmailList(emailList.filter((item, index) => {
-      return index !== id;
-    }));
+    setEmailList(emailList.filter((item, index) => index !== id));
   };
 
-  const handleConfirmButton = () => {
+  const handleConfirmButtonClick = () => {
     updateBoard({
+      boardId,
       data: { authorizedUsers: emailList },
-      boardId: board_id,
     });
-    routePage(`${ROUTE.BOARD}/${board_id}`);
+    routePage(`${ROUTE.BOARD}/${boardId}`);
   };
 
-  const handleSkipButton = () => {
-    routePage(`${ROUTE.BOARD}/${board_id}`);
+  const handleSkipButtonClick = () => {
+    routePage(`${ROUTE.BOARD}/${boardId}`);
   };
 
   return (
@@ -61,11 +64,17 @@ const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
             name='email'
             value={email}
             placeholder='Enter email'
-            onChange={handleEmailChange}
+            onChange={handleEmailInputChange}
           />
-          <Button className='defaultButton' onClick={handleSendInviteButton} text='Invite' />
+          <Button
+            text='Invite'
+            className='defaultButton'
+            onClick={handleInviteButtonClick}
+          />
         </div>
-        <p className={styles.validationMessage}>{validationMessage}</p>
+        <p className={styles.validationMessage}>
+          {validationMessage}
+        </p>
         <div className={styles.emailContainer}>
           <div className={styles.email}>
             <span>{user.email}</span>
@@ -75,14 +84,27 @@ const InviteForm = ({ user, updateBoard, routePage, sendInviteMail }) => {
             emailList.map((item, index) => (
               <div className={styles.email} key={index}>
                 <span>{item}</span>
-                <Button id={index} className='moreButton' onClick={handleDeleteButton} text='Delete' />
+                <Button
+                  id={index}
+                  text='Delete'
+                  className='moreButton'
+                  onClick={handleEmailDeleteButtonClick}
+                />
               </div>
             ))
           }
         </div>
         <div className={styles.buttonContainer}>
-          <Button className='defaultButton' onClick={handleConfirmButton} text='Confirm' />
-          <Button className='defaultButton' onClick={handleSkipButton} text='Skip' />
+          <Button
+            className='defaultButton'
+            onClick={handleConfirmButtonClick}
+            text='Confirm'
+          />
+          <Button
+            className='defaultButton'
+            onClick={handleSkipButtonClick}
+            text='Skip'
+          />
         </div>
       </div>
     </div>

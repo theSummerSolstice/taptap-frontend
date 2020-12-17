@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './BoardAside.module.scss';
-import Button from '../Button';
 import { RiArrowDropLeftLine } from 'react-icons/ri';
+import Button from '../Button';
+import styles from './BoardAside.module.scss';
 import AUTH from '../../constants/auth';
 import { ICON_SIZE } from '../../constants/style';
 
@@ -19,11 +19,7 @@ const BoardAside = ({
           auth === AUTH.EDIT &&
           <Button
             className='backButton'
-            onClick={
-              board.isCategorized
-                ? setIsCategorized
-                : leaveBoard
-              }
+            onClick={board.isCategorized ? setIsCategorized : leaveBoard}
             text='Back'
           >
             <RiArrowDropLeftLine size={ICON_SIZE.MEDIUM} />
