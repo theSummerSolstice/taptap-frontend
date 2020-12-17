@@ -13,8 +13,7 @@ import { boardSocket } from '../modules/socket/saga';
 
 import { ToastContainer } from 'react-toastify';
 import toast from '../utils/toast';
-import html2canvas from 'html2canvas'
-;
+import html2canvas from 'html2canvas';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
 import ModalUser from '../components/ModalUser';
@@ -25,6 +24,7 @@ const HeaderContainer = ({
   onLogin,
   routePage,
   leaveBoard,
+  setError,
   children,
 }) => {
   const { user } = useSelector(userSelector.all);
@@ -32,8 +32,8 @@ const HeaderContainer = ({
   const { notes } = useSelector(notesSelector.all);
 
   const dispatch = useDispatch();
+  const boardId = board?._id;
   const showSnapshotHistory = (notes) => dispatch(getNotes(notes));
-
 
   const [isUserModalShowing, setIsUserModalShowing] = useState(false);
   const [isHistoryModalShowing, setIsHistoryModalShowing] = useState(false);
@@ -57,29 +57,30 @@ const HeaderContainer = ({
   const saveSnapshot = () => {
     dispatch(updateSnapshot({
       data: { snapshots: { notes } },
-      boardId: board._id,
+      boardId,
     }));
 
     toast.saveSnapshot();
   };
 
   const startHistoryMode = () => {
+    console.log(1111);
     setSnapshotIndex(board.snapshots.length - 1);
     setIsHistoryModalShowing(!isHistoryModalShowing);
     dispatch(storeCurrentNotes(notes));
-    boardSocket.historyModeOn({ boardId: board._id });
+    boardSocket.historyModeOn({ boardId });
   };
 
   const closeHistoryMode = () => {
     setIsHistoryModalShowing(!isHistoryModalShowing);
     showSnapshotHistory(board.currentNotes);
-    boardSocket.historyModeOff({ boardId: board._id });
+    boardSocket.historyModeOff({ boardId });
   };
 
   const selectHistoryVersion = (notes, index) => {
     showSnapshotHistory(notes);
     setSnapshotIndex(index);
-    boardSocket.selectVersion({ boardId: board._id, notes });
+    boardSocket.selectVersion({ boardId, notes });
   };
 
   const handleVersionController = ({ target }) => {
@@ -88,25 +89,30 @@ const HeaderContainer = ({
     } else {
       setSnapshotIndex((prev) => prev + 1 > board.snapshots.length - 1 ? prev : prev + 1);
     }
+
     showSnapshotHistory(board.snapshots[snapshotIndex].notes);
-    boardSocket.selectVersion({ boardId: board._id, notes: board.snapshots[snapshotIndex].notes });
+    boardSocket.selectVersion({ boardId, notes: board.snapshots[snapshotIndex].notes });
   };
 
   const confirmDeleteSnapshots = () => {
-    dispatch(deleteSnapshots({ boardId: board._id, index: snapshotIndex + 1 }));
+    dispatch(deleteSnapshots({ boardId, index: snapshotIndex + 1 }));
     setIsHistoryModalShowing(!isHistoryModalShowing);
     setIsAlertModalShowing(!isAlertModalShowing);
-    boardSocket.historyModeOff({ boardId: board._id });
+    boardSocket.historyModeOff({ boardId });
   };
 
   const downloadCurrentBoardImage = async () => {
-    const canvas = await html2canvas(document.getElementById('canvas'));
-    const link = document.getElementById('download');
-    link.href = canvas.toDataURL('image/jpeg');
-    link.download = `${board.name}.jpg`;
-    link.click();
+    try {
+      const canvas = await html2canvas(document.getElementById('canvas'));
+      const link = document.getElementById('download');
+      link.href = canvas.toDataURL('image/jpeg');
+      link.download = `${board.name}.jpg`;
+      link.click();
 
-    toast.completeDownload();
+      toast.completeDownload();
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const copyBoardUrl = useCallback(() => {
@@ -139,27 +145,27 @@ const HeaderContainer = ({
       </Header>
       {
         isUserModalShowing &&
-          <Modal onClick={showUserModal} className='headerModal'>
-            <ModalUser
-              username={user.username}
-              onLogout={handleLogout}
-              navigatePage={navigatePage}
-            />
-          </Modal>
+        <Modal onClick={showUserModal} className='headerModal'>
+          <ModalUser
+            username={user.username}
+            onLogout={handleLogout}
+            navigatePage={navigatePage}
+          />
+        </Modal>
       }
       {
         isHistoryModalShowing &&
-          <Modal className='headerModal'>
-            <ModalHistory
-              snapshots={board.snapshots}
-              isAlertModalShowing={isAlertModalShowing}
-              showAlertModal={showAlertModal}
-              closeHistoryMode={closeHistoryMode}
-              selectHistoryVersion={selectHistoryVersion}
-              handleVersionController={handleVersionController}
-              confirmDeleteSnapshots={confirmDeleteSnapshots}
-            />
-          </Modal>
+        <Modal className='headerModal'>
+          <ModalHistory
+            snapshots={board.snapshots}
+            isAlertModalShowing={isAlertModalShowing}
+            showAlertModal={showAlertModal}
+            closeHistoryMode={closeHistoryMode}
+            selectHistoryVersion={selectHistoryVersion}
+            handleVersionController={handleVersionController}
+            confirmDeleteSnapshots={confirmDeleteSnapshots}
+          />
+        </Modal>
         }
     </>
   );

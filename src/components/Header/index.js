@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './Header.module.scss';
 import { LoginHeader, MainHeader, BoardHeader, ShareHeader } from '../SubHeader';
+import styles from './Header.module.scss';
 
 const Header = ({
   user,
@@ -35,12 +35,14 @@ const Header = ({
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.logo} onClick={leaveBoard}>taptap</div>
+        <div className={styles.logo} onClick={leaveBoard}>
+          taptap
+        </div>
         {
           !user
             ? <LoginHeader onLogin={onLogin} />
             : <div className={styles.buttonContainer}>
-                { renderHeader() }
+                {renderHeader()}
                 <img src={user.imageSrc} alt='user profile' onClick={showUserModal} />
               </div>
         }

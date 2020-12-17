@@ -1,7 +1,7 @@
 import React from 'react';
+import CanvasContainer from '../../containers/CanvasContainer';
 import BoardAside from '../BoardAside';
 import styles from './Board.module.scss';
-import CanvasContainer from '../../containers/CanvasContainer';
 
 const Board = ({
   user,

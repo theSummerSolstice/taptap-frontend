@@ -3,8 +3,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  min-height: calc((100vh - 50px) / 2);
-  padding: 10px 0 30px;
+  min-height: calc((100vh - 70px) / 2);
+  padding: 20px 0 40px;
   border-bottom: 1px solid $gray;
 
   .title {
@@ -15,7 +15,7 @@
 
     h3 {
       margin-right: 5px;
-      font-size: $font-size-2;
+      font-size: $font-size-3;
     }
   }
 
@@ -24,14 +24,14 @@
       display: flex;
       justify-content: center;
       padding-top: 10vh;
-      font-size: $font-size-3;
+      font-size: $font-size-5;
       font-weight: 600;
       text-transform: uppercase;
     }
 
     .itemList {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, max-content));
+      grid-template-columns: repeat(auto-fit, minmax(400px, max-content));
       grid-gap: 16px;
       justify-content: center;
       padding: initial;

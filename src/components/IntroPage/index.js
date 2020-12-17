@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './IntroPage.module.scss';
-import Button from '../Button';
 import { FcGoogle } from 'react-icons/fc';
+import Button from '../Button';
+import styles from './IntroPage.module.scss';
 import { ICON_SIZE } from '../../constants/style';
 
 const IntroPage = ({ onLogin }) => {
@@ -15,7 +15,11 @@ const IntroPage = ({ onLogin }) => {
         <h4>organize your thoughts using sticky note.</h4>
         <h4>you only need to “tap-tap”.</h4>
       </div>
-      <Button className='defaultButton' onClick={onLogin} text='Continue with Google'>
+      <Button
+        className='defaultButton'
+        onClick={onLogin}
+        text='Continue with Google'
+      >
         <FcGoogle size={ICON_SIZE.LARGE} />
       </Button>
     </div>

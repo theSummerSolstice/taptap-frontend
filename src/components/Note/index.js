@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
-import styles from './Note.module.scss';
 import Draggable from 'react-draggable';
-import Button from '../Button';
 import { FaTrashAlt } from 'react-icons/fa';
+import Button from '../Button';
+import styles from './Note.module.scss';
 import AUTH from '../../constants/auth';
 import { ICON_SIZE } from '../../constants/style';
 
-const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => {
+const Note = ({
+  note,
+  user,
+  auth,
+  boardId,
+  deleteNote,
+  updateNotePosition
+}) => {
   const [isButtonShowing, setIsButtonShowing] = useState(false);
   const handleMouseEnter = () => setIsButtonShowing(true);
   const handleMouseLeave = () => setIsButtonShowing(false);
-  const handleDelete = (event) => deleteNote({ boardId, noteId: note._id });
-
+  const handleDeleteButtonClick = () => deleteNote({ boardId, noteId: note._id });
   const handleDragNote = (event) => {
     const position = {
-      x: event.clientX - 230,
-      y: event.clientY - 50,
+      x: event.clientX - 350,
+      y: event.clientY - 70,
     };
 
     updateNotePosition(boardId, note._id, position);
@@ -37,12 +43,15 @@ const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => 
       >
         <span>{note.contents}</span>
         {
-          isButtonShowing && auth === AUTH.EDIT &&
-          <Button className='circleButton' onClick={handleDelete}>
-            <FaTrashAlt size={ICON_SIZE.XSMALL} />
+          isButtonShowing &&
+          auth === AUTH.EDIT &&
+          <Button className='circleButton' onClick={handleDeleteButtonClick}>
+            <FaTrashAlt size={ICON_SIZE.SMALL} />
           </Button>
         }
-        <span className={styles.username}>{user.username}</span>
+        <span className={styles.username}>
+          {user.username}
+        </span>
       </div>
     </Draggable>
   );

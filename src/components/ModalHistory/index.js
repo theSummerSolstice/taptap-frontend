@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './ModalHistory.module.scss';
+import { RiArrowDropLeftLine, RiArrowDropRightLine } from 'react-icons/ri';
 import Modal from '../Modal';
 import Button from '../Button';
-import { RiArrowDropLeftLine, RiArrowDropRightLine } from 'react-icons/ri';
+import styles from './ModalHistory.module.scss';
 import { ICON_SIZE } from '../../constants/style';
 
 const ModalHistory = ({
@@ -19,7 +19,11 @@ const ModalHistory = ({
       <div className={styles.container}>
         <div className={styles.title}>
           <h3>History select</h3>
-          <Button className='defaultButton' onClick={closeHistoryMode} text='Cancel' />
+          <Button
+            className='defaultButton'
+            onClick={closeHistoryMode}
+            text='Cancel'
+          />
         </div>
         <div className={styles.timeTravel}>
           <div className={styles.versionContainer}>

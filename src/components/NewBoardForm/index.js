@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styles from './NewBoardForm.module.scss';
 import Button from '../Button';
+import styles from './NewBoardForm.module.scss';
 import ROUTE from '../../constants/route';
 
 const NewBoardForm = ({ user, routePage, createBoard }) => {
@@ -21,7 +21,7 @@ const NewBoardForm = ({ user, routePage, createBoard }) => {
     });
   };
 
-  const handleConfirmButton = (event) => {
+  const handleConfirmButtonClick = (event) => {
     event.preventDefault();
 
     if (!boardInfo.name) {
@@ -31,7 +31,7 @@ const NewBoardForm = ({ user, routePage, createBoard }) => {
     createBoard(boardInfo);
   };
 
-  const handleCancelButton = (event) => {
+  const handleCancelButtonClick = (event) => {
     event.preventDefault();
     routePage(ROUTE.MAIN);
   };
@@ -49,7 +49,9 @@ const NewBoardForm = ({ user, routePage, createBoard }) => {
             value={boardInfo.name}
             onChange={handleInputsChange}
           />
-          <p className={styles.validationMessage}>{validationMessage}</p>
+          <p className={styles.validationMessage}>
+            {validationMessage}
+          </p>
         </label>
         <label htmlFor='isPublic'>
           Project authorization
@@ -59,8 +61,8 @@ const NewBoardForm = ({ user, routePage, createBoard }) => {
           </select>
         </label>
         <div className={styles.buttonContainer}>
-          <Button className='defaultButton' onClick={handleConfirmButton} text='Confirm' />
-          <Button className='defaultButton' onClick={handleCancelButton} text='Cancel' />
+          <Button className='defaultButton' onClick={handleConfirmButtonClick} text='Confirm' />
+          <Button className='defaultButton' onClick={handleCancelButtonClick} text='Cancel' />
         </div>
       </div>
     </form>

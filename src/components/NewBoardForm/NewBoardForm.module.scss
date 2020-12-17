@@ -4,12 +4,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 70px);
   background-color: $base-color;
 
   .wrapper {
     margin-top: 20vh;
-    width: 400px;
+    width: 600px;
     padding: 50px;
     border-radius: 15px;
     background-color: $main-color;
@@ -21,16 +21,16 @@
     flex-direction: column;
     color: $white;
     font-family: $font-fugaz;
+    font-size: $font-size-3;
     text-transform: uppercase;
 
     input {
-      margin-bottom: 5px;
-      border: none;
+      margin-bottom: 10px;
       border-bottom: 1px solid $white;
       background-color: transparent;
       color: $white;
-      font-size: $font-size-3;
       font-family: $font-openSans;
+      font-size: $font-size-4;
       text-align: center;
       text-transform: uppercase;
 
@@ -49,21 +49,21 @@
     }
 
     .validationMessage {
-      font-family: $font-openSans;
       margin-bottom: 30px;
-      text-align: center;
       color: $red;
+      font-family: $font-openSans;
+      text-align: center;
     }
 
     select {
       align-self: center;
-      width: 40%;
+      width: 50%;
       margin: 10px 0 30px;
-      padding: 5px 20px;
+      padding: 10px 20px;
       border: none;
-      border-radius: 5px;
-      font-size: $font-size-1;
+      border-radius: 10px;
       font-family: $font-openSans;
+      font-size: $font-size-2;
       text-transform: uppercase;
     }
   }

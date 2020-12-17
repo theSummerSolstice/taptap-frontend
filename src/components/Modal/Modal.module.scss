@@ -14,9 +14,9 @@
 
   .modalContents {
     position: fixed;
-    top: 50px;
-    right: 10px;
-    width: 300px;
+    top: 70px;
+    right: 15px;
+    width: 25vw;
     background-color: $white;
     box-shadow: $shadow-1;
   }
@@ -34,13 +34,14 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
   }
+
   .modalContents {
     position: fixed;
+    top: 45%;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    background-color: $white;
+    transform: translate(-45%, -50%);
+    width: 30vw;
     border-radius: 5px;
+    background-color: $white;
   }
 }

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 import Note from '../Note';
-import styles from './BoardCanvas.module.scss';
-import PhaseDescription from '../PhaseDescription';
 import Button from '../Button';
-import { COLORS } from '../../constants/style';
+import PhaseDescription from '../PhaseDescription';
+import styles from './BoardCanvas.module.scss';
 import AUTH from '../../constants/auth';
+import { COLORS } from '../../constants/style';
 
 const BoardCanvas = ({
   boardId,
@@ -30,7 +30,7 @@ const BoardCanvas = ({
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [note, setNote] = useState(initialState);
 
-  const handleDoubleClick = (event) => {
+  const handleBoardDoubleClick = (event) => {
     if (isWriting || auth !== AUTH.EDIT) return;
     setIsDoubleClicked(true);
 
@@ -38,22 +38,22 @@ const BoardCanvas = ({
       ...note,
       owner: user.username,
       position: {
-        x: event.clientX - 230,
-        y: event.clientY - 100,
+        x: event.clientX - 350,
+        y: event.clientY - 70,
       },
     });
 
     setIsWriting(true);
   };
 
-  const handleInputChange = ({ target }) => {
+  const handleNoteInputChange = ({ target }) => {
     setNote({
       ...note,
       contents: target.value,
     });
   };
 
-  const handleConfirm = (event) => {
+  const handleNoteConfirmClick = (event) => {
     event.preventDefault();
     addNote({
       boardId,
@@ -66,22 +66,25 @@ const BoardCanvas = ({
   };
 
   return (
-    <div id='canvas' onDoubleClick={handleDoubleClick} className={styles.container} ref={boardRef}>
-      {
-        auth === AUTH.HISTORY &&
-        <p
-          className={styles.historyModeMessage}
-          data-html2canvas-ignore={true}
-        >
-          History mode is on. You cannot edit sticky notes until the mode ends.
-        </p>
-      }
+    <div
+      id='canvas'
+      ref={boardRef}
+      className={styles.container}
+      onDoubleClick={handleBoardDoubleClick}
+    >
       {
         auth === AUTH.EDIT &&
         <PhaseDescription
           description='Put all the thoughts in stick notes, then CATEGORIZE!'
           buttonText='Categorize'
           onClick={startCategorize}
+        />
+      }
+      {
+        auth === AUTH.HISTORY &&
+        <PhaseDescription
+          description='✋ History mode is on. You cannot edit sticky notes until the mode ends.'
+          style={{ visibility: 'hidden' }}
         />
       }
       {
@@ -98,10 +101,14 @@ const BoardCanvas = ({
               name='contents'
               placeholder='Write only one thought 📌'
               value={note.contents}
-              onChange={handleInputChange}
+              onChange={handleNoteInputChange}
               maxLength={50}
             />
-            <Button className='defaultButton' onClick={handleConfirm} text='Confirm' />
+            <Button
+              className='defaultButton'
+              text='Confirm'
+              onClick={handleNoteConfirmClick}
+            />
           </form>
         </Draggable>
       }

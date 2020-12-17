@@ -5,7 +5,7 @@ import styles from './Loader.module.scss';
 const Loader = () => {
   return (
     <div className={styles.container}>
-      <PacmanLoader size={50} color={'#3843E9'} />
+      <PacmanLoader size={70} color={'#3843E9'} />
     </div>
   );
 };

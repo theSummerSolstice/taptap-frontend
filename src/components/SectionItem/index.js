@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import styles from './SectionItem.module.scss';
-import LazyImage from '../LazyImage';
-import Button from '../Button';
-import { changeDateFormat } from '../../utils';
 import { FaTrashAlt } from 'react-icons/fa';
+import Button from '../Button';
+import LazyImage from '../LazyImage';
+import { changeDateFormat } from '../../utils';
+import styles from './SectionItem.module.scss';
 import ROUTE from '../../constants/route';
 import { ICON_SIZE } from '../../constants/style';
 
 const SectionItem = ({
-  id,
+  boardId,
   src,
   name,
   lastUpdate,
@@ -29,23 +29,23 @@ const SectionItem = ({
     setIsDeleteButtonShowing(false);
   };
 
-  const handleDeleteButton = (event) => {
+  const handleDeleteButtonClick = (event) => {
     event.stopPropagation();
-    deleteBoard({ userId, boardId: id });
+    deleteBoard({ userId, boardId });
   };
 
   return (
     <>
       <div
         className={styles.container}
-        onClick={() => routePage(`${ROUTE.BOARD}/${id}`)}
+        onClick={() => routePage(`${ROUTE.BOARD}/${boardId}`)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         {
           isDeleteButtonShowing &&
-          <Button className='circleButton' onClick={handleDeleteButton}>
-            <FaTrashAlt size={ICON_SIZE.SMALL} />
+          <Button className='circleButton' onClick={handleDeleteButtonClick}>
+            <FaTrashAlt size={ICON_SIZE.LARGE} />
           </Button>
         }
         <LazyImage className={styles.boardImage} src={src} />

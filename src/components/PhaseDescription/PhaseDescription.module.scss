@@ -5,12 +5,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: calc(100vw - 230px);
-  padding: 10px 20px;
+  width: calc(100vw - 350px);
+  padding: 20px;
 
   p {
-    font-size: $font-size-2;
     font-family: $font-fugaz;
+    font-size: $font-size-3;
   }
 
   button {

@@ -12,7 +12,7 @@ const ICON_SIZE = {
   SMALL: '1.3em',
   MEDIUM: '1.5em',
   LARGE: '2em',
-  XLARGE: '4em',
+  XLARGE: '3em',
 };
 
 export {
