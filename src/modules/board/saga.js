@@ -82,6 +82,12 @@ function* getBoardSaga ({ payload }) {
 
     const canEdit = board.owner === user._id
       || board.authorizedUsers.indexOf(user.email) !== -1;
+
+    if (!canEdit && !board.isPublic) {
+      yield put(changeAuthState(AUTH.UNAUTHORIZED));
+      return;
+    }
+
     if (!canEdit) {
       yield put(changeAuthState(AUTH.READ));
     } else {

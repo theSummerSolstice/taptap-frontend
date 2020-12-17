@@ -114,6 +114,7 @@ const AppContainer = () => {
         <Route path={ROUTE.BOARD_ID}>
           <BoardContainer
             leaveBoard={handleLeaveBoard}
+            routePage={routePage}
           />
         </Route>
         <Redirect to={ROUTE.MAIN} />

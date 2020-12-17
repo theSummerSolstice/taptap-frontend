@@ -1,4 +1,5 @@
 export default {
+  UNAUTHORIZED: 'UNAUTHORIZED',
   READ: 'READ',
   EDIT: 'EDIT',
   HISTORY: 'HISTORY',

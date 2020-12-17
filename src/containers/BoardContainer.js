@@ -7,8 +7,11 @@ import { boardSelector, getBoard, setIsBoardCategorized } from '../modules/board
 import queryString from 'query-string';
 import Board from '../components/Board';
 import Loader from '../components/Loader';
+import Modal from '../components/Modal';
+import AUTH from '../constants/auth';
+import ModalError from '../components/ModalError';
 
-const BoardContainer = ({ leaveBoard }) => {
+const BoardContainer = ({ leaveBoard, routePage }) => {
   const { user, auth } = useSelector(userSelector.all);
   const { board } = useSelector(boardSelector.all);
   const dispatch = useDispatch();
@@ -34,6 +37,16 @@ const BoardContainer = ({ leaveBoard }) => {
   }, [user]);
 
   if (!board) {
+    if (auth === AUTH.UNAUTHORIZED) {
+      return (
+        <Modal className='alertModal'>
+          <ModalError
+            error='Sorry, this board is private. you are not authorized.'
+            routePage={routePage}
+          />
+        </Modal>
+      );
+    }
     return <Loader />;
   }
 
