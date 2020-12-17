@@ -3,7 +3,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 20px;
 
   .title {
     display: flex;
@@ -12,7 +12,7 @@
 
     h3 {
       color: $main-color;
-      font-size: $font-size-1;
+      font-size: $font-size-2;
       text-transform: uppercase;
     }
 
@@ -28,7 +28,7 @@
     margin-top: 10px;
 
     .versionContainer {
-      height: 100px;
+      height: 150px;
       padding: 10px;
       background-color: $base-color;
       overflow-y: scroll;
@@ -37,8 +37,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 3px;
+        padding: 10px;
         border-bottom: 1px solid $gray;
+        cursor: pointer;
 
         span:first-child {
           font-size: $font-size-1;
@@ -60,6 +61,7 @@
     .controller {
       display: flex;
       justify-content: space-between;
+      height: 40px;
 
       button {
         width: 33%;
@@ -78,7 +80,7 @@
 .modalContents {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 30px;
 
   h3 {
     width: 30%;
@@ -90,12 +92,13 @@
 
   p {
     margin: 10px 0;
-    font-size: $font-size-1;
+    font-size: $font-size-3;
   }
 
   .buttonContainer {
     display: flex;
     justify-content: center;
+    margin-top: 30px;
 
     button:first-child {
       background-color: $yellow;

@@ -39,10 +39,10 @@ export const ShareHeader = ({ downloadImage, copyBoardUrl }) => {
   return (
     <>
       <Button className='shareButton' onClick={downloadImage}>
-        <MdFileDownload size={ICON_SIZE.MEDIUM} />
+        <MdFileDownload size={ICON_SIZE.LARGE} />
       </Button>
       <Button className='shareButton' onClick={copyBoardUrl}>
-        <HiOutlineLink size={ICON_SIZE.SMALL} />
+        <HiOutlineLink size={ICON_SIZE.MEDIUM} />
       </Button>
     </>
   );

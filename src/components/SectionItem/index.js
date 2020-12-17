@@ -45,7 +45,7 @@ const SectionItem = ({
         {
           isDeleteButtonShowing &&
           <Button className='circleButton' onClick={handleDeleteButton}>
-            <FaTrashAlt size={ICON_SIZE.SMALL} />
+            <FaTrashAlt size={ICON_SIZE.LARGE} />
           </Button>
         }
         <LazyImage className={styles.boardImage} src={src} />

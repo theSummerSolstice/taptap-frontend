@@ -14,8 +14,8 @@ const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => 
 
   const handleDragNote = (event) => {
     const position = {
-      x: event.clientX - 230,
-      y: event.clientY - 50,
+      x: event.clientX - 350,
+      y: event.clientY - 70,
     };
 
     updateNotePosition(boardId, note._id, position);
@@ -39,7 +39,7 @@ const Note = ({ note, user, auth, boardId, deleteNote, updateNotePosition }) => 
         {
           isButtonShowing && auth === AUTH.EDIT &&
           <Button className='circleButton' onClick={handleDelete}>
-            <FaTrashAlt size={ICON_SIZE.XSMALL} />
+            <FaTrashAlt size={ICON_SIZE.SMALL} />
           </Button>
         }
         <span className={styles.username}>{user.username}</span>

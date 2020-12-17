@@ -4,14 +4,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 3px;
-  padding: 8px 20px;
+  margin: 0 5px;
+  padding: 10px 30px;
   border: none;
   border-radius: 5px;
   background-color: $main-color;
   color: $white;
   text-transform: uppercase;
-  font-size: $font-size-0;
+  font-size: $font-size-1;
   box-shadow: $shadow-1;
   letter-spacing: 1.5px;
   transition-duration: 0.3s;
@@ -30,7 +30,7 @@
   padding: 0;
   border: none;
   background-color: transparent;
-  font-size: $font-size-1;
+  font-size: $font-size-2;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -51,8 +51,8 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border: none;
   border-radius: 50%;
   background-color: $white;
@@ -77,14 +77,20 @@
   color: $main-color;
   font-size: $font-size-1;
   font-weight: 600;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   box-shadow: $shadow-3;
+  transition: all 0.2 linear;
+
+  &:hover {
+    background-color: $main-color;
+    color: $white;
+  }
 }
 
 .shareButton {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   margin-left: 10px;
   border: none;
   border-radius: 50%;

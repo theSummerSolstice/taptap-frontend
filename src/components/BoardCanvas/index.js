@@ -38,8 +38,8 @@ const BoardCanvas = ({
       ...note,
       owner: user.username,
       position: {
-        x: event.clientX - 230,
-        y: event.clientY - 100,
+        x: event.clientX - 350,
+        y: event.clientY - 70,
       },
     });
 

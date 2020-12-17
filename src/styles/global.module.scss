@@ -46,4 +46,9 @@
     margin: 0;
     padding: 0;
   }
+
+  .Toastify__toast {
+    top: 15vh;
+    font-size: $font-size-2;
+  }
 }
