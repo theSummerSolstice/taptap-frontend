@@ -56,13 +56,13 @@ api.delete = async (path, body) => {
     authorization: token,
   };
 
-  const response = await fetch(`${REACT_APP_SERVER_URI}${path}`, {
+  await fetch(`${REACT_APP_SERVER_URI}${path}`, {
     method: 'DELETE',
     headers,
     body: JSON.stringify(body),
   }).then((result) => result.json());
 
-  return response;
+  return;
 };
 
 export default api;

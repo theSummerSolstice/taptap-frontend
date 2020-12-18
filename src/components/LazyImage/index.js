@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLazyImageObserver } from '../../utils/hook';
+import { useLazyImageObserver } from '../../utils/hooks';
 import styles from './LazyImage.module.scss';
 
 const LazyImage = ({ src }) => {
