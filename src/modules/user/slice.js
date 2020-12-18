@@ -3,8 +3,8 @@ import { createSlice, createSelector } from '@reduxjs/toolkit';
 const initialState = {
   loading: false,
   user: null,
-  error: null,
   auth: null,
+  error: null,
 };
 
 const reducers = {
@@ -61,7 +61,9 @@ const reducers = {
 
 const name = 'USER';
 const slice = createSlice({
-  name, initialState, reducers,
+  name,
+  initialState,
+  reducers,
 });
 
 const selectAllState = createSelector(

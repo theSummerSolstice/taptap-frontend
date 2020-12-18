@@ -1,10 +1,10 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
 const initialState = {
+  loading: false,
   notes: [],
   categories: ['unsorted'],
   layout: [{ i: '0', x: 0, y: 0, w: 1, h: 0.3, static: true, minW: 1 }],
-  loading: false,
   error: null,
 };
 
@@ -60,28 +60,13 @@ const reducers = {
   updateLayout: (state, { payload }) => {
     state.layout = payload;
   },
-  updateNoteCategory: (state, { payload }) => {
-    state.loading = true;
-  },
-  updateNoteCategorySuccess: (state, { payload }) => {
-    return {
-      ...state,
-      loading: false,
-      categories: payload.categories,
-      notes: [
-        ...payload.notes,
-      ],
-    };
-  },
-  updateNoteCategoryFailure: (state, { payload }) => {
-    state.loading = false;
-    state.error = payload;
-  },
 };
 
 const name = 'NOTES';
 const slice = createSlice({
-  name, initialState, reducers,
+  name,
+  initialState,
+  reducers,
 });
 
 const selectAllState = createSelector(

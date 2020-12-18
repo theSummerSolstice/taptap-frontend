@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { FaPlus } from 'react-icons/fa';
 import Button from '../Button';
@@ -18,11 +17,9 @@ const CategorizeCanvas = ({
   addCategory,
   deleteCategory,
   updateLayout,
-  updateNoteCategory,
  }) => {
   const [categoryName, setCategoryName] = useState('');
   const noteRef = useRef([]);
-  const { board_id: boardId } = useParams();
 
   const handleCategoryNameChange = ({ target }) => {
     setCategoryName(target.value);
@@ -38,53 +35,12 @@ const CategorizeCanvas = ({
     setCategoryName('');
   };
 
-  // TODO: Save categories later
-  const handleBoardSaveButtonClick = () => {
-    const hash = {
-      [0]: 'unsorted',
-    };
-
-    const translateXArray = noteRef.current.map((note, index) => {
-      const style = window.getComputedStyle(note);
-      const matrix = style.transform;
-      const translateX = matrix.match(/matrix.*\((.+)\)/)[1].split(', ')[4];
-
-      return {
-        ...notes[index],
-        category: translateX,
-      };
-    });
-
-    const deduplicatedCategories = [
-      ...new Set(translateXArray.map((item) => item.category))
-    ].sort();
-
-    if (deduplicatedCategories[0] !== '0') {
-      deduplicatedCategories.unshift('0');
-    }
-
-    deduplicatedCategories.forEach((item, index) => {
-      hash[deduplicatedCategories[index]] = categories[index];
-    });
-
-    const categorizedNotes = translateXArray.map((item) => {
-      const key = item.category;
-      return {
-        ...item,
-        category: hash[key],
-      };
-    });
-
-    updateNoteCategory(boardId, categorizedNotes);
-  };
-
   return (
     <div id='canvas' ref={boardRef} className={styles.container}>
       <PhaseDescription
         className={styles.description}
         description='Make your thoughts organized.'
-        buttonText='Save'
-        onClick={handleBoardSaveButtonClick}
+        style={{ visibility: 'hidden' }}
       />
       <div className={styles.inputContainer} data-html2canvas-ignore={true}>
         <input
