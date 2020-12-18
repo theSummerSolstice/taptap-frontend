@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { all } from 'redux-saga/effects';
 import { userSagas } from './user/saga';
 import { boardSagas } from './board/saga';
-import { notesSagas } from './currentNotes/saga';
 import { socketSagas } from './socket/saga';
 import { USER, userReducer } from './user/slice';
 import { BOARD, boardReducer } from './board/slice';
@@ -19,7 +18,6 @@ export function* rootSaga () {
     userSagas(),
     boardSagas(),
     socketSagas(),
-    notesSagas(),
   ]);
 }
 

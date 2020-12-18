@@ -60,23 +60,6 @@ const reducers = {
   updateLayout: (state, { payload }) => {
     state.layout = payload;
   },
-  updateNoteCategory: (state, { payload }) => {
-    state.loading = true;
-  },
-  updateNoteCategorySuccess: (state, { payload }) => {
-    return {
-      ...state,
-      loading: false,
-      categories: payload.categories,
-      notes: [
-        ...payload.notes,
-      ],
-    };
-  },
-  updateNoteCategoryFailure: (state, { payload }) => {
-    state.loading = false;
-    state.error = payload;
-  },
 };
 
 const name = 'NOTES';

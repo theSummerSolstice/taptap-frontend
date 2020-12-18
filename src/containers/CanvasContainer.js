@@ -10,7 +10,6 @@ import {
   deleteCategory,
   updateLayout,
   updateNotePosition,
-  updateNoteCategory
 } from '../modules/currentNotes/slice';
 import { boardSocket } from '../modules/socket/saga';
 
@@ -61,10 +60,6 @@ const CanvasContainer = () => {
     dispatch(updateLayout(layout));
   };
 
-  const handleUpdateNoteCategory = ({ boardId, categorizedNotes }) => {
-    dispatch(updateNoteCategory({ boardId, currentNotes: categorizedNotes }));
-  };
-
   useEffect(() => {
     const initialCategories = [...new Set(notes.map((note) => note.category))];
 
@@ -87,7 +82,6 @@ const CanvasContainer = () => {
               addCategory={handleAddCategory}
               deleteCategory={handleDeleteCategory}
               updateLayout={handleUpdateLayout}
-              updateNoteCategory={handleUpdateNoteCategory}
             />
           : <BoardCanvas
               boardId={boardId}
