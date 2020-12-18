@@ -1,10 +1,10 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
 const initialState = {
+  loading: false,
   notes: [],
   categories: ['unsorted'],
   layout: [{ i: '0', x: 0, y: 0, w: 1, h: 0.3, static: true, minW: 1 }],
-  loading: false,
   error: null,
 };
 
@@ -81,7 +81,9 @@ const reducers = {
 
 const name = 'NOTES';
 const slice = createSlice({
-  name, initialState, reducers,
+  name,
+  initialState,
+  reducers,
 });
 
 const selectAllState = createSelector(

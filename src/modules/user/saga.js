@@ -1,6 +1,5 @@
 import { takeLatest, put, all, call, getContext } from 'redux-saga/effects';
 import firebase from '../../utils/firebase';
-import api from '../../utils/api';
 import {
   initUser,
   initUserSuccess,
@@ -12,6 +11,7 @@ import {
   deleteMyBoardsSuccess,
   deleteMyBoardsFailure,
 } from './slice';
+import api from '../../utils/api';
 
 function* initUserSaga () {
   const hasToken = localStorage.getItem('token');

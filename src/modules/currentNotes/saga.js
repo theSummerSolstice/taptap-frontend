@@ -1,10 +1,10 @@
 import { call, all, put, takeLatest } from 'redux-saga/effects';
-import api from '../../utils/api';
 import {
   updateNoteCategory,
   updateNoteCategorySuccess,
   updateNoteCategoryFailure
- } from './slice';
+} from './slice';
+import api from '../../utils/api';
 
 function* updateNoteCategorySaga ({ payload }) {
   const { boardId, currentNotes } = payload;
@@ -30,4 +30,3 @@ export function* notesSagas () {
     call(watchUpdateNoteCategory),
   ]);
 }
-
