@@ -29,12 +29,23 @@
 <!-- gif image -->
 
 ### How to use
-- 사용 방법
-1. Board 만들기
-2. 친구 초대하기
-3. 포스트잇 붙이기
-4. 카테고리로 나누기
-5. 기타 기능
+1. Board 생성
+  - 구글 소셜 로그인 후, [New taptap] 버튼을 누르세요.
+  - 프로젝트명과 공개 여부를 설정하고 [Confirm] 버튼을 누르면, 동료를 초대하는 화면이 나옵니다.
+  - 초대할 동료의 이메일 주소를 입력 후 [Invite] 버튼을 누르면 초대 메일이 발송됩니다. (Skip으로 초대 없이 넘어갈 수 있습니다.)
+  - [Confirm] 버튼을 누르면 새로운 Board가 생성됩니다.
+2. Board 사용 방법
+  - 화면을 더블클릭하면 포스트잇 입력창이 활성화됩니다.
+  - 내용을 입력한 후, [Confirm] 버튼을 누르면 포스트잇이 생성됩니다.
+  - 생성된 포스트잇은 캔버스 내에서 자유롭게 이동할 수 있고, 마우스를 위로 올리면 삭제 버튼을 확인할 수 있습니다.
+  - 포스트잇을 다 입력하고 나서 [Categorize] 버튼을 누르면, Categorizing 단계로 넘어갑니다.
+  - 원하는 Category를 추가해서 포스트잇을 분류할 수 있습니다.
+  - Categorizing이 완료된 화면은 상단의 다운로드 버튼을 통해 이미지로 다운로드할 수 있습니다.
+3. Version Control
+  - 작업 과정 과정을 저장하고 싶다면 History Mode를 이용할 수 있습니다.
+  - 먼저 저장하고 싶은 상태에서 [Snapshot] 버튼을 눌러 Snapshot을 저장하세요.
+  - [History Mode]를 키면 지금까지 저장한 Snapshot을 순서대로 볼 수 있습니다.
+  - 혹시 돌아가고 싶은 버전이 있다면, 클릭 후 [Return]을 누르면 해당 상태로 돌아갑니다. 다만, 돌아간 버전 이후의 데이터는 모두 삭제됩니다.
 
 ### How to run
 - Installation
@@ -65,6 +76,18 @@ cd ./backend && npm run dev
 4. 터미널에서 Frontend, Backend 각각 npm run dev로 실행하면 Youout을 확인할 수 있습니다. (Default Server: [http://localhost:3000](http://localhost:3000))
 
 ### Schedule
+- 총 기간: 2020. 11. 30 ~ 2020. 12. 18
+- Planning: 2020. 11. 30 ~ 2020. 12. 02
+  - 아이디어 확정 및 브레인스토밍
+  - Teck Stack 확정, 프로젝트 Mockup제작, Github Repository 셋팅
+  - MongoDB Schema 확정, Task Scheduling
+  - Frontend, Backend 기본 환경 셋팅 및 개발 시작
+- Developing: 2020. 12. 03 ~ 2020. 12. 18
+  - 구글 소셜 로그인 및 기본 셋팅
+  - Main Page, List Page, New Project Form 페이지 개발
+  - [Socket.i](http://socket.id)o 연결 (Redux Saga EventChannel 연결)
+  - Board Canvas, Version control, Categorizing 개발 진행
+  - 테스트 코드 작성 및 배포 완료
 ### Work flow
 ### Tech stack
 - Frontend
@@ -107,6 +130,6 @@ cd ./backend && npm run dev
 <!-- TIL image -->
 
 ### Things to do
-1. 포스트잇 외 브레인스토밍 툴 추가
-2. 공유 기능 확장 (외부인도 접근 가능한 광장 같은 느낌)
-3. 반응형 Web 구현
+1. 마인드맵 등 포스트잇 외 브레인스토밍 툴 추가
+2. 초대된 회원 말고 아무나 접속할 수 있는 공유 기능 확장
+3. 반응형 Web application 구현
