@@ -92,7 +92,9 @@ const reducers = {
 
 const name = 'BOARD';
 const slice = createSlice({
-  name, initialState, reducers,
+  name,
+  initialState,
+  reducers,
 });
 
 const selectAllState = createSelector(

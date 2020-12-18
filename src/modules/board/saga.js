@@ -1,9 +1,6 @@
-import { createAction } from '@reduxjs/toolkit';
 import { call, all, put, takeLatest, getContext, takeEvery } from 'redux-saga/effects';
-import api from '../../utils/api';
-import { boardSocket } from '../socket/saga';
 import html2canvas from 'html2canvas';
-import AUTH from '../../constants/auth';
+import { boardSocket } from '../socket/saga';
 import { updateMyBoards, changeAuthState } from '../user/slice';
 import { getNotes, resetNotes } from '../currentNotes/slice';
 import {
@@ -26,15 +23,8 @@ import {
   deleteSnapshotsSuccess,
   deleteSnapshotsFailure
 } from './slice';
-
-const GO_TO_BOARD = 'GO_TO_BOARD';
-const goToBoard = createAction(GO_TO_BOARD);
-
-function* goToBoardSaga ({ payload }) {
-  const boardId = payload;
-  const history = yield getContext('history');
-  history.push(`/board/${boardId}/invite`);
-}
+import api from '../../utils/api';
+import AUTH from '../../constants/auth';
 
 function* createBoardSaga ({ payload }) {
   const boardInfo = payload;
@@ -44,7 +34,9 @@ function* createBoardSaga ({ payload }) {
 
     yield put(createBoardSuccess(board));
     yield put(updateMyBoards(board));
-    yield put(goToBoard(board._id));
+
+    const history = yield getContext('history');
+    history.push(`/board/${board._id}/invite`);
   } catch (error) {
     yield put(createBoardFailure(error));
   }
@@ -108,7 +100,9 @@ function* leaveBoardSaga ({ payload }) {
   try {
     const capture = yield html2canvas(document.getElementById('canvas'));
     yield call(api.put, `/board/${boardId}`, {
-      data: { imageSrc: capture.toDataURL('image/jpeg') },
+      data: {
+        imageSrc: capture.toDataURL('image/jpeg'),
+      },
     });
 
     yield call(boardSocket.leaveUser, { boardId, userId });
@@ -128,10 +122,6 @@ function* deleteSnapshotsSaga ({ payload }) {
   } catch (error) {
     yield put(deleteSnapshotsFailure(error));
   }
-}
-
-function* watchGoToBoard () {
-  yield takeLatest(goToBoard, goToBoardSaga);
 }
 
 function* watchCreateBoard () {
@@ -160,7 +150,6 @@ function* watchDeleteSnapshots () {
 
 export function* boardSagas () {
   yield all([
-    call(watchGoToBoard),
     call(watchCreateBoard),
     call(watchUpdateBoard),
     call(watchUpdateSnapshot),

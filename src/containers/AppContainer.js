@@ -6,6 +6,7 @@ import { boardSelector, createBoard, updateBoard, leaveBoard } from '../modules/
 
 import HeaderContainer from './HeaderContainer';
 import BoardContainer from './BoardContainer';
+import PrivateRoute from '../components/PrivateRoute';
 import IntroPage from '../components/IntroPage';
 import MainPage from '../components/MainPage';
 import ListPage from '../components/ListPage';
@@ -22,6 +23,7 @@ const AppContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+  const authenticated = user !== null;
 
   const routePage = (route) => history.push(route);
   const handleLogin = () => dispatch(initUser({ token: null }));
@@ -80,37 +82,53 @@ const AppContainer = () => {
               : <MainPage user={user} routePage={routePage} />
           }
         </Route>
-        <Route path={ROUTE.MY_TAPTAP}>
-          <ListPage
-            userId={user?._id}
-            title='My taptap'
-            list={user?.myBoards}
-            routePage={routePage}
-            deleteBoard={handleDeleteBoard}
-          />
-        </Route>
-        <Route path={ROUTE.INVITED_TAPTAP}>
-          <ListPage
-            title='Invited taptap'
-            list={user?.authorizedBoards}
-            routePage={routePage}
-          />
-        </Route>
-        <Route path={ROUTE.BOARD_NEW}>
-          <NewBoardForm
-            user={user}
-            routePage={routePage}
-            createBoard={handleCreateBoard}
-          />
-        </Route>
-        <Route path={ROUTE.BOARD_INVITE}>
-          <InviteForm
-            user={user}
-            routePage={routePage}
-            updateBoard={handleUpdateBoard}
-            sendInviteMail={sendInviteMail}
-          />
-        </Route>
+        <PrivateRoute
+          path={ROUTE.MY_TAPTAP}
+          authenticated={authenticated}
+          render={(props) =>
+            <ListPage
+              userId={user?._id}
+              title='My taptap'
+              list={user?.myBoards}
+              routePage={routePage}
+              deleteBoard={handleDeleteBoard}
+            />
+          }
+        />
+        <PrivateRoute
+          path={ROUTE.INVITED_TAPTAP}
+          authenticated={authenticated}
+          render={(props) =>
+            <ListPage
+              title='Invited taptap'
+              list={user?.authorizedBoards}
+              routePage={routePage}
+            />
+          }
+        />
+        <PrivateRoute
+          path={ROUTE.BOARD_NEW}
+          authenticated={authenticated}
+          render={(props) =>
+            <NewBoardForm
+              user={user}
+              routePage={routePage}
+              createBoard={handleCreateBoard}
+            />
+          }
+        />
+        <PrivateRoute
+          path={ROUTE.BOARD_INVITE}
+          authenticated={authenticated}
+          render={(props) =>
+            <InviteForm
+              user={user}
+              routePage={routePage}
+              updateBoard={handleUpdateBoard}
+              sendInviteMail={sendInviteMail}
+            />
+          }
+        />
         <Route path={ROUTE.BOARD_ID}>
           <BoardContainer
             leaveBoard={handleLeaveBoard}

@@ -1,6 +1,6 @@
-import io from 'socket.io-client';
 import { eventChannel } from 'redux-saga';
 import { take, call, put } from 'redux-saga/effects';
+import io from 'socket.io-client';
 import toast from '../../utils/toast';
 import { changeAuthState, updateAuthorizedBoards } from '../user/slice';
 import { updateUserList, setIsBoardCategorized } from '../board/slice';
