@@ -74,7 +74,7 @@ function* watchLogoutUser () {
   yield takeLatest(logoutUser, logoutUserSaga);
 }
 
-function* watchDeleteMyBoards () {
+export function* watchDeleteMyBoards () {
   yield takeLatest(deleteMyBoards, deleteMyBoardsSaga);
 }
 
