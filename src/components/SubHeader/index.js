@@ -2,6 +2,7 @@ import React from 'react';
 import { MdFileDownload } from 'react-icons/md';
 import { HiOutlineLink } from 'react-icons/hi';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import ROUTE from '../../constants/route';
 import { ICON_SIZE } from '../../constants/style';
 
@@ -54,4 +55,23 @@ export const ShareHeader = ({ downloadImage, copyBoardUrl }) => {
       </Button>
     </>
   );
+};
+
+LoginHeader.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+};
+
+MainHeader.propTypes = {
+  routePage: PropTypes.func.isRequired,
+};
+
+BoardHeader.propTypes = {
+  isOwner: PropTypes.bool.isRequired,
+  saveSnapshot: PropTypes.func.isRequired,
+  startHistoryMode: PropTypes.func.isRequired,
+};
+
+ShareHeader.propTypes = {
+  downloadImage: PropTypes.func.isRequired,
+  copyBoardUrl: PropTypes.func.isRequired,
 };

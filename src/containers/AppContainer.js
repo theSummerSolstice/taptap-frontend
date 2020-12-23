@@ -111,7 +111,7 @@ const AppContainer = () => {
           authenticated={authenticated}
           render={(props) =>
             <NewBoardForm
-              user={user}
+              userId={user._id}
               routePage={routePage}
               createBoard={handleCreateBoard}
             />
@@ -122,7 +122,7 @@ const AppContainer = () => {
           authenticated={authenticated}
           render={(props) =>
             <InviteForm
-              user={user}
+              userEmail={user.email}
               routePage={routePage}
               updateBoard={handleUpdateBoard}
               sendInviteMail={sendInviteMail}

@@ -1,5 +1,6 @@
 import React from 'react';
 import ModalPortal from '../ModalPortal';
+import PropTypes from 'prop-types';
 import styles from './Modal.module.scss';
 
 const Modal = ({ className, onClick, children }) => {
@@ -13,6 +14,12 @@ const Modal = ({ className, onClick, children }) => {
       </div>
     </ModalPortal>
   );
+};
+
+Modal.propTypes = {
+  className: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  children: PropTypes.element,
 };
 
 export default Modal;

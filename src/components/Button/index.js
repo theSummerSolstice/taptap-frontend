@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './Button.module.scss';
 
 const Button = ({
@@ -18,6 +19,13 @@ const Button = ({
       {text}
     </button>
   );
+};
+
+Button.propTypes = {
+  className: PropTypes.string,
+  text: PropTypes.string,
+  onClick: PropTypes.func,
+  children: PropTypes.node,
 };
 
 export default Button;

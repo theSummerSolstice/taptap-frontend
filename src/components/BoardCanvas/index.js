@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Draggable from 'react-draggable';
 import Note from '../Note';
 import Button from '../Button';
 import PhaseDescription from '../PhaseDescription';
+import PropTypes from 'prop-types';
 import styles from './BoardCanvas.module.scss';
 import AUTH from '../../constants/auth';
 import { COLORS } from '../../constants/style';
@@ -10,16 +11,15 @@ import { COLORS } from '../../constants/style';
 const BoardCanvas = ({
   boardId,
   notes,
-  user,
+  username,
   auth,
-  boardRef,
   addNote,
   deleteNote,
   updateNotePosition,
   startCategorize,
 }) => {
   const initialState = {
-    owner: user.username,
+    owner: username,
     position: { x: null, y: null },
     contents: '',
     category: 'unsorted',
@@ -29,6 +29,7 @@ const BoardCanvas = ({
   const [isWriting, setIsWriting] = useState(false);
   const [isDoubleClicked, setIsDoubleClicked] = useState(false);
   const [note, setNote] = useState(initialState);
+  const boardRef = useRef(null);
 
   const handleBoardDoubleClick = (event) => {
     if (isWriting || auth !== AUTH.EDIT) return;
@@ -36,7 +37,7 @@ const BoardCanvas = ({
 
     setNote({
       ...note,
-      owner: user.username,
+      owner: username,
       position: {
         x: event.clientX - 350,
         y: event.clientY - 70,
@@ -117,7 +118,7 @@ const BoardCanvas = ({
           <Note
             key={item._id}
             note={item}
-            user={user}
+            username={username}
             auth={auth}
             boardId={boardId}
             deleteNote={deleteNote}
@@ -127,6 +128,25 @@ const BoardCanvas = ({
       }
     </div>
   );
+};
+
+BoardCanvas.propTypes = {
+  boardId: PropTypes.string.isRequired,
+  notes: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string,
+    color: PropTypes.string,
+    contents: PropTypes.string,
+    position: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number,
+    }),
+  })),
+  username: PropTypes.string.isRequired,
+  auth: PropTypes.string.isRequired,
+  addNote: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired,
+  updateNotePosition: PropTypes.func.isRequired,
+  startCategorize: PropTypes.func.isRequired,
 };
 
 export default BoardCanvas;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import styles from './IntroPage.module.scss';
 import { ICON_SIZE } from '../../constants/style';
 
@@ -24,6 +25,10 @@ const IntroPage = ({ onLogin }) => {
       </Button>
     </div>
   );
+};
+
+IntroPage.propTypes = {
+  onLogin: PropTypes.func.isRequired,
 };
 
 export default IntroPage;

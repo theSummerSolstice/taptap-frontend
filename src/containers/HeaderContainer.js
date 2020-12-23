@@ -14,6 +14,7 @@ import { boardSocket } from '../modules/socket/saga';
 import { ToastContainer } from 'react-toastify';
 import toast from '../utils/toast';
 import html2canvas from 'html2canvas';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
 import ModalUser from '../components/ModalUser';
@@ -65,7 +66,6 @@ const HeaderContainer = ({
   };
 
   const startHistoryMode = () => {
-    console.log(1111);
     setSnapshotIndex(board.snapshots.length - 1);
     setIsHistoryModalShowing(!isHistoryModalShowing);
     dispatch(storeCurrentNotes(notes));
@@ -170,6 +170,13 @@ const HeaderContainer = ({
         }
     </>
   );
+};
+
+HeaderContainer.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+  routePage: PropTypes.func.isRequired,
+  leaveBoard: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 export default HeaderContainer;

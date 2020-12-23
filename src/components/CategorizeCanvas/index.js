@@ -3,6 +3,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import { FaPlus } from 'react-icons/fa';
 import Button from '../Button';
 import PhaseDescription from '../PhaseDescription';
+import PropTypes from 'prop-types';
 import styles from './CategorizeCanvas.module.scss';
 import { ICON_SIZE } from '../../constants/style';
 
@@ -13,12 +14,12 @@ const CategorizeCanvas = ({
   categories,
   columns,
   layout,
-  boardRef,
   addCategory,
   deleteCategory,
   updateLayout,
  }) => {
   const [categoryName, setCategoryName] = useState('');
+  const boardRef = useRef(null);
   const noteRef = useRef([]);
 
   const handleCategoryNameChange = ({ target }) => {
@@ -97,6 +98,20 @@ const CategorizeCanvas = ({
       <a id='download' style={{ display: 'none' }}></a>
     </div>
   );
+};
+
+CategorizeCanvas.propTypes = {
+  notes: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    contents: PropTypes.string.isRequired,
+  })),
+  categories: PropTypes.arrayOf(PropTypes.string),
+  columns: PropTypes.number.isRequired,
+  layout: PropTypes.arrayOf(PropTypes.object),
+  addCategory: PropTypes.func.isRequired,
+  deleteCategory: PropTypes.func.isRequired,
+  updateLayout: PropTypes.func.isRequired,
 };
 
 export default CategorizeCanvas;

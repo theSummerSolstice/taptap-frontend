@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLazyImageObserver } from '../../utils/hooks';
+import PropTypes from 'prop-types';
 import styles from './LazyImage.module.scss';
 
 const LazyImage = ({ src }) => {
@@ -16,6 +17,10 @@ const LazyImage = ({ src }) => {
       />
     </div>
   );
+};
+
+LazyImage.propTypes = {
+  src: PropTypes.string.isRequired,
 };
 
 export default LazyImage;
