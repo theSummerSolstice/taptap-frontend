@@ -1,5 +1,6 @@
 import React from 'react';
 import SectionItem from '../SectionItem';
+import PropTypes from 'prop-types';
 import styles from './ListPage.module.scss';
 
 const ListPage = ({
@@ -37,6 +38,19 @@ const ListPage = ({
       }
     </div>
   );
+};
+
+ListPage.propTypes = {
+  userId: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  list: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    src: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired,
+  })),
+  routePage: PropTypes.func.isRequired,
+  deleteBoard: PropTypes.func,
 };
 
 export default ListPage;

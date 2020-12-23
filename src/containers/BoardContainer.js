@@ -5,6 +5,7 @@ import { userSelector } from '../modules/user/slice';
 import { boardSelector, getBoard, setIsBoardCategorized } from '../modules/board/slice';
 
 import queryString from 'query-string';
+import PropTypes from 'prop-types';
 import Board from '../components/Board';
 import Loader from '../components/Loader';
 import Modal from '../components/Modal';
@@ -52,13 +53,17 @@ const BoardContainer = ({ leaveBoard, routePage }) => {
 
   return (
     <Board
-      user={user}
       auth={auth}
       board={board}
       leaveBoard={leaveBoard}
       setIsCategorized={handleIsCategorizedBoard}
     />
   );
+};
+
+BoardContainer.propTypes = {
+  leaveBoard: PropTypes.func.isRequired,
+  routePage: PropTypes.func.isRequired,
 };
 
 export default BoardContainer;

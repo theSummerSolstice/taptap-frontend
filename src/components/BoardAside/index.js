@@ -1,13 +1,14 @@
 import React from 'react';
 import { RiArrowDropLeftLine } from 'react-icons/ri';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import styles from './BoardAside.module.scss';
 import AUTH from '../../constants/auth';
 import { ICON_SIZE } from '../../constants/style';
 
 const BoardAside = ({
-  board,
   auth,
+  board,
   leaveBoard,
   setIsCategorized,
   children
@@ -45,6 +46,22 @@ const BoardAside = ({
       </div>
     </div>
   );
+};
+
+BoardAside.propTypes = {
+  auth: PropTypes.string.isRequired,
+  board: PropTypes.shape({
+    isCategorized: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    owner: PropTypes.string.isRequired,
+    users: PropTypes.arrayOf(PropTypes.shape({
+      email: PropTypes.string,
+      id: PropTypes.string,
+    })),
+  }),
+  leaveBoard: PropTypes.func.isRequired,
+  setIsCategorized: PropTypes.func.isRequired,
+  children: PropTypes.element,
 };
 
 export default BoardAside;

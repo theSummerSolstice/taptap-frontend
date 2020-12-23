@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { validateEmail } from '../../utils/validation';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import styles from './InviteForm.module.scss';
 import ROUTE from '../../constants/route';
 
 const InviteForm = ({
-  user,
+  userEmail,
   updateBoard,
   routePage,
-  sendInviteMail
+  sendInviteMail,
 }) => {
   const { board_id: boardId } = useParams();
   const [email, setEmail] = useState('');
@@ -77,7 +78,7 @@ const InviteForm = ({
         </p>
         <div className={styles.emailContainer}>
           <div className={styles.email}>
-            <span>{user.email}</span>
+            <span>{userEmail}</span>
             <span className={styles.adminLabel}>Admin</span>
           </div>
           {
@@ -109,6 +110,13 @@ const InviteForm = ({
       </div>
     </div>
   );
+};
+
+InviteForm.propTypes = {
+  userEmail: PropTypes.string.isRequired,
+  updateBoard: PropTypes.func.isRequired,
+  routePage: PropTypes.func.isRequired,
+  sendInviteMail: PropTypes.func.isRequired,
 };
 
 export default InviteForm;

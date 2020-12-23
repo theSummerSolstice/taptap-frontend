@@ -3,6 +3,7 @@ import { FaTrashAlt } from 'react-icons/fa';
 import Button from '../Button';
 import LazyImage from '../LazyImage';
 import { changeDateFormat } from '../../utils';
+import PropTypes from 'prop-types';
 import styles from './SectionItem.module.scss';
 import ROUTE from '../../constants/route';
 import { ICON_SIZE } from '../../constants/style';
@@ -56,6 +57,17 @@ const SectionItem = ({
       </div>
     </>
   );
+};
+
+SectionItem.propTypes = {
+  boardId: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  lastUpdate: PropTypes.string.isRequired,
+  routePage: PropTypes.func.isRequired,
+  canDelete: PropTypes.bool,
+  deleteBoard: PropTypes.func,
+  userId: PropTypes.string,
 };
 
 export default SectionItem;

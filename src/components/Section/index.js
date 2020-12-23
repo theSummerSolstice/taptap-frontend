@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionItem from '../SectionItem';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import styles from './Section.module.scss';
 import ROUTE from '../../constants/route';
 
@@ -45,6 +46,17 @@ const Section = ({ title, list, routePage }) => {
       </div>
     </section>
   );
+};
+
+Section.propTypes = {
+  title: PropTypes.string.isRequired,
+  list: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    imageSrc: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired,
+  })),
+  routePage: PropTypes.func.isRequired,
 };
 
 export default Section;

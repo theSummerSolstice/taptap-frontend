@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 import { FaTrashAlt } from 'react-icons/fa';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import styles from './Note.module.scss';
 import AUTH from '../../constants/auth';
 import { ICON_SIZE } from '../../constants/style';
 
 const Note = ({
-  note,
-  user,
-  auth,
   boardId,
+  note,
+  username,
+  auth,
   deleteNote,
   updateNotePosition
 }) => {
@@ -50,11 +51,28 @@ const Note = ({
           </Button>
         }
         <span className={styles.username}>
-          {user.username}
+          {username}
         </span>
       </div>
     </Draggable>
   );
+};
+
+Note.propTypes = {
+  boardId: PropTypes.string.isRequired,
+  note: PropTypes.shape({
+    _id: PropTypes.string,
+    color: PropTypes.string,
+    contents: PropTypes.string,
+    position: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number,
+    }),
+  }),
+  username: PropTypes.string.isRequired,
+  auth: PropTypes.string.isRequired,
+  deleteNote: PropTypes.func.isRequired,
+  updateNotePosition: PropTypes.func.isRequired,
 };
 
 export default Note;

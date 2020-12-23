@@ -2,6 +2,7 @@ import React from 'react';
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from 'react-icons/ri';
 import Modal from '../Modal';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import styles from './ModalHistory.module.scss';
 import { ICON_SIZE } from '../../constants/style';
 
@@ -75,6 +76,19 @@ const ModalHistory = ({
       }
     </>
   );
+};
+
+ModalHistory.propTypes = {
+  snapshots: PropTypes.arrayOf(PropTypes.shape({
+    notes: PropTypes.arrayOf(PropTypes.object),
+    updatedAt: PropTypes.string.isRequired,
+  })),
+  isAlertModalShowing: PropTypes.bool.isRequired,
+  showAlertModal: PropTypes.func.isRequired,
+  closeHistoryMode: PropTypes.func.isRequired,
+  selectHistoryVersion: PropTypes.func.isRequired,
+  handleVersionController: PropTypes.func.isRequired,
+  confirmDeleteSnapshots: PropTypes.func.isRequired,
 };
 
 export default ModalHistory;

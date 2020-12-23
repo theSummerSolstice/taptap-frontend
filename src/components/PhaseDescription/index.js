@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import styles from './PhaseDescription.module.scss';
 
 const PhaseDescription = ({
@@ -19,6 +20,12 @@ const PhaseDescription = ({
       />
     </div>
   );
+};
+
+PhaseDescription.propTypes = {
+  description: PropTypes.string.isRequired,
+  buttonText: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default PhaseDescription;

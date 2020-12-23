@@ -1,5 +1,6 @@
 import React from 'react';
 import { LoginHeader, MainHeader, BoardHeader, ShareHeader } from '../SubHeader';
+import PropTypes from 'prop-types';
 import styles from './Header.module.scss';
 
 const Header = ({
@@ -52,6 +53,26 @@ const Header = ({
       </div>
     </>
   );
+};
+
+Header.propTypes = {
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    imageSrc: PropTypes.string.isRequired,
+  }),
+  board: PropTypes.shape({
+    isCategorized: PropTypes.bool.isRequired,
+    owner: PropTypes.string.isRequired
+  }),
+  onLogin: PropTypes.func.isRequired,
+  routePage: PropTypes.func.isRequired,
+  saveSnapshot: PropTypes.func.isRequired,
+  showUserModal: PropTypes.func.isRequired,
+  startHistoryMode: PropTypes.func.isRequired,
+  leaveBoard: PropTypes.func.isRequired,
+  downloadImage: PropTypes.func.isRequired,
+  copyBoardUrl: PropTypes.func.isRequired,
+  children: PropTypes.element,
 };
 
 export default Header;

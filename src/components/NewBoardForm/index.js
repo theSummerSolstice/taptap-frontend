@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import styles from './NewBoardForm.module.scss';
 import ROUTE from '../../constants/route';
 
-const NewBoardForm = ({ user, routePage, createBoard }) => {
+const NewBoardForm = ({ userId, routePage, createBoard }) => {
   const [boardInfo, setBoardInfo] = useState({
-    owner: user._id,
+    owner: userId,
     name: '',
     isPublic: true,
   });
@@ -70,6 +71,12 @@ const NewBoardForm = ({ user, routePage, createBoard }) => {
       </div>
     </form>
   );
+};
+
+NewBoardForm.propTypes = {
+  userId: PropTypes.string.isRequired,
+  routePage: PropTypes.func.isRequired,
+  createBoard: PropTypes.func.isRequired,
 };
 
 export default NewBoardForm;

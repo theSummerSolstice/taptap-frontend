@@ -1,6 +1,7 @@
 import React from 'react';
-import styles from './ModalUser.module.scss';
 import Button from '../Button';
+import PropTypes from 'prop-types';
+import styles from './ModalUser.module.scss';
 
 const ModalUser = ({ username, onLogout, navigatePage }) => {
   return (
@@ -22,6 +23,12 @@ const ModalUser = ({ username, onLogout, navigatePage }) => {
       </div>
     </div>
   );
+};
+
+ModalUser.propTypes = {
+  username: PropTypes.string.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  navigatePage: PropTypes.func.isRequired,
 };
 
 export default ModalUser;
