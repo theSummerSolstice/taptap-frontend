@@ -60,10 +60,11 @@ const AppContainer = () => {
 
   if (error || userError || boardError) {
     return (
-    <ErrorView
-      error={error || userError || boardError}
-      routePage={routePage}
-    />);
+      <ErrorView
+        error={error || userError || boardError}
+        routePage={routePage}
+      />
+    );
   }
 
   return (
@@ -76,16 +77,15 @@ const AppContainer = () => {
     >
       <Switch>
         <Route exact path={ROUTE.MAIN}>
-          {
-            !user
-              ? <IntroPage onLogin={handleLogin} />
-              : <MainPage user={user} routePage={routePage} />
+          {!user
+            ? <IntroPage onLogin={handleLogin} />
+            : <MainPage user={user} routePage={routePage} />
           }
         </Route>
         <PrivateRoute
           path={ROUTE.MY_TAPTAP}
           authenticated={authenticated}
-          render={(props) =>
+          render={(props) => (
             <ListPage
               userId={user?._id}
               title='My taptap'
@@ -93,41 +93,41 @@ const AppContainer = () => {
               routePage={routePage}
               deleteBoard={handleDeleteBoard}
             />
-          }
+          )}
         />
         <PrivateRoute
           path={ROUTE.INVITED_TAPTAP}
           authenticated={authenticated}
-          render={(props) =>
+          render={(props) => (
             <ListPage
               title='Invited taptap'
               list={user?.authorizedBoards}
               routePage={routePage}
             />
-          }
+          )}
         />
         <PrivateRoute
           path={ROUTE.BOARD_NEW}
           authenticated={authenticated}
-          render={(props) =>
+          render={(props) => (
             <NewBoardForm
               userId={user._id}
               routePage={routePage}
               createBoard={handleCreateBoard}
             />
-          }
+          )}
         />
         <PrivateRoute
           path={ROUTE.BOARD_INVITE}
           authenticated={authenticated}
-          render={(props) =>
+          render={(props) => (
             <InviteForm
               userEmail={user.email}
               routePage={routePage}
               updateBoard={handleUpdateBoard}
               sendInviteMail={sendInviteMail}
             />
-          }
+          )}
         />
         <Route path={ROUTE.BOARD_ID}>
           <BoardContainer
