@@ -24,7 +24,7 @@ function* initUserSaga () {
       return;
     }
 
-    const { email, displayName, photoURL } = yield firebase.loginGoogle();
+    const { email, displayName, photoURL } = yield call(firebase.loginGoogle);
     const { token, user } = yield call(api.post, '/user/login/google', {
       email,
       username: displayName,
@@ -47,7 +47,7 @@ function* logoutUserSaga () {
   const token = localStorage.getItem('token');
 
   try {
-    yield firebase.logoutGoogle();
+    yield call(firebase.logoutGoogle);
     localStorage.removeItem('token', token);
     yield put(logoutUserSuccess());
   } catch (error) {
