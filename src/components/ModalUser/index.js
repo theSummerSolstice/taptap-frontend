@@ -12,11 +12,19 @@ const ModalUser = ({ username, onLogout, navigatePage }) => {
         <Button className='defaultButton' onClick={onLogout} text='Logout' />
       </div>
       <div className={styles.nav}>
-        <Button className='modalButton' value='/my-taptap' onClick={navigatePage}>
+        <Button
+          className='modalButton'
+          value='/my-taptap'
+          onClick={navigatePage}
+        >
           <span>My taptap</span>
           <span>▶️</span>
         </Button>
-        <Button className='modalButton' value='/invited-taptap' onClick={navigatePage}>
+        <Button
+          className='modalButton'
+          value='/invited-taptap'
+          onClick={navigatePage}
+        >
           <span>Invited taptap</span>
           <span>▶️</span>
         </Button>

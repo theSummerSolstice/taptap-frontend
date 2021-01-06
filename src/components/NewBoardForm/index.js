@@ -53,9 +53,7 @@ const NewBoardForm = ({ userId, routePage, createBoard }) => {
             value={boardInfo.name}
             onChange={handleInputsChange}
           />
-          <p className={styles.validationMessage}>
-            {validationMessage}
-          </p>
+          <p className={styles.validationMessage}>{validationMessage}</p>
         </label>
         <label htmlFor='isPublic'>
           Project authorization
@@ -65,8 +63,16 @@ const NewBoardForm = ({ userId, routePage, createBoard }) => {
           </select>
         </label>
         <div className={styles.buttonContainer}>
-          <Button className='defaultButton' onClick={handleConfirmButtonClick} text='Confirm' />
-          <Button className='defaultButton' onClick={handleCancelButtonClick} text='Cancel' />
+          <Button
+            className='defaultButton'
+            onClick={handleConfirmButtonClick}
+            text='Confirm'
+          />
+          <Button
+            className='defaultButton'
+            onClick={handleCancelButtonClick}
+            text='Cancel'
+          />
         </div>
       </div>
     </form>

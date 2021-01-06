@@ -17,7 +17,7 @@ const CategorizeCanvas = ({
   addCategory,
   deleteCategory,
   updateLayout,
- }) => {
+}) => {
   const [categoryName, setCategoryName] = useState('');
   const boardRef = useRef(null);
   const noteRef = useRef([]);
@@ -60,40 +60,56 @@ const CategorizeCanvas = ({
         isBounded={true}
         rowHeight={180}
         containerPadding={[0, 50]}
-        breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-        cols={{lg: columns, md: columns, sm: columns, xs: columns, xxs: columns}}
-        layouts={{lg: layout, md: layout, sm: layout, xs: layout, xxs: layout}}
+        breakpoints={{
+          lg: 1200,
+          md: 996,
+          sm: 768,
+          xs: 480,
+          xxs: 0,
+        }}
+        cols={{
+          lg: columns,
+          md: columns,
+          sm: columns,
+          xs: columns,
+          xxs: columns,
+        }}
+        layouts={{
+          lg: layout,
+          md: layout,
+          sm: layout,
+          xs: layout,
+          xxs: layout,
+        }}
         onDragStop={(layout) => updateLayout(layout)}
       >
-        {
-          categories.map((category, index) => (
-            <div className={styles.category} key={index}>
-              <div className={styles.name}>
-                {category}
-              </div>
-              {
-                index > 0 &&
-                <Button className='moreButton' value={index} text='Delete' onClick={handleCategoryDeleteButtonClick} />
-              }
-            </div>
-          ))
-        }
-        {
-          notes.map((note, index) => (
+        {categories.map((category, index) => (
+          <div className={styles.category} key={index}>
+            <div className={styles.name}>{category}</div>
+            {index > 0 && (
+              <Button
+                className='moreButton'
+                value={index}
+                text='Delete'
+                onClick={handleCategoryDeleteButtonClick}
+              />
+            )}
+          </div>
+        ))}
+        {notes.map((note, index) => (
+          <div
+            className={styles.note}
+            key={note._id}
+            ref={(el) => (noteRef.current[index] = el)}
+          >
             <div
-              className={styles.note}
-              key={note._id}
-              ref={(el) => noteRef.current[index] = el}
+              className={styles.wrapper}
+              style={{ backgroundImage: note.color }}
             >
-              <div
-                className={styles.wrapper}
-                style={{ backgroundImage: note.color }}
-              >
-                <span>{note.contents}</span>
-              </div>
+              <span>{note.contents}</span>
             </div>
-          ))
-        }
+          </div>
+        ))}
       </ResponsiveGridLayout>
       <a id='download' style={{ display: 'none' }}></a>
     </div>
@@ -101,11 +117,13 @@ const CategorizeCanvas = ({
 };
 
 CategorizeCanvas.propTypes = {
-  notes: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
-    contents: PropTypes.string.isRequired,
-  })),
+  notes: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+      contents: PropTypes.string.isRequired,
+    })
+  ),
   categories: PropTypes.arrayOf(PropTypes.string),
   columns: PropTypes.number.isRequired,
   layout: PropTypes.arrayOf(PropTypes.object),

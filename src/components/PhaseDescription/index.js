@@ -11,7 +11,7 @@ const PhaseDescription = ({
 }) => {
   return (
     <div className={styles.container} data-html2canvas-ignore={true}>
-      <p>{ description }</p>
+      <p>{description}</p>
       <Button
         className='defaultButton'
         onClick={onClick}

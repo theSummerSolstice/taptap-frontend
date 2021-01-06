@@ -43,12 +43,11 @@ const SectionItem = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {
-          isDeleteButtonShowing &&
+        {isDeleteButtonShowing && (
           <Button className='circleButton' onClick={handleDeleteButtonClick}>
             <FaTrashAlt size={ICON_SIZE.LARGE} />
           </Button>
-        }
+        )}
         <LazyImage className={styles.boardImage} src={src} />
         <div className={styles.projectDetails}>
           <h4>{name}</h4>
