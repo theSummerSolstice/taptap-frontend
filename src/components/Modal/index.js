@@ -8,9 +8,7 @@ const Modal = ({ className, onClick, children }) => {
     <ModalPortal>
       <div className={styles[className]}>
         <div className={styles.modalOverlay} onClick={onClick} />
-        <div className={styles.modalContents}>
-          { children }
-        </div>
+        <div className={styles.modalContents}>{children}</div>
       </div>
     </ModalPortal>
   );

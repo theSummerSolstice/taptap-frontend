@@ -62,38 +62,39 @@ const CanvasContainer = () => {
   useEffect(() => {
     const initialCategories = [...new Set(notes.map((note) => note.category))];
 
-    dispatch(initializeCategory({
-      categories: initialCategories,
-      layout: generateLayout(initialCategories.length),
-    }));
+    dispatch(
+      initializeCategory({
+        categories: initialCategories,
+        layout: generateLayout(initialCategories.length),
+      })
+    );
   }, [notes]);
 
   return (
     <>
-      {
-        board.isCategorized
-          ? <CategorizeCanvas
-              notes={notes}
-              categories={categories}
-              columns={categories.length}
-              layout={layout}
-              addCategory={handleAddCategory}
-              deleteCategory={handleDeleteCategory}
-              updateLayout={handleUpdateLayout}
-            />
-          : <BoardCanvas
-              boardId={boardId}
-              notes={notes}
-              username={user.username}
-              auth={auth}
-              addNote={addNote}
-              deleteNote={deleteNote}
-              updateNotePosition={handleNotePosition}
-              startCategorize={handleStartCategorize}
-            />
-      }
+      {board.isCategorized ? (
+        <CategorizeCanvas
+          notes={notes}
+          categories={categories}
+          columns={categories.length}
+          layout={layout}
+          addCategory={handleAddCategory}
+          deleteCategory={handleDeleteCategory}
+          updateLayout={handleUpdateLayout}
+        />
+      ) : (
+        <BoardCanvas
+          boardId={boardId}
+          notes={notes}
+          username={user.username}
+          auth={auth}
+          addNote={addNote}
+          deleteNote={deleteNote}
+          updateNotePosition={handleNotePosition}
+          startCategorize={handleStartCategorize}
+        />
+      )}
     </>
-
   );
 };
 

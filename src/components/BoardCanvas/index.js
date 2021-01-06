@@ -73,23 +73,20 @@ const BoardCanvas = ({
       className={styles.container}
       onDoubleClick={handleBoardDoubleClick}
     >
-      {
-        auth === AUTH.EDIT &&
+      {auth === AUTH.EDIT && (
         <PhaseDescription
           description='Put all the thoughts in stick notes, then CATEGORIZE!'
           buttonText='Categorize'
           onClick={startCategorize}
         />
-      }
-      {
-        auth === AUTH.HISTORY &&
+      )}
+      {auth === AUTH.HISTORY && (
         <PhaseDescription
           description='✋ History mode is on. You cannot edit sticky notes until the mode ends.'
           style={{ visibility: 'hidden' }}
         />
-      }
-      {
-        isDoubleClicked &&
+      )}
+      {isDoubleClicked && (
         <Draggable
           position={{ x: note.position.x, y: note.position.y }}
           bounds='parent'
@@ -112,35 +109,35 @@ const BoardCanvas = ({
             />
           </form>
         </Draggable>
-      }
-      {
-        notes.map((item) => (
-          <Note
-            key={item._id}
-            note={item}
-            username={username}
-            auth={auth}
-            boardId={boardId}
-            deleteNote={deleteNote}
-            updateNotePosition={updateNotePosition}
-          />
-        ))
-      }
+      )}
+      {notes.map((item) => (
+        <Note
+          key={item._id}
+          note={item}
+          username={username}
+          auth={auth}
+          boardId={boardId}
+          deleteNote={deleteNote}
+          updateNotePosition={updateNotePosition}
+        />
+      ))}
     </div>
   );
 };
 
 BoardCanvas.propTypes = {
   boardId: PropTypes.string.isRequired,
-  notes: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    color: PropTypes.string,
-    contents: PropTypes.string,
-    position: PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number,
-    }),
-  })),
+  notes: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string,
+      color: PropTypes.string,
+      contents: PropTypes.string,
+      position: PropTypes.shape({
+        x: PropTypes.number,
+        y: PropTypes.number,
+      }),
+    })
+  ),
   username: PropTypes.string.isRequired,
   auth: PropTypes.string.isRequired,
   addNote: PropTypes.func.isRequired,

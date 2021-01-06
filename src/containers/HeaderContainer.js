@@ -7,7 +7,7 @@ import {
   boardSelector,
   deleteSnapshots,
   storeCurrentNotes,
-  updateSnapshot
+  updateSnapshot,
 } from '../modules/board/slice';
 import { boardSocket } from '../modules/socket/saga';
 
@@ -57,10 +57,12 @@ const HeaderContainer = ({
   };
 
   const saveSnapshot = () => {
-    dispatch(updateSnapshot({
-      data: { snapshots: { notes } },
-      boardId,
-    }));
+    dispatch(
+      updateSnapshot({
+        data: { snapshots: { notes } },
+        boardId,
+      })
+    );
 
     toast.saveSnapshot();
   };
@@ -85,14 +87,22 @@ const HeaderContainer = ({
   };
 
   const handleVersionController = ({ target }) => {
+
+
     if (target.value === 'prev') {
       setSnapshotIndex((prev) => prev - 1 < 0 ? prev : prev - 1);
     } else {
-      setSnapshotIndex((prev) => prev + 1 > board.snapshots.length - 1 ? prev : prev + 1);
+      setSnapshotIndex((prev) => {
+        const lengthOfSnapshots = board.snapshots.length - 1;
+        return prev + 1 > lengthOfSnapshots ? prev : prev + 1;
+      });
     }
 
     showSnapshotHistory(board.snapshots[snapshotIndex].notes);
-    boardSocket.selectVersion({ boardId, notes: board.snapshots[snapshotIndex].notes });
+    boardSocket.selectVersion({
+      boardId,
+      notes: board.snapshots[snapshotIndex].notes,
+    });
   };
 
   const confirmDeleteSnapshots = () => {
@@ -144,8 +154,7 @@ const HeaderContainer = ({
       >
         {children}
       </Header>
-      {
-        isUserModalShowing &&
+      {isUserModalShowing && (
         <Modal onClick={showUserModal} className='headerModal'>
           <ModalUser
             username={user.username}
@@ -153,9 +162,8 @@ const HeaderContainer = ({
             navigatePage={navigatePage}
           />
         </Modal>
-      }
-      {
-        isHistoryModalShowing &&
+      )}
+      {isHistoryModalShowing && (
         <Modal className='headerModal'>
           <ModalHistory
             snapshots={board.snapshots}
@@ -167,7 +175,7 @@ const HeaderContainer = ({
             confirmDeleteSnapshots={confirmDeleteSnapshots}
           />
         </Modal>
-        }
+      )}
     </>
   );
 };

@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../modules/user/slice';
-import { boardSelector, getBoard, setIsBoardCategorized } from '../modules/board/slice';
+import {
+  boardSelector,
+  getBoard,
+  setIsBoardCategorized,
+} from '../modules/board/slice';
 
 import queryString from 'query-string';
 import PropTypes from 'prop-types';

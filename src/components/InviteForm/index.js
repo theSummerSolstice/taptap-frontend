@@ -31,10 +31,7 @@ const InviteForm = ({
     }
 
     sendInviteMail(email, boardId);
-    setEmailList([
-      ...emailList,
-      email,
-    ]);
+    setEmailList([...emailList, email]);
     setEmail('');
   };
 
@@ -73,27 +70,23 @@ const InviteForm = ({
             onClick={handleInviteButtonClick}
           />
         </div>
-        <p className={styles.validationMessage}>
-          {validationMessage}
-        </p>
+        <p className={styles.validationMessage}>{validationMessage}</p>
         <div className={styles.emailContainer}>
           <div className={styles.email}>
             <span>{userEmail}</span>
             <span className={styles.adminLabel}>Admin</span>
           </div>
-          {
-            emailList.map((item, index) => (
-              <div className={styles.email} key={index}>
-                <span>{item}</span>
-                <Button
-                  id={index}
-                  text='Delete'
-                  className='moreButton'
-                  onClick={handleEmailDeleteButtonClick}
-                />
-              </div>
-            ))
-          }
+          {emailList.map((item, index) => (
+            <div className={styles.email} key={index}>
+              <span>{item}</span>
+              <Button
+                id={index}
+                text='Delete'
+                className='moreButton'
+                onClick={handleEmailDeleteButtonClick}
+              />
+            </div>
+          ))}
         </div>
         <div className={styles.buttonContainer}>
           <Button

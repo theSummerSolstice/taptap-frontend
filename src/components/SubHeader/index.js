@@ -7,13 +7,7 @@ import ROUTE from '../../constants/route';
 import { ICON_SIZE } from '../../constants/style';
 
 export const LoginHeader = ({ onLogin }) => {
-  return (
-    <Button
-      className='defaultButton'
-      onClick={onLogin}
-      text='Login'
-    />
-  );
+  return <Button className='defaultButton' onClick={onLogin} text='Login' />;
 };
 
 export const MainHeader = ({ routePage }) => {
@@ -26,20 +20,23 @@ export const MainHeader = ({ routePage }) => {
   );
 };
 
-export const BoardHeader = ({
-  isOwner,
-  saveSnapshot,
-  startHistoryMode,
-}) => {
+export const BoardHeader = ({ isOwner, saveSnapshot, startHistoryMode }) => {
   return (
     <>
-      {
-        isOwner &&
+      {isOwner && (
         <>
-          <Button className='defaultButton' onClick={saveSnapshot} text='Snapshot' />
-          <Button className='defaultButton' onClick={startHistoryMode} text='History mode' />
+          <Button
+            className='defaultButton'
+            onClick={saveSnapshot}
+            text='Snapshot'
+          />
+          <Button
+            className='defaultButton'
+            onClick={startHistoryMode}
+            text='History mode'
+          />
         </>
-      }
+      )}
     </>
   );
 };

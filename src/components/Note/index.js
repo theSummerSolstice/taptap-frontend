@@ -13,7 +13,7 @@ const Note = ({
   username,
   auth,
   deleteNote,
-  updateNotePosition
+  updateNotePosition,
 }) => {
   const [isButtonShowing, setIsButtonShowing] = useState(false);
   const handleMouseEnter = () => setIsButtonShowing(true);
@@ -43,16 +43,12 @@ const Note = ({
         onMouseLeave={handleMouseLeave}
       >
         <span>{note.contents}</span>
-        {
-          isButtonShowing &&
-          auth === AUTH.EDIT &&
+        {isButtonShowing && auth === AUTH.EDIT && (
           <Button className='circleButton' onClick={handleDeleteButtonClick}>
             <FaTrashAlt size={ICON_SIZE.SMALL} />
           </Button>
-        }
-        <span className={styles.username}>
-          {username}
-        </span>
+        )}
+        <span className={styles.username}>{username}</span>
       </div>
     </Draggable>
   );

@@ -23,26 +23,22 @@ const Section = ({ title, list, routePage }) => {
         />
       </div>
       <div className={styles.contents}>
-        {
-          !list.length
-            ? <div className={styles.noItem}>
-                😮 No taptap
-              </div>
-            : <div className={styles.itemList}>
-                {
-                  list.map((item) => (
-                    <SectionItem
-                      boardId={item._id}
-                      key={item._id}
-                      src={item.imageSrc}
-                      name={item.name}
-                      lastUpdate={item.updatedAt}
-                      routePage={routePage}
-                    />
-                  ))
-                }
-              </div>
-        }
+        {!list.length ? (
+          <div className={styles.noItem}>😮 No taptap</div>
+        ) : (
+          <div className={styles.itemList}>
+            {list.map((item) => (
+              <SectionItem
+                boardId={item._id}
+                key={item._id}
+                src={item.imageSrc}
+                name={item.name}
+                lastUpdate={item.updatedAt}
+                routePage={routePage}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -50,12 +46,14 @@ const Section = ({ title, list, routePage }) => {
 
 Section.propTypes = {
   title: PropTypes.string.isRequired,
-  list: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    imageSrc: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired,
-  })),
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      imageSrc: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      updatedAt: PropTypes.string.isRequired,
+    })
+  ),
   routePage: PropTypes.func.isRequired,
 };
 

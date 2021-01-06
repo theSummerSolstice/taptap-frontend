@@ -13,14 +13,17 @@ const PrivateRoute = ({
     <Route
       {...rest}
       render={(props) =>
-        authenticated
-          ?
-            render
-              ? render(props)
-              : <Component {...props} />
-          : <Redirect
-              to={{ pathname: ROUTE.MAIN, state: { from: props.location } }}
-            />
+        authenticated ? (
+          render ? (
+            render(props)
+          ) : (
+            <Component {...props} />
+          )
+        ) : (
+          <Redirect
+            to={{ pathname: ROUTE.MAIN, state: { from: props.location } }}
+          />
+        )
       }
     />
   );
@@ -29,7 +32,7 @@ const PrivateRoute = ({
 PrivateRoute.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   component: PropTypes.func,
-  render: PropTypes.func.isRequired
+  render: PropTypes.func.isRequired,
 };
 
 export default PrivateRoute;

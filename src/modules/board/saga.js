@@ -98,7 +98,7 @@ function* leaveBoardSaga ({ payload }) {
   const { boardId, userId } = payload;
 
   try {
-    const capture = yield html2canvas(document.getElementById('canvas'));
+    const capture = yield call(html2canvas, document.getElementById('canvas'));
     yield call(api.put, `/board/${boardId}`, {
       data: {
         imageSrc: capture.toDataURL('image/jpeg'),

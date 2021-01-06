@@ -29,10 +29,12 @@ Board.propTypes = {
     isCategorized: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
     owner: PropTypes.string.isRequired,
-    users: PropTypes.arrayOf(PropTypes.shape({
-      email: PropTypes.string,
-      id: PropTypes.string,
-    })),
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        email: PropTypes.string,
+        id: PropTypes.string,
+      })
+    ),
   }),
   leaveBoard: PropTypes.func.isRequired,
   setIsCategorized: PropTypes.func.isRequired,
