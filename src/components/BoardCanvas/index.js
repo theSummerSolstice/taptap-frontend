@@ -75,7 +75,7 @@ const BoardCanvas = ({
     >
       {auth === AUTH.EDIT && (
         <PhaseDescription
-          description='Put all the thoughts in stick notes, then CATEGORIZE!'
+          description='Put all the thoughts in stick notes, just DOUBLE CLICK!'
           buttonText='Categorize'
           onClick={startCategorize}
         />
